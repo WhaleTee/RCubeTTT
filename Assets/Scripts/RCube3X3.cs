@@ -8,7 +8,6 @@ public class RCube3X3 {
 
   public RCube3X3(
     GameObject rCube,
-    GameObject cubePiecePrefab,
     float cubePieceSize,
     Color topSideColor,
     Color downSideColor,
@@ -30,12 +29,11 @@ public class RCube3X3 {
             z * cubePieceSize
           );
 
-          pieces[x, y, z] = new RCubePiece(Object.Instantiate(cubePiecePrefab, cubePosition, Quaternion.identity));
-          pieces[x, y, z].pieceObject.transform.parent = rCube.transform;
+          pieces[x, y, z] = new RCubePiece(rCube, cubePosition, Vector3.one * cubePieceSize, Quaternion.identity);
         }
       }
     }
-    
+
     ColorTopSide(pieces, topSideColor);
     ColorDownSide(pieces, downSideColor);
     ColorLeftSide(pieces, leftSideColor);
@@ -58,7 +56,7 @@ public class RCube3X3 {
     };
 
     foreach (var piece in topSidePieces) {
-      piece.pieceObject.transform.Find("top-side").GetComponent<Renderer>().material.color = color;
+      piece.InitSide(PrimitiveCube.Side.Top).SetColor(color);
     }
   }
 
@@ -76,7 +74,7 @@ public class RCube3X3 {
     };
 
     foreach (var piece in downSidePieces) {
-      piece.pieceObject.transform.Find("down-side").GetComponent<Renderer>().material.color = color;
+      piece.InitSide(PrimitiveCube.Side.Down).SetColor(color);
     }
   }
 
@@ -94,7 +92,7 @@ public class RCube3X3 {
     };
 
     foreach (var piece in leftSidePieces) {
-      piece.pieceObject.transform.Find("left-side").GetComponent<Renderer>().material.color = color;
+      piece.InitSide(PrimitiveCube.Side.Left).SetColor(color);
     }
   }
 
@@ -112,7 +110,7 @@ public class RCube3X3 {
     };
 
     foreach (var piece in rightSidePieces) {
-      piece.pieceObject.transform.Find("right-side").GetComponent<Renderer>().material.color = color;
+      piece.InitSide(PrimitiveCube.Side.Right).SetColor(color);
     }
   }
 
@@ -130,7 +128,7 @@ public class RCube3X3 {
     };
 
     foreach (var piece in frontSidePieces) {
-      piece.pieceObject.transform.Find("front-side").GetComponent<Renderer>().material.color = color;
+      piece.InitSide(PrimitiveCube.Side.Front).SetColor(color);
     }
   }
 
@@ -148,9 +146,7 @@ public class RCube3X3 {
     };
 
     foreach (var piece in backSidePieces) {
-      piece.pieceObject.transform.Find("back-side").GetComponent<Renderer>().material.color = color;
+      piece.InitSide(PrimitiveCube.Side.Back).SetColor(color);
     }
   }
-  
-  
 }
