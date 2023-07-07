@@ -1,10 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class RCube3X3 {
   private const int CUBE_SIZE = 3;
 
-  private RCubePiece[,,] pieces;
+  private RCubePiece[,,] cube;
   public GameObject rCube { get; private set; }
+  public RCubePiece[] topSide { get; private set; }
+  public RCubePiece[] downSide { get; private set; }
+  public RCubePiece[] leftSide { get; private set; }
+  public RCubePiece[] rightSide { get; private set; }
+  public RCubePiece[] frontSide { get; private set; }
+  public RCubePiece[] backSide { get; private set; }
 
   public RCube3X3(
     GameObject rCube,
@@ -18,7 +25,7 @@ public class RCube3X3 {
   ) {
     this.rCube = rCube;
 
-    pieces = new RCubePiece[CUBE_SIZE, CUBE_SIZE, CUBE_SIZE];
+    cube = new RCubePiece[CUBE_SIZE, CUBE_SIZE, CUBE_SIZE];
 
     for (var x = 0; x < CUBE_SIZE; x++) {
       for (var y = 0; y < CUBE_SIZE; y++) {
@@ -29,124 +36,136 @@ public class RCube3X3 {
             z * cubePieceSize
           );
 
-          pieces[x, y, z] = new RCubePiece(rCube, cubePosition, Vector3.one * cubePieceSize, Quaternion.identity);
+          cube[x, y, z] = new RCubePiece(rCube, cubePosition, Vector3.one * cubePieceSize, Quaternion.identity);
         }
       }
     }
 
-    ColorTopSide(pieces, topSideColor);
-    ColorDownSide(pieces, downSideColor);
-    ColorLeftSide(pieces, leftSideColor);
-    ColorRightSide(pieces, rightSideColor);
-    ColorFrontSide(pieces, frontSideColor);
-    ColorBackSide(pieces, backSideColor);
-  }
+    CalculateSides();
 
-  private void ColorTopSide(RCubePiece[,,] cubePieces, Color color) {
-    var topSidePieces = new[] {
-      cubePieces[0, 2, 0],
-      cubePieces[0, 2, 1],
-      cubePieces[0, 2, 2],
-      cubePieces[1, 2, 0],
-      cubePieces[1, 2, 1],
-      cubePieces[1, 2, 2],
-      cubePieces[2, 2, 0],
-      cubePieces[2, 2, 1],
-      cubePieces[2, 2, 2]
-    };
+    foreach (var piece in topSide) {
+      piece.InitSide(PrimitiveCube.Side.Top).SetColor(topSideColor);
+    }
 
-    foreach (var piece in topSidePieces) {
-      piece.InitSide(PrimitiveCube.Side.Top).SetColor(color);
+    foreach (var piece in downSide) {
+      piece.InitSide(PrimitiveCube.Side.Down).SetColor(downSideColor);
+    }
+
+    foreach (var piece in leftSide) {
+      piece.InitSide(PrimitiveCube.Side.Left).SetColor(leftSideColor);
+    }
+
+    foreach (var piece in rightSide) {
+      piece.InitSide(PrimitiveCube.Side.Right).SetColor(rightSideColor);
+    }
+
+    foreach (var piece in frontSide) {
+      piece.InitSide(PrimitiveCube.Side.Front).SetColor(frontSideColor);
+    }
+
+    foreach (var piece in backSide) {
+      piece.InitSide(PrimitiveCube.Side.Back).SetColor(backSideColor);
     }
   }
 
-  private void ColorDownSide(RCubePiece[,,] cubePieces, Color color) {
-    var downSidePieces = new[] {
-      cubePieces[0, 0, 0],
-      cubePieces[0, 0, 1],
-      cubePieces[0, 0, 2],
-      cubePieces[1, 0, 0],
-      cubePieces[1, 0, 1],
-      cubePieces[1, 0, 2],
-      cubePieces[2, 0, 0],
-      cubePieces[2, 0, 1],
-      cubePieces[2, 0, 2]
+  public void CalculateSides() {
+    topSide = new[] {
+      cube[0, 2, 0],
+      cube[0, 2, 1],
+      cube[0, 2, 2],
+      cube[1, 2, 0],
+      cube[1, 2, 1],
+      cube[1, 2, 2],
+      cube[2, 2, 0],
+      cube[2, 2, 1],
+      cube[2, 2, 2]
     };
 
-    foreach (var piece in downSidePieces) {
-      piece.InitSide(PrimitiveCube.Side.Down).SetColor(color);
-    }
+    downSide = new[] {
+      cube[0, 0, 0],
+      cube[0, 0, 1],
+      cube[0, 0, 2],
+      cube[1, 0, 0],
+      cube[1, 0, 1],
+      cube[1, 0, 2],
+      cube[2, 0, 0],
+      cube[2, 0, 1],
+      cube[2, 0, 2]
+    };
+
+    leftSide = new[] {
+      cube[0, 0, 0],
+      cube[0, 0, 1],
+      cube[0, 0, 2],
+      cube[0, 1, 0],
+      cube[0, 1, 1],
+      cube[0, 1, 2],
+      cube[0, 2, 0],
+      cube[0, 2, 1],
+      cube[0, 2, 2]
+    };
+
+    rightSide = new[] {
+      cube[2, 0, 0],
+      cube[2, 0, 1],
+      cube[2, 0, 2],
+      cube[2, 1, 0],
+      cube[2, 1, 1],
+      cube[2, 1, 2],
+      cube[2, 2, 0],
+      cube[2, 2, 1],
+      cube[2, 2, 2]
+    };
+
+    frontSide = new[] {
+      cube[0, 0, 2],
+      cube[0, 1, 2],
+      cube[0, 2, 2],
+      cube[1, 0, 2],
+      cube[1, 1, 2],
+      cube[1, 2, 2],
+      cube[2, 0, 2],
+      cube[2, 1, 2],
+      cube[2, 2, 2]
+    };
+
+    backSide = new[] {
+      cube[0, 0, 0],
+      cube[0, 1, 0],
+      cube[0, 2, 0],
+      cube[1, 0, 0],
+      cube[1, 1, 0],
+      cube[1, 2, 0],
+      cube[2, 0, 0],
+      cube[2, 1, 0],
+      cube[2, 2, 0]
+    };
   }
 
-  private void ColorLeftSide(RCubePiece[,,] cubePieces, Color color) {
-    var leftSidePieces = new[] {
-      cubePieces[0, 0, 0],
-      cubePieces[0, 0, 1],
-      cubePieces[0, 0, 2],
-      cubePieces[0, 1, 0],
-      cubePieces[0, 1, 1],
-      cubePieces[0, 1, 2],
-      cubePieces[0, 2, 0],
-      cubePieces[0, 2, 1],
-      cubePieces[0, 2, 2]
-    };
+  public void RotateSides(PrimitiveCube.Side side, bool clockwise) {
+    switch (side) {
+      case PrimitiveCube.Side.Top:
+      case PrimitiveCube.Side.Down:
+        break;
 
-    foreach (var piece in leftSidePieces) {
-      piece.InitSide(PrimitiveCube.Side.Left).SetColor(color);
-    }
-  }
+      case PrimitiveCube.Side.Left:
+      case PrimitiveCube.Side.Right:
+        var cloneCube = (RCubePiece[,,])cube.Clone();
 
-  private void ColorRightSide(RCubePiece[,,] cubePieces, Color color) {
-    var rightSidePieces = new[] {
-      cubePieces[2, 0, 0],
-      cubePieces[2, 0, 1],
-      cubePieces[2, 0, 2],
-      cubePieces[2, 1, 0],
-      cubePieces[2, 1, 1],
-      cubePieces[2, 1, 2],
-      cubePieces[2, 2, 0],
-      cubePieces[2, 2, 1],
-      cubePieces[2, 2, 2]
-    };
+        for (var y = 0; y < CUBE_SIZE; y++) {
+          for (var z = 0; z < CUBE_SIZE; z++) {
+            cloneCube[0, 2 - z, y] = cube[0, y, z];
+          }
+        }
 
-    foreach (var piece in rightSidePieces) {
-      piece.InitSide(PrimitiveCube.Side.Right).SetColor(color);
-    }
-  }
-
-  private void ColorFrontSide(RCubePiece[,,] cubePieces, Color color) {
-    var frontSidePieces = new[] {
-      cubePieces[0, 0, 2],
-      cubePieces[0, 1, 2],
-      cubePieces[0, 2, 2],
-      cubePieces[1, 0, 2],
-      cubePieces[1, 1, 2],
-      cubePieces[1, 2, 2],
-      cubePieces[2, 0, 2],
-      cubePieces[2, 1, 2],
-      cubePieces[2, 2, 2]
-    };
-
-    foreach (var piece in frontSidePieces) {
-      piece.InitSide(PrimitiveCube.Side.Front).SetColor(color);
-    }
-  }
-
-  private void ColorBackSide(RCubePiece[,,] cubePieces, Color color) {
-    var backSidePieces = new[] {
-      cubePieces[0, 0, 0],
-      cubePieces[0, 1, 0],
-      cubePieces[0, 2, 0],
-      cubePieces[1, 0, 0],
-      cubePieces[1, 1, 0],
-      cubePieces[1, 2, 0],
-      cubePieces[2, 0, 0],
-      cubePieces[2, 1, 0],
-      cubePieces[2, 2, 0]
-    };
-
-    foreach (var piece in backSidePieces) {
-      piece.InitSide(PrimitiveCube.Side.Back).SetColor(color);
+        cube = cloneCube;
+        CalculateSides();
+        
+        break;
+      case PrimitiveCube.Side.Front:
+      case PrimitiveCube.Side.Back:
+        break;
+      default: throw new ArgumentOutOfRangeException(nameof(side), side, null);
     }
   }
 }
