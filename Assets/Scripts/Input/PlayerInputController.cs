@@ -67,7 +67,7 @@ public class PlayerInputController : MonoBehaviour {
   #region methods
 
   private void PickUpCube(InputAction.CallbackContext context) {
-    if (Physics.Raycast(mainCamera.ScreenPointToRay(mouse.position.ReadValue()), out var hit, cubeLayer)) {
+    if (Physics.Raycast(mainCamera.ScreenPointToRay(mouse.position.ReadValue()), out var hit, float.PositiveInfinity, cubeLayer)) {
       if (hit.collider.gameObject.GetComponent<CubeRotationController>() != null) {
         mouseDownInputInvoker.Invoke(context);
       }
@@ -75,7 +75,7 @@ public class PlayerInputController : MonoBehaviour {
   }
 
   private void DragCube(InputAction.CallbackContext context) {
-    if (Physics.Raycast(mainCamera.ScreenPointToRay(mouse.position.ReadValue()), out var hit, cubeLayer)) {
+    if (Physics.Raycast(mainCamera.ScreenPointToRay(mouse.position.ReadValue()), out var hit, float.PositiveInfinity, cubeLayer)) {
       if (hit.collider.gameObject.GetComponent<CubeController>() != null) {
         drag.performed += mouseDragInputInvoker.Invoke;
       }
