@@ -5,74 +5,74 @@ using UnityEngine.InputSystem;
 public static class EventManager {
   #region fields
   
-  // mouse drag support
-  private static readonly List<MouseDragInputInvoker> MOUSE_DRAG_INPUT_INVOKERS = new List<MouseDragInputInvoker>();
-  private static readonly List<UnityAction<InputAction.CallbackContext>> MOUSE_DRAG_INPUT_LISTENERS = new List<UnityAction<InputAction.CallbackContext>>();
+  // mouse drag cube input support
+  private static readonly List<MouseDragCubeInputInvoker> MOUSE_DRAG_CUBE_INPUT_INVOKERS = new List<MouseDragCubeInputInvoker>();
+  private static readonly List<UnityAction<InputAction.CallbackContext>> MOUSE_DRAG_CUBE_INPUT_LISTENERS = new List<UnityAction<InputAction.CallbackContext>>();
   
-  // mouse down support
-  private static readonly List<MouseDownInputInvoker> MOUSE_DOWN_INPUT_INVOKERS = new List<MouseDownInputInvoker>();
-  private static readonly List<UnityAction<InputAction.CallbackContext>> MOUSE_DOWN_INPUT_LISTENERS = new List<UnityAction<InputAction.CallbackContext>>();
+  // mouse right click down support
+  private static readonly List<MouseRightClickDownInputInvoker> MOUSE_RIGHT_CLICK_DOWN_INPUT_INVOKERS = new List<MouseRightClickDownInputInvoker>();
+  private static readonly List<UnityAction<InputAction.CallbackContext>> MOUSE_RIGHT_CLICK_DOWN_INPUT_LISTENERS = new List<UnityAction<InputAction.CallbackContext>>();
   
-  // mouse up support
-  private static readonly List<MouseUpInputInvoker> MOUSE_UP_INPUT_INVOKERS = new List<MouseUpInputInvoker>();
-  private static readonly List<UnityAction<InputAction.CallbackContext>> MOUSE_UP_INPUT_LISTENERS = new List<UnityAction<InputAction.CallbackContext>>();
+  // mouse right click up support
+  private static readonly List<MouseRightClickUpInputInvoker> MOUSE_RIGHT_CLICK_UP_INPUT_INVOKERS = new List<MouseRightClickUpInputInvoker>();
+  private static readonly List<UnityAction<InputAction.CallbackContext>> MOUSE_RIGHT_CLICK_UP_INPUT_LISTENERS = new List<UnityAction<InputAction.CallbackContext>>();
 
   #endregion
 
-  #region mouse input support
+  #region mouse drag cube input support
 
-  public static void AddMouseDragInputInvoker(MouseDragInputInvoker invoker) {
-    MOUSE_DRAG_INPUT_INVOKERS.Add(invoker);
+  public static void AddMouseDragCubeInputInvoker(MouseDragCubeInputInvoker invoker) {
+    MOUSE_DRAG_CUBE_INPUT_INVOKERS.Add(invoker);
 
-    foreach (var listener in MOUSE_DRAG_INPUT_LISTENERS) {
+    foreach (var listener in MOUSE_DRAG_CUBE_INPUT_LISTENERS) {
       ((InputInvoker)invoker).AddListener(listener);
     }
   }
   
-  public static void AddMouseDragInputListener(UnityAction<InputAction.CallbackContext> listener) {
-    MOUSE_DRAG_INPUT_LISTENERS.Add(listener);
+  public static void AddMouseDragCubeInputListener(UnityAction<InputAction.CallbackContext> listener) {
+    MOUSE_DRAG_CUBE_INPUT_LISTENERS.Add(listener);
 
-    foreach (var invoker in MOUSE_DRAG_INPUT_INVOKERS) {
-      ((InputInvoker)invoker).AddListener(listener);
-    }
-  }
-
-  #endregion
-  
-  #region mouse down input support
-
-  public static void AddMouseDownInputInvoker(MouseDownInputInvoker invoker) {
-    MOUSE_DOWN_INPUT_INVOKERS.Add(invoker);
-    
-    foreach (var listener in MOUSE_DOWN_INPUT_LISTENERS) {
-      ((InputInvoker)invoker).AddListener(listener);
-    }
-  }
-  
-  public static void AddMouseDownInputListener(UnityAction<InputAction.CallbackContext> listener) {
-    MOUSE_DOWN_INPUT_LISTENERS.Add(listener);
-    
-    foreach (var invoker in MOUSE_DOWN_INPUT_INVOKERS) {
+    foreach (var invoker in MOUSE_DRAG_CUBE_INPUT_INVOKERS) {
       ((InputInvoker)invoker).AddListener(listener);
     }
   }
 
   #endregion
   
-  #region mouse up input support
-  
-  public static void AddMouseUpInputInvoker(MouseUpInputInvoker invoker) {
-    MOUSE_UP_INPUT_INVOKERS.Add(invoker);
+  #region mouse right click down input support
+
+  public static void AddMouseRightClickDownInputInvoker(MouseRightClickDownInputInvoker invoker) {
+    MOUSE_RIGHT_CLICK_DOWN_INPUT_INVOKERS.Add(invoker);
     
-    foreach (var listener in MOUSE_UP_INPUT_LISTENERS) {
+    foreach (var listener in MOUSE_RIGHT_CLICK_DOWN_INPUT_LISTENERS) {
       ((InputInvoker)invoker).AddListener(listener);
     }
   }
   
-  public static void AddMouseUpInputListener(UnityAction<InputAction.CallbackContext> listener) {
-    MOUSE_UP_INPUT_LISTENERS.Add(listener);
+  public static void AddMouseRightClickDownInputListener(UnityAction<InputAction.CallbackContext> listener) {
+    MOUSE_RIGHT_CLICK_DOWN_INPUT_LISTENERS.Add(listener);
     
-    foreach (var invoker in MOUSE_UP_INPUT_INVOKERS) {
+    foreach (var invoker in MOUSE_RIGHT_CLICK_DOWN_INPUT_INVOKERS) {
+      ((InputInvoker)invoker).AddListener(listener);
+    }
+  }
+
+  #endregion
+  
+  #region mouse right click up input support
+  
+  public static void AddMouseRightClickUpInputInvoker(MouseRightClickUpInputInvoker invoker) {
+    MOUSE_RIGHT_CLICK_UP_INPUT_INVOKERS.Add(invoker);
+    
+    foreach (var listener in MOUSE_RIGHT_CLICK_UP_INPUT_LISTENERS) {
+      ((InputInvoker)invoker).AddListener(listener);
+    }
+  }
+  
+  public static void AddMouseRightClickUpInputListener(UnityAction<InputAction.CallbackContext> listener) {
+    MOUSE_RIGHT_CLICK_UP_INPUT_LISTENERS.Add(listener);
+    
+    foreach (var invoker in MOUSE_RIGHT_CLICK_UP_INPUT_INVOKERS) {
       ((InputInvoker)invoker).AddListener(listener);
     }
   }

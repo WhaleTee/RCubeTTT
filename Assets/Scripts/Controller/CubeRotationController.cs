@@ -26,13 +26,11 @@ public class CubeRotationController : MonoBehaviour {
   #region unity methods
 
   private void Awake() {
-    EventManager.AddMouseUpInputListener(ReadMouseRightUpContext);
-    EventManager.AddMouseDownInputListener(ReadMouseRightDownContext);
+    EventManager.AddMouseRightClickUpInputListener(ReadMouseRightUpContext);
+    EventManager.AddMouseRightClickDownInputListener(ReadMouseRightDownContext);
   }
 
-  private void Update() {
-    RotateTo90Degrees();
-  }
+  private void Update() => RotateTo90Degrees();
 
   #endregion
 
@@ -48,14 +46,14 @@ public class CubeRotationController : MonoBehaviour {
   private void RotateTo90Degrees() {
     if (!dragging) {
       var startRotation = rotation;
-      var targetRotation = GetClosestTo90Rotation();
+      var targetRotation = GetClosest90DegreesRotation();
 
       transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / rotateLerpDuration);
       timeElapsed += Time.deltaTime;
     }
   }
 
-  private Quaternion GetClosestTo90Rotation() {
+  private Quaternion GetClosest90DegreesRotation() {
     var closestRotation = Quaternion.Euler(0, 0, 0);
     var closestAngle = Quaternion.Angle(rotation, closestRotation);
 

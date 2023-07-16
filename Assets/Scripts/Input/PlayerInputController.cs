@@ -27,9 +27,9 @@ public class PlayerInputController : MonoBehaviour {
 
   #region event fields
 
-  private readonly InputInvoker mouseDownInputInvoker = new MouseDownInputInvoker();
-  private readonly InputInvoker mouseDragInputInvoker = new MouseDragInputInvoker();
-  private readonly InputInvoker mouseUpInputInvoker = new MouseUpInputInvoker();
+  private readonly InputInvoker mouseRightClickDownInputInvoker = new MouseRightClickDownInputInvoker();
+  private readonly InputInvoker mouseRightClickUpInputInvoker = new MouseRightClickUpInputInvoker();
+  private readonly InputInvoker mouseDragInputInvoker = new MouseDragCubeInputInvoker();
 
   #endregion
 
@@ -38,14 +38,12 @@ public class PlayerInputController : MonoBehaviour {
   private void Awake() {
     mainCamera = Camera.main;
     mouse = Mouse.current;
-    EventManager.AddMouseDownInputInvoker(mouseDownInputInvoker as MouseDownInputInvoker);
-    EventManager.AddMouseDragInputInvoker(mouseDragInputInvoker as MouseDragInputInvoker);
-    EventManager.AddMouseUpInputInvoker(mouseUpInputInvoker as MouseUpInputInvoker);
+    RegisterEventInvokers();
   }
 
   private void Start() {
     rightClick.started += PickUpCube;
-    rightClick.canceled += DropDownCube;
+    rightClick.canceled += OnMouseUpEvent;
     rightClick.started += DragCube;
     rightClick.canceled += CancelDrag;
   }
@@ -66,24 +64,30 @@ public class PlayerInputController : MonoBehaviour {
 
   #region methods
 
+  private void RegisterEventInvokers() {
+    EventManager.AddMouseRightClickDownInputInvoker(mouseRightClickDownInputInvoker as MouseRightClickDownInputInvoker);
+    EventManager.AddMouseRightClickUpInputInvoker(mouseRightClickUpInputInvoker as MouseRightClickUpInputInvoker);
+    EventManager.AddMouseDragCubeInputInvoker(mouseDragInputInvoker as MouseDragCubeInputInvoker);
+  }
+
   private void PickUpCube(InputAction.CallbackContext context) {
     if (Physics.Raycast(mainCamera.ScreenPointToRay(mouse.position.ReadValue()), out var hit, float.PositiveInfinity, cubeLayer)) {
       if (hit.collider.gameObject.GetComponent<CubeRotationController>() != null) {
-        mouseDownInputInvoker.Invoke(context);
+        mouseRightClickDownInputInvoker.Invoke(context);
       }
     }
   }
 
   private void DragCube(InputAction.CallbackContext context) {
     if (Physics.Raycast(mainCamera.ScreenPointToRay(mouse.position.ReadValue()), out var hit, float.PositiveInfinity, cubeLayer)) {
-      if (hit.collider.gameObject.GetComponent<CubeController>() != null) {
+      if (hit.collider.gameObject.GetComponent<CubeDragController>() != null) {
         drag.performed += mouseDragInputInvoker.Invoke;
       }
     }
   }
 
-  private void DropDownCube(InputAction.CallbackContext context) {
-    mouseUpInputInvoker.Invoke(context);
+  private void OnMouseUpEvent(InputAction.CallbackContext context) {
+    mouseRightClickUpInputInvoker.Invoke(context);
   }
 
   private void CancelDrag(InputAction.CallbackContext context) {
