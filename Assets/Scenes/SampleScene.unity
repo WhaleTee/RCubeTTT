@@ -2612,60 +2612,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcefa11d99506bf4980546925dfce01a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftClick:
-    m_Name: Left Click
-    m_Type: 1
-    m_ExpectedControlType: Button
-    m_Id: 0b9f4db9-82bc-46d3-b8d9-c65f96aca0bd
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 4d1c4a59-7b4e-456b-9e03-73b94705f1ae
-      m_Path: <Mouse>/leftButton
-      m_Interactions: Press
-      m_Processors: 
-      m_Groups: 
-      m_Action: Left Click
-      m_Flags: 0
-    m_Flags: 0
-  rightClick:
-    m_Name: Right Click
-    m_Type: 1
-    m_ExpectedControlType: Button
-    m_Id: ac8b0890-e563-496b-a799-8d02ca1cdfd3
-    m_Processors: 
-    m_Interactions: Press
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: d949467c-ccd2-467b-a963-dccfc91ef710
-      m_Path: <Mouse>/rightButton
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Right Click
-      m_Flags: 0
-    m_Flags: 0
-  drag:
-    m_Name: Drag
-    m_Type: 0
-    m_ExpectedControlType: Vector2
-    m_Id: c25002dc-5013-4ca5-b4a5-934689ddf708
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: e86e1a3a-3717-40b7-827b-b38cf30f47ae
-      m_Path: <Mouse>/delta
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Drag
-      m_Flags: 0
-    m_Flags: 0
-  cubeLayer:
-    serializedVersion: 2
-    m_Bits: 1024
+  enableMouseInput: 1
+  enableScreenInput: 0
 --- !u!1 &1298425197
 GameObject:
   m_ObjectHideFlags: 0
@@ -3571,7 +3519,6 @@ GameObject:
   - component: {fileID: 2111638678}
   - component: {fileID: 2111638680}
   - component: {fileID: 2111638681}
-  - component: {fileID: 2111638682}
   m_Layer: 10
   m_Name: cube
   m_TagString: Untagged
@@ -3661,18 +3608,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationPoint: {x: 0, y: 0, z: 0}
-  sensitivity: 30
+  rotationSpeed: 30
+  rotate90Duration: 2
   targetCamera: {fileID: 963194227}
---- !u!114 &2111638682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2111638676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 157a498b3de14c2d8bb9ba7533074a00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotateLerpDuration: 1.5

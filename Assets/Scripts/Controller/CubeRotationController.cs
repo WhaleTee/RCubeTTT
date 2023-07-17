@@ -5,19 +5,33 @@ public class CubeRotationController : MonoBehaviour {
   #region serializable fields
 
   [SerializeField]
-  [Range(.5f, 5)]
-  private float rotateLerpDuration;
+  private Vector3 rotationPoint;
+
+  [SerializeField]
+  [Range(10, 100)]
+  private float rotationSpeed;
+
+  [SerializeField]
+  [Range(1, 3)]
+  private float rotate90Duration;
+
+  [SerializeField]
+  private Camera targetCamera;
 
   #endregion
 
   #region fields
 
+  private Pointer currentPointer;
   private bool dragging;
   private float timeElapsed;
+  private Vector2 dragDeltaInput;
 
   #endregion
 
   #region properties
+
+  private Transform mainCameraTransform => targetCamera.transform;
 
   private Quaternion rotation => transform.rotation;
 
@@ -26,21 +40,36 @@ public class CubeRotationController : MonoBehaviour {
   #region unity methods
 
   private void Awake() {
-    EventManager.AddMouseRightClickUpInputListener(ReadMouseRightUpContext);
-    EventManager.AddMouseRightClickDownInputListener(ReadMouseRightDownContext);
+    currentPointer = Pointer.current;
+    PlayerInputManager.mouse.RightClick.started += MouseRightDownHandler;
+    PlayerInputManager.mouse.RightClick.canceled += MouseRightUpHandler;
   }
 
-  private void Update() => RotateTo90Degrees();
+  private void Update() {
+    RotateCube();
+    StopDragging();
+    RotateTo90Degrees();
+  }
 
   #endregion
 
   #region methods
 
-  private void ReadMouseRightDownContext(InputAction.CallbackContext context) => dragging = true;
+  private void MouseRightDownHandler(InputAction.CallbackContext context) {
+    if (Physics.Raycast(targetCamera.ScreenPointToRay(currentPointer.position.ReadValue()), out var hit, float.PositiveInfinity, LayerMask.GetMask("Cube"))) {
+      if (hit.collider.gameObject.GetComponent<CubeRotationController>() != null) {
+        dragging = true;
+        PlayerInputManager.mouse.Drag.performed += ReadDragContext;
+      }
+    }
+  }
 
-  private void ReadMouseRightUpContext(InputAction.CallbackContext context) {
-    timeElapsed = 0;
-    dragging = false;
+  private void MouseRightUpHandler(InputAction.CallbackContext context) {
+    if (dragging) {
+      timeElapsed = 0;
+      dragging = false;
+      PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
+    }
   }
 
   private void RotateTo90Degrees() {
@@ -48,7 +77,7 @@ public class CubeRotationController : MonoBehaviour {
       var startRotation = rotation;
       var targetRotation = GetClosest90DegreesRotation();
 
-      transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / rotateLerpDuration);
+      transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / rotate90Duration);
       timeElapsed += Time.deltaTime;
     }
   }
@@ -73,6 +102,24 @@ public class CubeRotationController : MonoBehaviour {
 
     return closestRotation;
   }
+
+  private void RotateCube() {
+    transform.RotateAround(
+      rotationPoint,
+      mainCameraTransform.up,
+      -Vector3.Dot(dragDeltaInput, mainCameraTransform.right) * rotationSpeed * Time.deltaTime
+    );
+
+    transform.RotateAround(
+      rotationPoint,
+      mainCameraTransform.right,
+      Vector3.Dot(dragDeltaInput, mainCameraTransform.up) * rotationSpeed * Time.deltaTime
+    );
+  }
+
+  private void StopDragging() => dragDeltaInput = Vector2.zero;
+
+  private void ReadDragContext(InputAction.CallbackContext context) => dragDeltaInput = context.ReadValue<Vector2>();
 
   #endregion
 }
