@@ -3521,12 +3521,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50813a990ada443ebdb4361159a651c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationPoint: {x: 0, y: 0, z: 0}
+  rotationPoint: {x: 0, y: 1, z: 0}
   rotationSpeed: 30
-  rotateToDegrees: {x: 0, y: 0, z: 0}
+  rotateToDegrees: {x: 1, y: 1, z: 1}
   rotateToDegreesDuration: 2
-  targetCamera: {fileID: 0}
-  accessRotation: {x: 0, y: 0, z: 0}
+  targetCamera: {fileID: 963194227}
+  accessRotation: {x: 0, y: 1}
 --- !u!1 &2111638676
 GameObject:
   m_ObjectHideFlags: 0
@@ -3628,6 +3628,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationPoint: {x: 0, y: 0, z: 0}
   rotationSpeed: 30
-  rotateToDegrees: {x: 0, y: 0, z: 0}
-  rotateToDegreesDuration: 0
+  rotateToDegrees: {x: 90, y: 90, z: 90}
+  rotateToDegreesDuration: 2
   targetCamera: {fileID: 963194227}

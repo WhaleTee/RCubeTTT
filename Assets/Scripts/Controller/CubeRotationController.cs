@@ -15,13 +15,18 @@ public class CubeRotationController : RotationController {
     PlayerInputManager.mouse.RightClick.started += MouseRightDownHandler;
     PlayerInputManager.mouse.RightClick.canceled += MouseRightUpHandler;
   }
-  
+
   #endregion
 
   #region methods
 
   private void MouseRightDownHandler(InputAction.CallbackContext context) {
-    if (Physics.Raycast(targetCamera.ScreenPointToRay(currentPointer.position.ReadValue()), out var hit, float.PositiveInfinity, LayerMask.GetMask("Cube"))) {
+    if (Physics.Raycast(
+          targetCamera.ScreenPointToRay(currentPointer.position.ReadValue()),
+          out var hit,
+          float.PositiveInfinity,
+          LayerMask.GetMask("Cube")
+        )) {
       if (hit.collider.gameObject.GetComponent<CubeRotationController>() != null) {
         dragging = true;
         PlayerInputManager.mouse.Drag.performed += ReadDragContext;
@@ -30,11 +35,7 @@ public class CubeRotationController : RotationController {
   }
 
   private void MouseRightUpHandler(InputAction.CallbackContext context) {
-    if (dragging) {
-      rotationToDegreesElapsedTime = 0;
-      dragging = false;
-      PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
-    }
+    PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
   }
 
   protected override void Rotate() {
@@ -50,6 +51,6 @@ public class CubeRotationController : RotationController {
       Vector3.Dot(dragDeltaInput, mainCameraTransform.up) * rotationSpeed * Time.deltaTime
     );
   }
-  
+
   #endregion
 }

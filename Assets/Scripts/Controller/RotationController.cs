@@ -12,6 +12,7 @@ public abstract class RotationController : MonoBehaviour {
   protected float rotationSpeed;
 
   [SerializeField]
+  [RangeVector(new float[] { 90, 90, 90 }, new float[] { 180, 180, 180 })]
   protected Vector3Int rotateToDegrees;
 
   [SerializeField]
@@ -42,6 +43,8 @@ public abstract class RotationController : MonoBehaviour {
 
   protected virtual void Awake() {
     currentPointer = Pointer.current;
+    PlayerInputManager.mouse.RightClick.canceled += MouseUpHandler;
+    PlayerInputManager.mouse.LeftClick.canceled += MouseUpHandler;
   }
 
   protected void Update() {
@@ -54,35 +57,59 @@ public abstract class RotationController : MonoBehaviour {
 
   #region methods
 
+  private void MouseUpHandler(InputAction.CallbackContext context) {
+    if (dragging) {
+      rotationToDegreesElapsedTime = 0;
+      dragging = false;
+    }
+  }
+
   private void RotateToDegrees() {
     if (!dragging) {
-      var startRotation = rotation;
-      var targetRotation = GetClosestRotation(rotateToDegrees);
+      var targetRotation = GetClosestRotation(rotation, rotateToDegrees);
 
-      transform.rotation = Quaternion.Slerp(startRotation, targetRotation, rotationToDegreesElapsedTime / rotateToDegreesDuration);
+      transform.rotation = Quaternion.Slerp(rotation, targetRotation, rotationToDegreesElapsedTime / rotateToDegreesDuration);
       rotationToDegreesElapsedTime += Time.deltaTime;
     }
   }
 
-  private Quaternion GetClosestRotation(Vector3Int degrees) {
-    var closestRotation = Quaternion.Euler(0, 0, 0);
-    var closestAngle = Quaternion.Angle(rotation, closestRotation);
+  private Quaternion GetClosestRotation(Quaternion currentRotation, Vector3Int degrees) {
+    if (rotateToDegrees != Vector3Int.zero) {
+      var iterateValues = new Vector3Int(-180, -180, -180);
+      var closestRotation = Quaternion.Euler(0, 0, 0);
+      var closestAngle = Quaternion.Angle(currentRotation, closestRotation);
 
-    for (var x = -180; x <= 180; x += degrees.x) {
-      for (var y = -180; y <= 180; y += degrees.y) {
-        for (var z = -180; z <= 180; z += degrees.z) {
-          var targetRotation = Quaternion.Euler(x, y, z);
-          var angle = Quaternion.Angle(rotation, targetRotation);
-
-          if (angle < closestAngle) {
-            closestRotation = targetRotation;
-            closestAngle = angle;
-          }
-        }
+      while (degrees.x > 0 && iterateValues.x <= 180) {
+        closestAngle = ClosestAngle(currentRotation, iterateValues, closestAngle, ref closestRotation);
+        iterateValues.x += degrees.x;
       }
+
+      while (degrees.y > 0 && iterateValues.y <= 180) {
+        closestAngle = ClosestAngle(currentRotation, iterateValues, closestAngle, ref closestRotation);
+        iterateValues.y += degrees.y;
+      }
+
+      while (degrees.z > 0 && iterateValues.z <= 180) {
+        closestAngle = ClosestAngle(currentRotation, iterateValues, closestAngle, ref closestRotation);
+        iterateValues.z += degrees.z;
+      }
+
+      return closestRotation;
     }
 
-    return closestRotation;
+    return Quaternion.identity;
+  }
+
+  private static float ClosestAngle(Quaternion currentRotation, Vector3Int iterateValues, float closestAngle, ref Quaternion closestRotation) {
+    var targetRotation = Quaternion.Euler(iterateValues.x, iterateValues.y, iterateValues.z);
+    var angle = Quaternion.Angle(currentRotation, targetRotation);
+
+    if (angle < closestAngle) {
+      closestRotation = targetRotation;
+      closestAngle = angle;
+    }
+
+    return closestAngle;
   }
 
   protected void ReadDragContext(InputAction.CallbackContext context) => dragDeltaInput = context.ReadValue<Vector2>();
