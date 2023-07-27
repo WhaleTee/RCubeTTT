@@ -19,6 +19,9 @@ public sealed class RangeVectorAttribute : PropertyAttribute {
   /// <param name="min">The array with the minimum allowed values.</param>
   /// <param name="max">The array with the maximum allowed values.</param>
   public RangeVectorAttribute(float[] min, float[] max) {
+    min ??= new float[] { };
+    max ??= new float[] { };
+
     if (min.Length > 3 || max.Length > 3) {
       throw new ArgumentException("min and max must be of length 3 or less");
     }
@@ -37,7 +40,7 @@ public sealed class RangeVectorAttribute : PropertyAttribute {
         this.min.x = min[0];
         break;
     }
-    
+
     switch (max.Length) {
       case 3:
         this.max.x = max[0];
@@ -54,9 +57,12 @@ public sealed class RangeVectorAttribute : PropertyAttribute {
     }
   }
 
+  public RangeVectorAttribute(float[] max) : this(new float[] { }, max ?? new float[] { }) { }
+
   #endregion
 }
 
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(RangeVectorAttribute))]
 public class RangeVectorDrawer : PropertyDrawer {
   #region fields
@@ -137,3 +143,5 @@ public class RangeVectorDrawer : PropertyDrawer {
 
   #endregion
 }
+
+#endif

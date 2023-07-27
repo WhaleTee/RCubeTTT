@@ -238,6 +238,8 @@ GameObject:
   m_Component:
   - component: {fileID: 91881803}
   - component: {fileID: 91881804}
+  - component: {fileID: 91881805}
+  - component: {fileID: 91881806}
   m_Layer: 11
   m_Name: front_side
   m_TagString: Untagged
@@ -275,12 +277,45 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 3, y: 3, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &91881805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91881802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50813a990ada443ebdb4361159a651c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowDragRotation: 1
+  rotationRelativeObject: {fileID: 2111638676}
+  rotationSpeed: 30
+  accessRotation: {x: 0, y: 1}
+  mainCamera: {fileID: 963194227}
+--- !u!114 &91881806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91881802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317ef4f61e564c5a9a14680531a91c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableFixedRotation: 1
+  accessRotation: {x: 1, y: 1}
+  rotationRoundTo: {x: 90, y: 90, z: 90}
+  rotationDuration: 3
 --- !u!1 &97074918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1225,6 +1260,8 @@ GameObject:
   m_Component:
   - component: {fileID: 785354748}
   - component: {fileID: 785354749}
+  - component: {fileID: 785354750}
+  - component: {fileID: 785354751}
   m_Layer: 11
   m_Name: down_side
   m_TagString: Untagged
@@ -1262,12 +1299,45 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 3, y: 0.5, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &785354750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785354747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50813a990ada443ebdb4361159a651c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowDragRotation: 1
+  rotationRelativeObject: {fileID: 2111638676}
+  rotationSpeed: 30
+  accessRotation: {x: 0, y: 1}
+  mainCamera: {fileID: 963194227}
+--- !u!114 &785354751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785354747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317ef4f61e564c5a9a14680531a91c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableFixedRotation: 1
+  accessRotation: {x: 1, y: 1}
+  rotationRoundTo: {x: 90, y: 90, z: 90}
+  rotationDuration: 3
 --- !u!1 &802761519
 GameObject:
   m_ObjectHideFlags: 0
@@ -2525,6 +2595,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1188344706}
   - component: {fileID: 1188344707}
+  - component: {fileID: 1188344708}
+  - component: {fileID: 1188344709}
   m_Layer: 11
   m_Name: back_side
   m_TagString: Untagged
@@ -2562,12 +2634,45 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 3, y: 3, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1188344708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188344705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50813a990ada443ebdb4361159a651c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowDragRotation: 1
+  rotationRelativeObject: {fileID: 2111638676}
+  rotationSpeed: 30
+  accessRotation: {x: 0, y: 1}
+  mainCamera: {fileID: 963194227}
+--- !u!114 &1188344709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1188344705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317ef4f61e564c5a9a14680531a91c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableFixedRotation: 1
+  accessRotation: {x: 1, y: 1}
+  rotationRoundTo: {x: 90, y: 90, z: 90}
+  rotationDuration: 3
 --- !u!1 &1273988591
 GameObject:
   m_ObjectHideFlags: 0
@@ -2624,6 +2729,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1298425198}
   - component: {fileID: 1298425199}
+  - component: {fileID: 1298425200}
+  - component: {fileID: 1298425201}
   m_Layer: 11
   m_Name: left_side
   m_TagString: Untagged
@@ -2661,12 +2768,45 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.5, y: 3, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1298425200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298425197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50813a990ada443ebdb4361159a651c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowDragRotation: 1
+  rotationRelativeObject: {fileID: 2111638676}
+  rotationSpeed: 30
+  accessRotation: {x: 1, y: 0}
+  mainCamera: {fileID: 963194227}
+--- !u!114 &1298425201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298425197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317ef4f61e564c5a9a14680531a91c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableFixedRotation: 1
+  accessRotation: {x: 1, y: 1}
+  rotationRoundTo: {x: 90, y: 90, z: 90}
+  rotationDuration: 3
 --- !u!1 &1332310890
 GameObject:
   m_ObjectHideFlags: 0
@@ -2992,6 +3132,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1553349478}
   - component: {fileID: 1553349479}
+  - component: {fileID: 1553349480}
+  - component: {fileID: 1553349481}
   m_Layer: 11
   m_Name: right_side
   m_TagString: Untagged
@@ -3029,12 +3171,45 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.5, y: 3, z: 3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1553349480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553349477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50813a990ada443ebdb4361159a651c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allowDragRotation: 1
+  rotationRelativeObject: {fileID: 2111638676}
+  rotationSpeed: 30
+  accessRotation: {x: 1, y: 0}
+  mainCamera: {fileID: 963194227}
+--- !u!114 &1553349481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553349477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317ef4f61e564c5a9a14680531a91c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableFixedRotation: 1
+  accessRotation: {x: 1, y: 1}
+  rotationRoundTo: {x: 90, y: 90, z: 90}
+  rotationDuration: 3
 --- !u!1 &1573529359
 GameObject:
   m_ObjectHideFlags: 0
@@ -3466,6 +3641,7 @@ GameObject:
   - component: {fileID: 2078976826}
   - component: {fileID: 2078976827}
   - component: {fileID: 2078976828}
+  - component: {fileID: 2078976829}
   m_Layer: 11
   m_Name: up_side
   m_TagString: Untagged
@@ -3503,7 +3679,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -3521,12 +3697,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50813a990ada443ebdb4361159a651c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationPoint: {x: 0, y: 1, z: 0}
+  allowDragRotation: 1
+  rotationRelativeObject: {fileID: 2111638676}
   rotationSpeed: 30
-  rotateToDegrees: {x: 1, y: 1, z: 1}
-  rotateToDegreesDuration: 2
-  targetCamera: {fileID: 963194227}
   accessRotation: {x: 0, y: 1}
+  mainCamera: {fileID: 963194227}
+--- !u!114 &2078976829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078976825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317ef4f61e564c5a9a14680531a91c40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableFixedRotation: 1
+  accessRotation: {x: 1, y: 1}
+  rotationRoundTo: {x: 90, y: 90, z: 90}
+  rotationDuration: 3
 --- !u!1 &2111638676
 GameObject:
   m_ObjectHideFlags: 0
@@ -3538,6 +3729,7 @@ GameObject:
   - component: {fileID: 2111638678}
   - component: {fileID: 2111638680}
   - component: {fileID: 2111638681}
+  - component: {fileID: 2111638682}
   m_Layer: 10
   m_Name: cube
   m_TagString: Untagged
@@ -3608,7 +3800,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -3626,8 +3818,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50b06a7e33be4ac99601312621f063f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationPoint: {x: 0, y: 0, z: 0}
+  allowDragRotation: 1
+  rotationRelativeObject: {fileID: 0}
   rotationSpeed: 30
-  rotateToDegrees: {x: 90, y: 90, z: 90}
-  rotateToDegreesDuration: 2
-  targetCamera: {fileID: 963194227}
+  accessRotation: {x: 1, y: 1}
+  mainCamera: {fileID: 963194227}
+--- !u!114 &2111638682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111638676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d4b87d17712413281a1dcebdfc55e2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableFixedRotation: 1
+  accessRotation: {x: 1, y: 1}
+  rotationRoundTo: {x: 90, y: 90, z: 90}
+  rotationDuration: 3
