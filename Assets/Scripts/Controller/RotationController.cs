@@ -1,41 +1,33 @@
-﻿using UnityEngine;
+﻿using MyBox;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public abstract class RotationController : MonoBehaviour {
   #region serializable fields
 
   [SerializeField]
-  protected Vector3 rotationPoint;
+  private bool allowDragRotation;
 
   [SerializeField]
+  [ConditionalField(nameof(allowDragRotation), false, true)]
+  private GameObject rotationRelativeObject;
+
+  [SerializeField]
+  [ConditionalField(nameof(allowDragRotation), false, true)]
   [Range(10, 100)]
   protected float rotationSpeed;
 
   [SerializeField]
-  [RangeVector(new float[] { 90, 90, 90 }, new float[] { 180, 180, 180 })]
-  protected Vector3Int rotateToDegrees;
-
-  [SerializeField]
-  [Range(1, 3)]
-  protected float rotateToDegreesDuration;
-
-  [SerializeField]
-  protected Camera targetCamera;
+  [ConditionalField(nameof(allowDragRotation), false, true)]
+  [RangeVector(new float[] { }, new float[] { 1, 1, 1 })]
+  protected Vector2Int accessRotation;
 
   #endregion
 
   #region fields
 
   protected Pointer currentPointer;
-  protected bool dragging;
   protected Vector2 dragDeltaInput;
-  protected float rotationToDegreesElapsedTime;
-
-  #endregion
-
-  #region properties
-
-  private Quaternion rotation => transform.rotation;
 
   #endregion
 
@@ -43,83 +35,36 @@ public abstract class RotationController : MonoBehaviour {
 
   protected virtual void Awake() {
     currentPointer = Pointer.current;
-    PlayerInputManager.mouse.RightClick.canceled += MouseUpHandler;
-    PlayerInputManager.mouse.LeftClick.canceled += MouseUpHandler;
   }
 
-  protected void Update() {
-    Rotate();
+  protected virtual void Update() {
+    if (allowDragRotation) {
+      Rotate();
+    }
+
     StopDragging();
-    RotateToDegrees();
   }
 
   #endregion
 
   #region methods
 
-  private void MouseUpHandler(InputAction.CallbackContext context) {
-    if (dragging) {
-      rotationToDegreesElapsedTime = 0;
-      dragging = false;
-    }
-  }
-
-  private void RotateToDegrees() {
-    if (!dragging) {
-      var targetRotation = GetClosestRotation(rotation, rotateToDegrees);
-
-      transform.rotation = Quaternion.Slerp(rotation, targetRotation, rotationToDegreesElapsedTime / rotateToDegreesDuration);
-      rotationToDegreesElapsedTime += Time.deltaTime;
-    }
-  }
-
-  private Quaternion GetClosestRotation(Quaternion currentRotation, Vector3Int degrees) {
-    if (rotateToDegrees != Vector3Int.zero) {
-      var iterateValues = new Vector3Int(-180, -180, -180);
-      var closestRotation = Quaternion.Euler(0, 0, 0);
-      var closestAngle = Quaternion.Angle(currentRotation, closestRotation);
-
-      while (degrees.x > 0 && iterateValues.x <= 180) {
-        closestAngle = ClosestAngle(currentRotation, iterateValues, closestAngle, ref closestRotation);
-        iterateValues.x += degrees.x;
-      }
-
-      while (degrees.y > 0 && iterateValues.y <= 180) {
-        closestAngle = ClosestAngle(currentRotation, iterateValues, closestAngle, ref closestRotation);
-        iterateValues.y += degrees.y;
-      }
-
-      while (degrees.z > 0 && iterateValues.z <= 180) {
-        closestAngle = ClosestAngle(currentRotation, iterateValues, closestAngle, ref closestRotation);
-        iterateValues.z += degrees.z;
-      }
-
-      return closestRotation;
-    }
-
-    return Quaternion.identity;
-  }
-
-  private static float ClosestAngle(Quaternion currentRotation, Vector3Int iterateValues, float closestAngle, ref Quaternion closestRotation) {
-    var targetRotation = Quaternion.Euler(iterateValues.x, iterateValues.y, iterateValues.z);
-    var angle = Quaternion.Angle(currentRotation, targetRotation);
-
-    if (angle < closestAngle) {
-      closestRotation = targetRotation;
-      closestAngle = angle;
-    }
-
-    return closestAngle;
-  }
-
   protected void ReadDragContext(InputAction.CallbackContext context) => dragDeltaInput = context.ReadValue<Vector2>();
   private void StopDragging() => dragDeltaInput = Vector2.zero;
 
-  #endregion
+  protected void Rotate() {
+    if (accessRotation.y > 0) {
+      var deltaRotation = Vector3.Dot(dragDeltaInput, rotationRelativeObject ? rotationRelativeObject.transform.right : Vector3.right) * rotationSpeed * Time.deltaTime;
 
-  #region abstract methods
+      transform.Rotate(rotationRelativeObject ? rotationRelativeObject.transform.up : Vector3.up, -deltaRotation, Space.World);
+    }
 
-  protected abstract void Rotate();
+    if (accessRotation.x > 0) {
+      var deltaRotation = Vector3.Dot(dragDeltaInput, rotationRelativeObject ? rotationRelativeObject.transform.up : Vector3.up) * rotationSpeed * Time.deltaTime;
+
+      transform.Rotate(rotationRelativeObject ? rotationRelativeObject.transform.right : Vector3.right, deltaRotation, Space.World);
+    }
+  }
 
   #endregion
 }

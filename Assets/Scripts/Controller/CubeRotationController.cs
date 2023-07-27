@@ -2,9 +2,20 @@
 using UnityEngine.InputSystem;
 
 public class CubeRotationController : RotationController {
-  #region properties
+  #region serializable fields
 
-  private Transform mainCameraTransform => targetCamera.transform;
+  [SerializeField]
+  protected Camera mainCamera;
+
+  #endregion
+
+  #region fields
+
+  private readonly Invoker startDragRCubeInvoker = new CubeRotationStartDragRCubeInvoker();
+  private readonly Invoker dragRCubeInvoker = new CubeRotationDragRCubeInvoker();
+  private readonly Invoker endDragRCubeInvoker = new CubeRotationEndDragRCubeInvoker();
+
+  private bool rCubeDragging;
 
   #endregion
 
@@ -14,6 +25,8 @@ public class CubeRotationController : RotationController {
     base.Awake();
     PlayerInputManager.mouse.RightClick.started += MouseRightDownHandler;
     PlayerInputManager.mouse.RightClick.canceled += MouseRightUpHandler;
+    EventManager.AddEndDragRCubeInvoker(endDragRCubeInvoker as EndDragRCubeInvoker);
+    EventManager.AddStartDragRCubeInvoker(startDragRCubeInvoker as StartDragRCubeInvoker);
   }
 
   #endregion
@@ -22,34 +35,44 @@ public class CubeRotationController : RotationController {
 
   private void MouseRightDownHandler(InputAction.CallbackContext context) {
     if (Physics.Raycast(
-          targetCamera.ScreenPointToRay(currentPointer.position.ReadValue()),
+          mainCamera.ScreenPointToRay(currentPointer.position.ReadValue()),
           out var hit,
           float.PositiveInfinity,
           LayerMask.GetMask("Cube")
         )) {
       if (hit.collider.gameObject.GetComponent<CubeRotationController>() != null) {
-        dragging = true;
         PlayerInputManager.mouse.Drag.performed += ReadDragContext;
+        startDragRCubeInvoker.Invoke();
+        rCubeDragging = true;
       }
     }
   }
 
   private void MouseRightUpHandler(InputAction.CallbackContext context) {
-    PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
+    if (rCubeDragging) {
+      PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
+      endDragRCubeInvoker.Invoke();
+      rCubeDragging = false;
+    }
   }
 
-  protected override void Rotate() {
-    transform.RotateAround(
-      rotationPoint,
-      mainCameraTransform.up,
-      -Vector3.Dot(dragDeltaInput, mainCameraTransform.right) * rotationSpeed * Time.deltaTime
-    );
+  #endregion
 
-    transform.RotateAround(
-      rotationPoint,
-      mainCameraTransform.right,
-      Vector3.Dot(dragDeltaInput, mainCameraTransform.up) * rotationSpeed * Time.deltaTime
-    );
+  #region event invoker classes
+
+  private sealed class CubeRotationStartDragRCubeInvoker : StartDragRCubeInvoker {
+    private readonly StartDragRCubeEvent startDragRCubeEvent = new StartDragRCubeEvent();
+    public StartDragRCubeEvent GetInputEvent() => startDragRCubeEvent;
+  }
+
+  private sealed class CubeRotationDragRCubeInvoker : DragRCubeInvoker {
+    private readonly DragRCubeEvent dragRCubeEvent = new DragRCubeEvent();
+    public DragRCubeEvent GetInputEvent() => dragRCubeEvent;
+  }
+
+  private sealed class CubeRotationEndDragRCubeInvoker : EndDragRCubeInvoker {
+    private readonly EndDragRCubeEvent endDragRCubeEvent = new EndDragRCubeEvent();
+    public EndDragRCubeEvent GetInputEvent() => endDragRCubeEvent;
   }
 
   #endregion
