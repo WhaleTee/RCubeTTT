@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CubeRotationController : RotationController {
+public class CubeDragRotationController : DragRotationController {
   #region serializable fields
 
   [SerializeField]
@@ -15,18 +15,26 @@ public class CubeRotationController : RotationController {
   private readonly Invoker dragRCubeInvoker = new CubeRotationDragRCubeInvoker();
   private readonly Invoker endDragRCubeInvoker = new CubeRotationEndDragRCubeInvoker();
 
-  private bool rCubeDragging;
+  private bool isDragging;
 
   #endregion
 
   #region unity methods
 
-  protected override void Awake() {
-    base.Awake();
+  private void Awake() {
+    currentPointer = Pointer.current;
     PlayerInputManager.mouse.RightClick.started += MouseRightDownHandler;
     PlayerInputManager.mouse.RightClick.canceled += MouseRightUpHandler;
     EventManager.AddEndDragRCubeInvoker(endDragRCubeInvoker as EndDragRCubeInvoker);
     EventManager.AddStartDragRCubeInvoker(startDragRCubeInvoker as StartDragRCubeInvoker);
+  }
+
+  private void Update() {
+    if (isDragging) {
+      Rotate();
+    }
+
+    StopDragging();
   }
 
   #endregion
@@ -37,22 +45,22 @@ public class CubeRotationController : RotationController {
     if (Physics.Raycast(
           mainCamera.ScreenPointToRay(currentPointer.position.ReadValue()),
           out var hit,
-          float.PositiveInfinity,
+          Mathf.Infinity,
           LayerMask.GetMask("Cube")
         )) {
-      if (hit.collider.gameObject.GetComponent<CubeRotationController>() != null) {
+      if (hit.collider.gameObject.GetComponent<CubeDragRotationController>().GetId() == GetId()) {
         PlayerInputManager.mouse.Drag.performed += ReadDragContext;
         startDragRCubeInvoker.Invoke();
-        rCubeDragging = true;
+        isDragging = true;
       }
     }
   }
 
   private void MouseRightUpHandler(InputAction.CallbackContext context) {
-    if (rCubeDragging) {
+    if (isDragging) {
       PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
       endDragRCubeInvoker.Invoke();
-      rCubeDragging = false;
+      isDragging = false;
     }
   }
 

@@ -3,28 +3,23 @@
 public class FixedCubeFaceRotation : FixedRotation {
   #region fields
 
-  private bool dragging;
-  private Quaternion targetRotation = Quaternion.identity;
+  private bool isDragging;
+  private Quaternion targetRotation;
   private float rotationElapsedTime;
-
-  #endregion
-
-  #region properties
-
-  private Quaternion globalRotation => transform.rotation;
 
   #endregion
 
   #region unity methods
 
   private void Awake() {
+    targetRotation = CurrentRotation();
     EventManager.AddStartDragRCubeFaceListener(StartDragRCubeFaceHandler);
     EventManager.AddEndDragRCubeFaceListener(EndDragRCubeFaceHandler);
   }
 
   private void Update() {
-    if (!dragging) {
-      transform.localRotation = Quaternion.Slerp(globalRotation, targetRotation, rotationElapsedTime / rotationDuration);
+    if (!isDragging) {
+      transform.localRotation = Quaternion.Slerp(CurrentRotation(), targetRotation, rotationElapsedTime / rotateDuration);
       rotationElapsedTime += Time.deltaTime;
     }
   }
@@ -35,14 +30,16 @@ public class FixedCubeFaceRotation : FixedRotation {
 
   private void StartDragRCubeFaceHandler() {
     rotationElapsedTime = 0;
-    dragging = true;
-    targetRotation = globalRotation;
+    isDragging = true;
+    targetRotation = CurrentRotation();
   }
 
   private void EndDragRCubeFaceHandler() {
-    dragging = false;
+    isDragging = false;
     targetRotation = GetNearestRotation();
   }
+
+  protected override Quaternion CurrentRotation() => transform.localRotation;
 
   #endregion
 }

@@ -1,4 +1,6 @@
-﻿public static class PlayerInputManager {
+﻿using UnityEngine;
+
+public static class PlayerInputManager {
   #region fields
 
   private static readonly PlayerInput playerInput = new PlayerInput();
@@ -17,5 +19,11 @@
     mouse.Disable();
   }
 
+  #endregion
+  
+  #region delegates
+  
+  public delegate Vector2 PointerPosition();
+  
   #endregion
 }
