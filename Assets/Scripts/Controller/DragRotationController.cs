@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using MyBox;
 
 public abstract class DragRotationController : MonoBehaviour, Identifiable {
   #region serializable fields

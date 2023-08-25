@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class FixedCubeFaceRotation : FixedRotation {
+public class FixedCubeRotationController : FixedRotationController {
   #region fields
 
   private bool isDragging;
@@ -8,13 +8,13 @@ public class FixedCubeFaceRotation : FixedRotation {
   private float rotationElapsedTime;
 
   #endregion
-
+  
   #region unity methods
 
   private void Awake() {
     targetRotation = CurrentRotation();
-    EventManager.AddStartDragRCubeFaceListener(StartDragRCubeFaceHandler);
-    EventManager.AddEndDragRCubeFaceListener(EndDragRCubeFaceHandler);
+    EventManager.AddStartDragRCubeListener(StartDragRCubeHandler);
+    EventManager.AddEndDragRCubeListener(EndDragRCubeHandler);
   }
 
   private void Update() {
@@ -28,18 +28,18 @@ public class FixedCubeFaceRotation : FixedRotation {
 
   #region methods
 
-  private void StartDragRCubeFaceHandler() {
+  private void StartDragRCubeHandler() {
     rotationElapsedTime = 0;
     isDragging = true;
     targetRotation = CurrentRotation();
   }
 
-  private void EndDragRCubeFaceHandler() {
+  private void EndDragRCubeHandler() {
     isDragging = false;
     targetRotation = GetNearestRotation();
   }
 
   protected override Quaternion CurrentRotation() => transform.localRotation;
 
-  #endregion
+    #endregion
 }

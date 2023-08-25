@@ -20,10 +20,4 @@ public static class PlayerInputManager {
   }
 
   #endregion
-  
-  #region delegates
-  
-  public delegate Vector2 PointerPosition();
-  
-  #endregion
 }
