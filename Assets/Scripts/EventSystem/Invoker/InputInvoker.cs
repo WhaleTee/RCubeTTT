@@ -12,9 +12,7 @@ public interface InputInvoker : Invoker<InputAction.CallbackContext> {
 
   void Invoker<InputAction.CallbackContext>.AddListener(UnityAction<InputAction.CallbackContext> listener) => GetInputEvent().AddListener(listener);
 
-  void Invoker<InputAction.CallbackContext>.Invoke(InputAction.CallbackContext context) {
-    GetInputEvent().Invoke(context);
-  }
+  void Invoker<InputAction.CallbackContext>.Invoke(InputAction.CallbackContext context) => GetInputEvent().Invoke(context);
 
   #endregion
 }

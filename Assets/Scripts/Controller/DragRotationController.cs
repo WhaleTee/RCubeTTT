@@ -1,9 +1,8 @@
-﻿using System;
+﻿using MyBox;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using MyBox;
 
-public abstract class DragRotationController : MonoBehaviour, Identifiable {
+public abstract class DragRotationController : MonoBehaviour {
   #region serializable fields
 
   [SerializeField]
@@ -20,8 +19,7 @@ public abstract class DragRotationController : MonoBehaviour, Identifiable {
   #endregion
 
   #region fields
-
-  private readonly string id = Guid.NewGuid().ToString();
+  
   protected Pointer currentPointer;
   protected Vector2 dragDeltaInput;
 
@@ -49,8 +47,6 @@ public abstract class DragRotationController : MonoBehaviour, Identifiable {
       transform.Rotate(rotationRelativeObject ? rotationRelativeObject.transform.right : Vector3.right, deltaRotation, Space.World);
     }
   }
-
-  public string GetId() => id;
 
   #endregion
 }

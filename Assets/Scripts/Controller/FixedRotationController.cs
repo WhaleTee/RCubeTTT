@@ -36,7 +36,7 @@ public abstract class FixedRotationController : MonoBehaviour {
   /// </summary> 
   /// <returns>The nearest rotation as a Quaternion.</returns>
   protected Quaternion GetNearestRotation() {
-    var eulerAngles = CurrentRotation().eulerAngles;
+    var eulerAngles = GetCurrentRotation().eulerAngles;
 
     return Quaternion.Euler(
       fixedRotationBy.x > 0 && rotationRoundTo.x >= 1 ? Math.RoundToNearestMultiple(eulerAngles.x, rotationRoundTo.x) : eulerAngles.x,
@@ -45,7 +45,7 @@ public abstract class FixedRotationController : MonoBehaviour {
     );
   }
 
-  protected abstract Quaternion CurrentRotation();
+  protected abstract Quaternion GetCurrentRotation();
 
   #endregion
 }

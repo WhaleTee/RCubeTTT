@@ -6,7 +6,11 @@ using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
 public class ObjectScanner : MonoBehaviour {
+  #region fields
+
   private const float MAX_DISTANCE = .01f;
+
+  #endregion
 
   #region serializable fields
 
@@ -33,10 +37,10 @@ public class ObjectScanner : MonoBehaviour {
   #region unity methods
 
   #if UNITY_EDITOR
-  
+
   private void OnDrawGizmosSelected() {
     if (debug) {
-      ExtDebug.DrawBoxCastBox(
+      DebugExtensions.DrawBoxCastBox(
         position,
         size,
         transform.rotation,
@@ -46,7 +50,7 @@ public class ObjectScanner : MonoBehaviour {
       );
     }
   }
-  
+
   #endif
 
   #endregion

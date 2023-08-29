@@ -3,7 +3,7 @@
 public interface EndDragRCubeInvoker : Invoker {
   #region methods
 
-  public EndDragRCubeEvent GetInputEvent();
+  public EndRCubeDragEvent GetInputEvent();
 
   #endregion
 
@@ -11,9 +11,7 @@ public interface EndDragRCubeInvoker : Invoker {
 
   void Invoker.AddListener(UnityAction listener) => GetInputEvent().AddListener(listener);
 
-  void Invoker.Invoke() {
-    GetInputEvent().Invoke();
-  }
+  void Invoker.Invoke() => GetInputEvent().Invoke();
 
   #endregion
 }

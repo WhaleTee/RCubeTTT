@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CubeFaceDragRotationController : DragRotationController {
+[RequireComponent(typeof(GlobalIdentifier))]
+public class RCubeFaceDragRotationController : DragRotationController {
   #region serializable fields
 
   [SerializeField]
@@ -15,38 +15,32 @@ public class CubeFaceDragRotationController : DragRotationController {
   private readonly Invoker startDragRCubeFaceInvoker = new CubeFaceRotationStartDragRCubeFaceInvoker();
   private readonly Invoker dragRCubeFaceInvoker = new CubeFaceRotationDragRCubeFaceInvoker();
   private readonly Invoker endDragRCubeFaceInvoker = new CubeFaceRotationEndDragRCubeFaceInvoker();
+
   private int cubeSideLayer;
-  private int cubePieceLayer;
-
-  private ObjectScanner objectScanner;
-
   private bool isDragging;
   private Vector2 pointerPosition = Vector2.negativeInfinity;
-  private CubePiece[] cubePieces;
+  
+  private GlobalIdentifier globalIdentifier;
 
   #endregion
 
   #region unity methods
 
   private void Awake() {
-    currentPointer = Pointer.current;
-
     PlayerInputManager.mouse.LeftClick.started += MouseLeftDownHandler;
     PlayerInputManager.mouse.LeftClick.canceled += MouseLeftUpHandler;
-    
     EventManager.AddStartDragRCubeFaceInvoker(startDragRCubeFaceInvoker as StartDragRCubeFaceInvoker);
     EventManager.AddEndDragRCubeFaceInvoker(endDragRCubeFaceInvoker as EndDragRCubeFaceInvoker);
 
+    globalIdentifier = GetComponent<GlobalIdentifier>();
+
+    currentPointer = Pointer.current;
     cubeSideLayer = LayerMask.GetMask("CubeSide");
-    cubePieceLayer = LayerMask.GetMask("CubePiece");
-    
-    objectScanner = GetComponent<ObjectScanner>();
   }
 
   private void Update() {
     if (isDragging) {
       Rotate();
-      RotateCubePieces();
     }
 
     StopDragging();
@@ -64,17 +58,14 @@ public class CubeFaceDragRotationController : DragRotationController {
           float.PositiveInfinity,
           cubeSideLayer
         )) {
-      if (hit.collider.gameObject.GetComponent<CubeFaceDragRotationController>().GetId() == GetId()) {
+      if (hit.collider.gameObject.GetComponent<GlobalIdentifier>().id == globalIdentifier.id) {
         startDragRCubeFaceInvoker.Invoke();
         PlayerInputManager.mouse.Drag.performed += ReadDragContext;
         isDragging = true;
         pointerPosition = hit.point;
-        cubePieces = FindCubePieces();
       }
     }
   }
-
-  private CubePiece[] FindCubePieces() => objectScanner.ScanForLayer(9, cubePieceLayer).Select(go => go.GetComponent<CubePiece>()).ToArray();
 
   private void MouseLeftUpHandler(InputAction.CallbackContext context) {
     PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
@@ -96,36 +87,6 @@ public class CubeFaceDragRotationController : DragRotationController {
 
     if (accessRotation.z > 0) {
       transform.Rotate(rotationRelativeObject ? rotationRelativeObject.transform.forward : Vector3.forward, deltaRotation, Space.World);
-    }
-  }
-
-  private void RotateCubePieces() {
-    var deltaRotation = GetAngle() * rotationSpeed * Time.deltaTime;
-
-    foreach (var cubePiece in cubePieces) {
-      if (accessRotation.y > 0) {
-        cubePiece.transform.RotateAround(
-          transform.position,
-          rotationRelativeObject ? rotationRelativeObject.transform.up : Vector3.up,
-          deltaRotation
-        );
-      }
-
-      if (accessRotation.x > 0) {
-        cubePiece.transform.RotateAround(
-          transform.position,
-          rotationRelativeObject ? rotationRelativeObject.transform.right : Vector3.right,
-          deltaRotation
-        );
-      }
-
-      if (accessRotation.z > 0) {
-        cubePiece.transform.RotateAround(
-          transform.position,
-          rotationRelativeObject ? rotationRelativeObject.transform.forward : Vector3.forward,
-          deltaRotation
-        );
-      }
     }
   }
 
@@ -171,18 +132,18 @@ public class CubeFaceDragRotationController : DragRotationController {
   #region event invoker classes
 
   private sealed class CubeFaceRotationStartDragRCubeFaceInvoker : StartDragRCubeFaceInvoker {
-    private readonly StartDragRCubeEvent startDragRCubeEvent = new StartDragRCubeEvent();
-    public StartDragRCubeEvent GetInputEvent() => startDragRCubeEvent;
+    private readonly StartRCubeDragEvent startRCubeDragEvent = new StartRCubeDragEvent();
+    public StartRCubeDragEvent GetInputEvent() => startRCubeDragEvent;
   }
 
   private sealed class CubeFaceRotationDragRCubeFaceInvoker : DragRCubeFaceInvoker {
-    private readonly DragRCubeEvent dragRCubeEvent = new DragRCubeEvent();
-    public DragRCubeEvent GetInputEvent() => dragRCubeEvent;
+    private readonly RCubeDragEvent rCubeDragEvent = new RCubeDragEvent();
+    public RCubeDragEvent GetInputEvent() => rCubeDragEvent;
   }
 
   private sealed class CubeFaceRotationEndDragRCubeFaceInvoker : EndDragRCubeFaceInvoker {
-    private readonly EndDragRCubeEvent endDragRCubeEvent = new EndDragRCubeEvent();
-    public EndDragRCubeEvent GetInputEvent() => endDragRCubeEvent;
+    private readonly EndRCubeDragEvent endRCubeDragEvent = new EndRCubeDragEvent();
+    public EndRCubeDragEvent GetInputEvent() => endRCubeDragEvent;
   }
 
   #endregion

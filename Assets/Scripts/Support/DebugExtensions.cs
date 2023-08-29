@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class ExtDebug {
+public static class DebugExtensions {
   //Draws just the box at where it is currently hitting.
   public static void DrawBoxCastOnHit(
     Vector3 origin, Vector3 halfExtents, Quaternion orientation, Vector3 direction,
