@@ -8,13 +8,13 @@ public class RCubeFixedRotationController : FixedRotationController {
   private float rotationElapsedTime;
 
   #endregion
-  
+
   #region unity methods
 
   private void Awake() {
-    EventManager.AddStartDragRCubeListener(StartDragRCubeHandler);
-    EventManager.AddEndDragRCubeListener(EndDragRCubeHandler);
-    
+    EventManager.AddRCubeDragStartListener(StartDragRCubeHandler);
+    EventManager.AddRCubeDragEndListener(EndDragRCubeHandler);
+
     targetRotation = GetCurrentRotation();
   }
 
@@ -42,5 +42,5 @@ public class RCubeFixedRotationController : FixedRotationController {
 
   protected override Quaternion GetCurrentRotation() => transform.localRotation;
 
-    #endregion
+  #endregion
 }

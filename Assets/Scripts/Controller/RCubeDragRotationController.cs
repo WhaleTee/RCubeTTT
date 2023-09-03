@@ -12,9 +12,9 @@ public class RCubeDragRotationController : DragRotationController {
 
   #region fields
 
-  private readonly Invoker startDragRCubeInvoker = new RCubeRotationStartDragRCubeInvoker();
-  private readonly Invoker dragRCubeInvoker = new RCubeRotationDragRCubeInvoker();
-  private readonly Invoker endDragRCubeInvoker = new RCubeRotationEndDragRCubeInvoker();
+  private readonly Invoker startDragRCubeInvoker = new RCubeDragRotationStartEventInvoker();
+  private readonly Invoker dragRCubeInvoker = new RCubeDragRotationEventInvoker();
+  private readonly Invoker endDragRCubeInvoker = new RCubeDragRotationEndEventInvoker();
 
   private bool isDragging;
   private int cubeLayer;
@@ -28,8 +28,8 @@ public class RCubeDragRotationController : DragRotationController {
   private void Awake() {
     PlayerInputManager.mouse.RightClick.started += MouseRightDownHandler;
     PlayerInputManager.mouse.RightClick.canceled += MouseRightUpHandler;
-    EventManager.AddEndDragRCubeInvoker(endDragRCubeInvoker as EndDragRCubeInvoker);
-    EventManager.AddStartDragRCubeInvoker(startDragRCubeInvoker as StartDragRCubeInvoker);
+    EventManager.AddRCubeDragEndInvoker(endDragRCubeInvoker as RCubeDragEndEventInvoker);
+    EventManager.AddRCubeDragStartInvoker(startDragRCubeInvoker as RCubeDragStartEventInvoker);
 
     globalIdentifier = GetComponent<GlobalIdentifier>();
 
@@ -76,19 +76,19 @@ public class RCubeDragRotationController : DragRotationController {
 
   #region event invoker classes
 
-  private sealed class RCubeRotationStartDragRCubeInvoker : StartDragRCubeInvoker {
-    private readonly StartRCubeDragEvent startRCubeDragEvent = new StartRCubeDragEvent();
-    public StartRCubeDragEvent GetInputEvent() => startRCubeDragEvent;
+  private sealed class RCubeDragRotationStartEventInvoker : RCubeDragStartEventInvoker {
+    private readonly RCubeDragStartEvent rCubeDragStartEvent = new RCubeDragStartEvent();
+    public RCubeDragStartEvent GetEvent() => rCubeDragStartEvent;
   }
 
-  private sealed class RCubeRotationDragRCubeInvoker : DragRCubeInvoker {
+  private sealed class RCubeDragRotationEventInvoker : RCubeDragEventInvoker {
     private readonly RCubeDragEvent rCubeDragEvent = new RCubeDragEvent();
-    public RCubeDragEvent GetInputEvent() => rCubeDragEvent;
+    public RCubeDragEvent GetEvent() => rCubeDragEvent;
   }
 
-  private sealed class RCubeRotationEndDragRCubeInvoker : EndDragRCubeInvoker {
-    private readonly EndRCubeDragEvent endRCubeDragEvent = new EndRCubeDragEvent();
-    public EndRCubeDragEvent GetInputEvent() => endRCubeDragEvent;
+  private sealed class RCubeDragRotationEndEventInvoker : RCubeDragEndEventInvoker {
+    private readonly RCubeDragEndEvent rCubeDragEndEvent = new RCubeDragEndEvent();
+    public RCubeDragEndEvent GetEvent() => rCubeDragEndEvent;
   }
 
   #endregion

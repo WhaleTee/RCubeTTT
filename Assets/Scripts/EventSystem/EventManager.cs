@@ -7,48 +7,48 @@ public static class EventManager {
   #region drag RCube support
 
   // start drag RCube support
-  private static readonly List<StartDragRCubeInvoker> startDragRCubeInvokers = new List<StartDragRCubeInvoker>();
-  private static readonly List<UnityAction> startDragRCubeListeners = new List<UnityAction>();
+  private static readonly List<RCubeDragStartEventInvoker> rCubeDragStartInvokers = new List<RCubeDragStartEventInvoker>();
+  private static readonly List<UnityAction> rCubeDragStartListeners = new List<UnityAction>();
 
   // drag RCube support
-  private static readonly List<DragRCubeInvoker> dragRCubeInvokers = new List<DragRCubeInvoker>();
-  private static readonly List<UnityAction> dragRCubeListeners = new List<UnityAction>();
+  private static readonly List<RCubeDragEventInvoker> rCubeDragInvokers = new List<RCubeDragEventInvoker>();
+  private static readonly List<UnityAction> rCubeDragListeners = new List<UnityAction>();
 
   // end drag RCube support
-  private static readonly List<EndDragRCubeInvoker> endDragRCubeInvokers = new List<EndDragRCubeInvoker>();
-  private static readonly List<UnityAction> endDragRCubeListeners = new List<UnityAction>();
+  private static readonly List<RCubeDragEndEventInvoker> rCubeDragEndInvokers = new List<RCubeDragEndEventInvoker>();
+  private static readonly List<UnityAction> rCubeDragEndListeners = new List<UnityAction>();
 
   #endregion
 
   #region drag RCube face support
 
   // start drag RCube face support
-  private static readonly List<StartDragRCubeFaceInvoker> startDragRCubeFaceInvokers = new List<StartDragRCubeFaceInvoker>();
-  private static readonly List<UnityAction> startDragRCubeFaceListeners = new List<UnityAction>();
+  private static readonly List<RCubeFaceDragStartEventInvoker> rCubeFaceDragStartInvokers = new List<RCubeFaceDragStartEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceDragStartListeners = new List<UnityAction<string>>();
 
   // drag RCube face support
-  private static readonly List<DragRCubeFaceInvoker> dragRCubeFaceInvokers = new List<DragRCubeFaceInvoker>();
-  private static readonly List<UnityAction> dragRCubeFaceListeners = new List<UnityAction>();
+  private static readonly List<RCubeFaceDragEventInvoker> rCubeFaceDragInvokers = new List<RCubeFaceDragEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceDragListeners = new List<UnityAction<string>>();
 
   // end drag RCube face support
-  private static readonly List<EndDragRCubeFaceInvoker> endDragRCubeFaceInvokers = new List<EndDragRCubeFaceInvoker>();
-  private static readonly List<UnityAction> endDragRCubeFaceListeners = new List<UnityAction>();
+  private static readonly List<RCubeFaceDragEndEventInvoker> rCubeFaceDragEndInvokers = new List<RCubeFaceDragEndEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceDragEndListeners = new List<UnityAction<string>>();
 
   #endregion
 
   #region cube face rotation support
 
   // start cube face rotation support
-  private static readonly List<StartRCubeFaceRotationInvoker> startRCubeFaceRotationInvokers = new List<StartRCubeFaceRotationInvoker>();
-  private static readonly List<UnityAction<string>> startRCubeFaceRotationListeners = new List<UnityAction<string>>();
+  private static readonly List<RCubeFaceRotationStartEventInvoker> rCubeFaceRotationStartInvokers = new List<RCubeFaceRotationStartEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceRotationStartListeners = new List<UnityAction<string>>();
 
   // cube face rotation support
-  private static readonly List<RCubeFaceRotationInvoker> cubeFaceRotationInvokers = new List<RCubeFaceRotationInvoker>();
-  private static readonly List<UnityAction<string>> cubeFaceRotationListeners = new List<UnityAction<string>>();
+  private static readonly List<RCubeFaceRotationEventInvoker> rCubeFaceRotationInvokers = new List<RCubeFaceRotationEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceRotationListeners = new List<UnityAction<string>>();
 
   // end cube face rotation support
-  private static readonly List<EndRCubeFaceRotationInvoker> endRCubeFaceRotationInvokers = new List<EndRCubeFaceRotationInvoker>();
-  private static readonly List<UnityAction<string>> endRCubeFaceRotationListeners = new List<UnityAction<string>>();
+  private static readonly List<RCubeFaceRotationEndEventInvoker> rCubeFaceRotationEndInvokers = new List<RCubeFaceRotationEndEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceRotationEndListeners = new List<UnityAction<string>>();
 
   #endregion
 
@@ -58,22 +58,22 @@ public static class EventManager {
 
   #region start drag RCube support
 
-  public static void AddStartDragRCubeInvoker(StartDragRCubeInvoker invoker) {
-    startDragRCubeInvokers.Add(invoker);
+  public static void AddRCubeDragStartInvoker(RCubeDragStartEventInvoker invoker) {
+    rCubeDragStartInvokers.Add(invoker);
 
-    foreach (var listener in startDragRCubeListeners) {
+    foreach (var listener in rCubeDragStartListeners) {
       invoker.AddListener(listener);
     }
   }
 
-  public static void RemoveStartDragRCubeInvoker(StartDragRCubeInvoker invoker) {
-    startDragRCubeInvokers.Remove(invoker);
+  public static void RemoveRCubeDragStartInvoker(RCubeDragStartEventInvoker invoker) {
+    rCubeDragStartInvokers.Remove(invoker);
   }
 
-  public static void AddStartDragRCubeListener(UnityAction listener) {
-    startDragRCubeListeners.Add(listener);
+  public static void AddRCubeDragStartListener(UnityAction listener) {
+    rCubeDragStartListeners.Add(listener);
 
-    foreach (var invoker in startDragRCubeInvokers) {
+    foreach (var invoker in rCubeDragStartInvokers) {
       invoker.AddListener(listener);
     }
   }
@@ -82,22 +82,22 @@ public static class EventManager {
 
   #region drag RCube support
 
-  public static void AddDragRCubeInvoker(DragRCubeInvoker invoker) {
-    dragRCubeInvokers.Add(invoker);
+  public static void AddRCubeDragInvoker(RCubeDragEventInvoker invoker) {
+    rCubeDragInvokers.Add(invoker);
 
-    foreach (var listener in dragRCubeListeners) {
+    foreach (var listener in rCubeDragListeners) {
       invoker.AddListener(listener);
     }
   }
 
-  public static void RemoveDragRCubeInvoker(DragRCubeInvoker invoker) {
-    dragRCubeInvokers.Remove(invoker);
+  public static void RemoveRCubeDragInvoker(RCubeDragEventInvoker invoker) {
+    rCubeDragInvokers.Remove(invoker);
   }
 
-  public static void AddDragRCubeListener(UnityAction listener) {
-    dragRCubeListeners.Add(listener);
+  public static void AddRCubeDragListener(UnityAction listener) {
+    rCubeDragListeners.Add(listener);
 
-    foreach (var invoker in dragRCubeInvokers) {
+    foreach (var invoker in rCubeDragInvokers) {
       invoker.AddListener(listener);
     }
   }
@@ -106,22 +106,22 @@ public static class EventManager {
 
   #region end drag RCube support
 
-  public static void AddEndDragRCubeInvoker(EndDragRCubeInvoker invoker) {
-    endDragRCubeInvokers.Add(invoker);
+  public static void AddRCubeDragEndInvoker(RCubeDragEndEventInvoker invoker) {
+    rCubeDragEndInvokers.Add(invoker);
 
-    foreach (var listener in endDragRCubeListeners) {
+    foreach (var listener in rCubeDragEndListeners) {
       invoker.AddListener(listener);
     }
   }
 
-  public static void RemoveEndDragRCubeInvoker(EndDragRCubeInvoker invoker) {
-    endDragRCubeInvokers.Remove(invoker);
+  public static void RemoveRCubeDragEndInvoker(RCubeDragEndEventInvoker invoker) {
+    rCubeDragEndInvokers.Remove(invoker);
   }
 
-  public static void AddEndDragRCubeListener(UnityAction listener) {
-    endDragRCubeListeners.Add(listener);
+  public static void AddRCubeDragEndListener(UnityAction listener) {
+    rCubeDragEndListeners.Add(listener);
 
-    foreach (var invoker in endDragRCubeInvokers) {
+    foreach (var invoker in rCubeDragEndInvokers) {
       invoker.AddListener(listener);
     }
   }
@@ -130,22 +130,22 @@ public static class EventManager {
 
   #region start drag RCube face support
 
-  public static void AddStartDragRCubeFaceInvoker(StartDragRCubeFaceInvoker invoker) {
-    startDragRCubeFaceInvokers.Add(invoker);
+  public static void AddRCubeFaceDragStartInvoker(RCubeFaceDragStartEventInvoker invoker) {
+    rCubeFaceDragStartInvokers.Add(invoker);
 
-    foreach (var listener in startDragRCubeFaceListeners) {
+    foreach (var listener in rCubeFaceDragStartListeners) {
       invoker.AddListener(listener);
     }
   }
 
-  public static void RemoveStartDragRCubeFaceInvoker(StartDragRCubeFaceInvoker invoker) {
-    startDragRCubeFaceInvokers.Remove(invoker);
+  public static void RemoveRCubeFaceDragStartInvoker(RCubeFaceDragStartEventInvoker invoker) {
+    rCubeFaceDragStartInvokers.Remove(invoker);
   }
 
-  public static void AddStartDragRCubeFaceListener(UnityAction listener) {
-    startDragRCubeFaceListeners.Add(listener);
+  public static void AddRCubeFaceDragStartListener(UnityAction<string> listener) {
+    rCubeFaceDragStartListeners.Add(listener);
 
-    foreach (var invoker in startDragRCubeFaceInvokers) {
+    foreach (var invoker in rCubeFaceDragStartInvokers) {
       invoker.AddListener(listener);
     }
   }
@@ -154,22 +154,22 @@ public static class EventManager {
 
   #region drag RCube face support
 
-  public static void AddDragRCubeFaceInvoker(DragRCubeFaceInvoker invoker) {
-    dragRCubeFaceInvokers.Add(invoker);
+  public static void AddRCubeFaceDragInvoker(RCubeFaceDragEventInvoker invoker) {
+    rCubeFaceDragInvokers.Add(invoker);
 
-    foreach (var listener in dragRCubeFaceListeners) {
+    foreach (var listener in rCubeFaceDragListeners) {
       invoker.AddListener(listener);
     }
   }
 
-  public static void RemoveDragRCubeFaceInvoker(DragRCubeFaceInvoker invoker) {
-    dragRCubeFaceInvokers.Remove(invoker);
+  public static void RemoveRCubeFaceDragInvoker(RCubeFaceDragEventInvoker invoker) {
+    rCubeFaceDragInvokers.Remove(invoker);
   }
 
-  public static void AddDragRCubeFaceListener(UnityAction listener) {
-    dragRCubeFaceListeners.Add(listener);
+  public static void AddRCubeFaceDragListener(UnityAction<string> listener) {
+    rCubeFaceDragListeners.Add(listener);
 
-    foreach (var invoker in dragRCubeFaceInvokers) {
+    foreach (var invoker in rCubeFaceDragInvokers) {
       invoker.AddListener(listener);
     }
   }
@@ -178,22 +178,22 @@ public static class EventManager {
 
   #region end drag RCube face support
 
-  public static void AddEndDragRCubeFaceInvoker(EndDragRCubeFaceInvoker invoker) {
-    endDragRCubeFaceInvokers.Add(invoker);
+  public static void AddRCubeFaceDragEndInvoker(RCubeFaceDragEndEventInvoker invoker) {
+    rCubeFaceDragEndInvokers.Add(invoker);
 
-    foreach (var listener in endDragRCubeFaceListeners) {
+    foreach (var listener in rCubeFaceDragEndListeners) {
       invoker.AddListener(listener);
     }
   }
 
-  public static void RemoveEndDragRCubeFaceInvoker(EndDragRCubeFaceInvoker invoker) {
-    endDragRCubeFaceInvokers.Remove(invoker);
+  public static void RemoveRCubeFaceDragEndInvoker(RCubeFaceDragEndEventInvoker invoker) {
+    rCubeFaceDragEndInvokers.Remove(invoker);
   }
 
-  public static void AddEndDragRCubeFaceListener(UnityAction listener) {
-    endDragRCubeFaceListeners.Add(listener);
+  public static void AddRCubeFaceDragEndListener(UnityAction<string> listener) {
+    rCubeFaceDragEndListeners.Add(listener);
 
-    foreach (var invoker in endDragRCubeFaceInvokers) {
+    foreach (var invoker in rCubeFaceDragEndInvokers) {
       invoker.AddListener(listener);
     }
   }
@@ -202,22 +202,22 @@ public static class EventManager {
 
   #region start cube face rotation support
 
-  public static void AddStartRCubeFaceRotationInvoker(StartRCubeFaceRotationInvoker invoker) {
-    startRCubeFaceRotationInvokers.Add(invoker);
+  public static void AddRCubeFaceRotationStartInvoker(RCubeFaceRotationStartEventInvoker invoker) {
+    rCubeFaceRotationStartInvokers.Add(invoker);
 
-    foreach (var listener in startRCubeFaceRotationListeners) {
+    foreach (var listener in rCubeFaceRotationStartListeners) {
       invoker.AddListener(listener);
     }
   }
 
-  public static void RemoveStartRCubeFaceRotationInvoker(StartRCubeFaceRotationInvoker invoker) {
-    startRCubeFaceRotationInvokers.Remove(invoker);
+  public static void RemoveRCubeFaceRotationStartInvoker(RCubeFaceRotationStartEventInvoker invoker) {
+    rCubeFaceRotationStartInvokers.Remove(invoker);
   }
 
-  public static void AddStartRCubeFaceRotationListener(UnityAction<string> listener) {
-    startRCubeFaceRotationListeners.Add(listener);
+  public static void AddRCubeFaceRotationStartListener(UnityAction<string> listener) {
+    rCubeFaceRotationStartListeners.Add(listener);
 
-    foreach (var invoker in startRCubeFaceRotationInvokers) {
+    foreach (var invoker in rCubeFaceRotationStartInvokers) {
       invoker.AddListener(listener);
     }
   }
@@ -226,22 +226,22 @@ public static class EventManager {
 
   #region cube face rotation support
 
-  public static void AddRCubeFaceRotationInvoker(RCubeFaceRotationInvoker invoker) {
-    cubeFaceRotationInvokers.Add(invoker);
+  public static void AddRCubeFaceRotationInvoker(RCubeFaceRotationEventInvoker invoker) {
+    rCubeFaceRotationInvokers.Add(invoker);
 
-    foreach (var listener in cubeFaceRotationListeners) {
+    foreach (var listener in rCubeFaceRotationListeners) {
       invoker.AddListener(listener);
     }
   }
 
-  public static void RemoveRCubeFaceRotationInvoker(RCubeFaceRotationInvoker invoker) {
-    cubeFaceRotationInvokers.Remove(invoker);
+  public static void RemoveRCubeFaceRotationInvoker(RCubeFaceRotationEventInvoker invoker) {
+    rCubeFaceRotationInvokers.Remove(invoker);
   }
 
   public static void AddRCubeFaceRotationListener(UnityAction<string> listener) {
-    cubeFaceRotationListeners.Add(listener);
+    rCubeFaceRotationListeners.Add(listener);
 
-    foreach (var invoker in cubeFaceRotationInvokers) {
+    foreach (var invoker in rCubeFaceRotationInvokers) {
       invoker.AddListener(listener);
     }
   }
@@ -250,22 +250,22 @@ public static class EventManager {
 
   #region end cube face rotation support
 
-  public static void AddEndRCubeFaceRotationInvoker(EndRCubeFaceRotationInvoker invoker) {
-    endRCubeFaceRotationInvokers.Add(invoker);
+  public static void AddRCubeFaceRotationEndInvoker(RCubeFaceRotationEndEventInvoker eventInvoker) {
+    rCubeFaceRotationEndInvokers.Add(eventInvoker);
 
-    foreach (var listener in endRCubeFaceRotationListeners) {
-      invoker.AddListener(listener);
+    foreach (var listener in rCubeFaceRotationEndListeners) {
+      eventInvoker.AddListener(listener);
     }
   }
 
-  public static void RemoveEndRCubeFaceRotationInvoker(EndRCubeFaceRotationInvoker invoker) {
-    endRCubeFaceRotationInvokers.Remove(invoker);
+  public static void RemoveRCubeFaceRotationEndInvoker(RCubeFaceRotationEndEventInvoker eventInvoker) {
+    rCubeFaceRotationEndInvokers.Remove(eventInvoker);
   }
 
-  public static void AddEndRCubeFaceRotationListener(UnityAction<string> listener) {
-    endRCubeFaceRotationListeners.Add(listener);
+  public static void AddRCubeFaceRotationEndListener(UnityAction<string> listener) {
+    rCubeFaceRotationEndListeners.Add(listener);
 
-    foreach (var invoker in endRCubeFaceRotationInvokers) {
+    foreach (var invoker in rCubeFaceRotationEndInvokers) {
       invoker.AddListener(listener);
     }
   }

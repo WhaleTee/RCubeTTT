@@ -24,7 +24,7 @@ public abstract class FixedRotationController : MonoBehaviour {
   private Vector3 rotationRoundTo = Vector3.zero;
 
   [SerializeField]
-  [Range(1, 3)]
+  [Range(0, 3)]
   protected float rotateDuration = 1;
 
   #endregion

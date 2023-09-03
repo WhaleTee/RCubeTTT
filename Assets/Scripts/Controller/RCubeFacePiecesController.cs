@@ -1,55 +1,40 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(GlobalIdentifier))]
 public class RCubeFacePiecesController : MonoBehaviour {
   #region fields
 
   private RCubeFacePiecesAssigner rCubeFacePiecesAssigner;
-  private bool isDragging;
-  private bool needToAssignPiecesToFace;
-  private bool needToReassignPiecesToFace;
 
   private ObjectScanner objectScanner;
   private GlobalIdentifier globalIdentifier;
+  private int cubePieceLayer;
 
   #endregion
 
   #region unity methods
 
   private void Awake() {
-    EventManager.AddStartRCubeFaceRotationListener(OnFaceRotationStarted);
-    EventManager.AddEndRCubeFaceRotationListener(OnFaceRotationEnded);
-    EventManager.AddStartDragRCubeFaceListener(() => isDragging = true);
-    EventManager.AddEndDragRCubeFaceListener(() => isDragging = false);
+    EventManager.AddRCubeFaceRotationStartListener(OnFaceRotationStarted);
 
     objectScanner = GetComponent<ObjectScanner>();
     globalIdentifier = GetComponent<GlobalIdentifier>();
 
-    rCubeFacePiecesAssigner = new RCubeFacePiecesAssigner(objectScanner, LayerMask.GetMask("CubePiece"));
+    cubePieceLayer = LayerMask.GetMask("CubePiece");
+    rCubeFacePiecesAssigner = new RCubeFacePiecesAssigner(objectScanner, cubePieceLayer);
   }
-
-  // private void LateUpdate() {
-  //   if (needToAssignPiecesToFace) {
-  //     throw new NotImplementedException();
-  //   }
-  // }
 
   #endregion
 
-  #region public methods
+  #region methods
 
   private void OnFaceRotationStarted(string faceGlobalId) {
-    if (faceGlobalId.Equals(globalIdentifier.id)) {
+    if (IsThisFaceId(faceGlobalId)) {
       rCubeFacePiecesAssigner.FindAndAssignPiecesToFace(gameObject);
     }
   }
 
-  private void OnFaceRotationEnded(string faceGlobalId) {
-    if (faceGlobalId.Equals(globalIdentifier.id) && !isDragging) {
-      rCubeFacePiecesAssigner.FindAndAssignPiecesToFace(transform.parent.gameObject);
-    }
-  }
+  private bool IsThisFaceId(string faceGlobalId) => faceGlobalId.Equals(globalIdentifier.id);
 
   #endregion
 }

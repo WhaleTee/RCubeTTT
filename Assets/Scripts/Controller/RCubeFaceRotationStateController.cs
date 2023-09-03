@@ -1,74 +1,75 @@
-﻿using MyBox;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(GlobalIdentifier))]
 public class RCubeFaceRotationStateController : MonoBehaviour {
   #region fields
 
-  private readonly StartRCubeFaceRotationInvoker startRCubeFaceRotationInvoker = new FaceStateStartRCubeFaceRotationInvoker();
-  private readonly RCubeFaceRotationInvoker cubeFaceRotationInvoker = new FaceStateRCubeFaceRotationInvoker();
-  private readonly EndRCubeFaceRotationInvoker endRCubeFaceRotationInvoker = new FaceStateEndRCubeFaceRotationInvoker();
+  private readonly RCubeFaceRotationStartEventInvoker rCubeFaceRotationStartEventInvoker =
+  new RCubeFaceRotationStateStartEventInvoker();
+
+  private readonly RCubeFaceRotationEventInvoker cubeFaceInvoker = new RCubeFaceRotationStateEventInvoker();
+  private readonly RCubeFaceRotationEndEventInvoker rCubeFaceRotationEndEventInvoker = new RCubeFaceRotationStateEndEventInvoker();
 
   private bool isRotating;
 
   private GlobalIdentifier globalIdentifier;
-  
+
   #endregion
 
   #region properties
 
   public Quaternion previousLocalRotation { get; private set; }
-  public Quaternion currentLocalRotation => transform.localRotation;
+  public Quaternion currentLocalRotation => transform.rotation;
 
   #endregion
 
   #region unity methods
 
   private void Awake() {
-    EventManager.AddStartRCubeFaceRotationInvoker(startRCubeFaceRotationInvoker);
-    EventManager.AddRCubeFaceRotationInvoker(cubeFaceRotationInvoker);
-    EventManager.AddEndRCubeFaceRotationInvoker(endRCubeFaceRotationInvoker);
-    
+    // EventManager.AddStartRCubeFaceRotationInvoker(startRCubeFaceRotationInvoker);
+    // EventManager.AddRCubeFaceRotationInvoker(cubeFaceRotationInvoker);
+    // EventManager.AddEndRCubeFaceRotationInvoker(endRCubeFaceRotationInvoker);
+
     globalIdentifier = GetComponent<GlobalIdentifier>();
-    
-    previousLocalRotation = transform.localRotation;
+
+    previousLocalRotation = transform.rotation;
   }
 
   private void LateUpdate() {
-    if (Mathf.Abs(Quaternion.Angle(previousLocalRotation, currentLocalRotation)) > 0f) {
+    if (!previousLocalRotation.Equals(currentLocalRotation)) {
       if (isRotating) {
-        cubeFaceRotationInvoker.Invoke(globalIdentifier.id);
+        cubeFaceInvoker.Invoke(globalIdentifier.id);
       } else {
         isRotating = true;
-        startRCubeFaceRotationInvoker.Invoke(globalIdentifier.id);
+        rCubeFaceRotationStartEventInvoker.Invoke(globalIdentifier.id);
       }
     } else {
       if (isRotating) {
         isRotating = false;
-        endRCubeFaceRotationInvoker.Invoke(globalIdentifier.id);
+        rCubeFaceRotationEndEventInvoker.Invoke(globalIdentifier.id);
       }
     }
 
-    previousLocalRotation = transform.localRotation;
+    previousLocalRotation = transform.rotation;
   }
 
   #endregion
 
   #region event invoker classes
 
-  private sealed class FaceStateStartRCubeFaceRotationInvoker : StartRCubeFaceRotationInvoker {
-    private readonly StartRCubeFaceRotationEvent startRCubeFaceRotationEvent = new StartRCubeFaceRotationEvent();
-    public StartRCubeFaceRotationEvent GetInputEvent() => startRCubeFaceRotationEvent;
+  private sealed class RCubeFaceRotationStateStartEventInvoker : RCubeFaceRotationStartEventInvoker {
+    private readonly RCubeFaceRotationStartEvent rCubeFaceRotationStartEvent = new RCubeFaceRotationStartEvent();
+    public RCubeFaceRotationStartEvent GetEvent() => rCubeFaceRotationStartEvent;
   }
 
-  private sealed class FaceStateRCubeFaceRotationInvoker : RCubeFaceRotationInvoker {
+  private sealed class RCubeFaceRotationStateEventInvoker : RCubeFaceRotationEventInvoker {
     private readonly RCubeFaceRotationEvent cubeFaceRotationEvent = new RCubeFaceRotationEvent();
-    public RCubeFaceRotationEvent GetInputEvent() => cubeFaceRotationEvent;
+    public RCubeFaceRotationEvent GetEvent() => cubeFaceRotationEvent;
   }
 
-  private sealed class FaceStateEndRCubeFaceRotationInvoker : EndRCubeFaceRotationInvoker {
-    private readonly EndRCubeFaceRotationEvent endRCubeFaceRotationEvent = new EndRCubeFaceRotationEvent();
-    public EndRCubeFaceRotationEvent GetInputEvent() => endRCubeFaceRotationEvent;
+  private sealed class RCubeFaceRotationStateEndEventInvoker : RCubeFaceRotationEndEventInvoker {
+    private readonly RCubeFaceRotationEndEvent rCubeFaceRotationEndEvent = new RCubeFaceRotationEndEvent();
+    public RCubeFaceRotationEndEvent GetEvent() => rCubeFaceRotationEndEvent;
   }
 
   #endregion

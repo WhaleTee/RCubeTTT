@@ -12,9 +12,9 @@ public class RCubeFaceDragRotationController : DragRotationController {
 
   #region fields
 
-  private readonly Invoker startDragRCubeFaceInvoker = new CubeFaceRotationStartDragRCubeFaceInvoker();
-  private readonly Invoker dragRCubeFaceInvoker = new CubeFaceRotationDragRCubeFaceInvoker();
-  private readonly Invoker endDragRCubeFaceInvoker = new CubeFaceRotationEndDragRCubeFaceInvoker();
+  private readonly RCubeFaceDragStartEventInvoker rCubeFaceDragStartEventInvoker = new RCubeFaceDragRotationStartEventInvoker();
+  private readonly RCubeFaceDragEventInvoker rCubeFaceDragEventInvoker = new RCubeFaceDragRotationEventInvoker();
+  private readonly RCubeFaceDragEndEventInvoker rCubeFaceDragEndEventInvoker = new RCubeFaceDragRotationEndEventInvoker();
 
   private int cubeSideLayer;
   private bool isDragging;
@@ -29,8 +29,8 @@ public class RCubeFaceDragRotationController : DragRotationController {
   private void Awake() {
     PlayerInputManager.mouse.LeftClick.started += MouseLeftDownHandler;
     PlayerInputManager.mouse.LeftClick.canceled += MouseLeftUpHandler;
-    EventManager.AddStartDragRCubeFaceInvoker(startDragRCubeFaceInvoker as StartDragRCubeFaceInvoker);
-    EventManager.AddEndDragRCubeFaceInvoker(endDragRCubeFaceInvoker as EndDragRCubeFaceInvoker);
+    EventManager.AddRCubeFaceDragStartInvoker(rCubeFaceDragStartEventInvoker);
+    EventManager.AddRCubeFaceDragEndInvoker(rCubeFaceDragEndEventInvoker);
 
     globalIdentifier = GetComponent<GlobalIdentifier>();
 
@@ -59,7 +59,7 @@ public class RCubeFaceDragRotationController : DragRotationController {
           cubeSideLayer
         )) {
       if (hit.collider.gameObject.GetComponent<GlobalIdentifier>().id == globalIdentifier.id) {
-        startDragRCubeFaceInvoker.Invoke();
+        rCubeFaceDragStartEventInvoker.Invoke(globalIdentifier.id);
         PlayerInputManager.mouse.Drag.performed += ReadDragContext;
         isDragging = true;
         pointerPosition = hit.point;
@@ -69,7 +69,7 @@ public class RCubeFaceDragRotationController : DragRotationController {
 
   private void MouseLeftUpHandler(InputAction.CallbackContext context) {
     PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
-    endDragRCubeFaceInvoker.Invoke();
+    rCubeFaceDragEndEventInvoker.Invoke(globalIdentifier.id);
     isDragging = false;
     pointerPosition = Vector2.negativeInfinity;
   }
@@ -131,19 +131,19 @@ public class RCubeFaceDragRotationController : DragRotationController {
 
   #region event invoker classes
 
-  private sealed class CubeFaceRotationStartDragRCubeFaceInvoker : StartDragRCubeFaceInvoker {
-    private readonly StartRCubeDragEvent startRCubeDragEvent = new StartRCubeDragEvent();
-    public StartRCubeDragEvent GetInputEvent() => startRCubeDragEvent;
+  private sealed class RCubeFaceDragRotationStartEventInvoker : RCubeFaceDragStartEventInvoker {
+    private readonly RCubeFaceDragStartEvent rCubeDragStartEvent = new RCubeFaceDragStartEvent();
+    public RCubeFaceDragStartEvent GetEvent() => rCubeDragStartEvent;
   }
 
-  private sealed class CubeFaceRotationDragRCubeFaceInvoker : DragRCubeFaceInvoker {
-    private readonly RCubeDragEvent rCubeDragEvent = new RCubeDragEvent();
-    public RCubeDragEvent GetInputEvent() => rCubeDragEvent;
+  private sealed class RCubeFaceDragRotationEventInvoker : RCubeFaceDragEventInvoker {
+    private readonly RCubeFaceDragEvent rCubeDragEvent = new RCubeFaceDragEvent();
+    public RCubeFaceDragEvent GetEvent() => rCubeDragEvent;
   }
 
-  private sealed class CubeFaceRotationEndDragRCubeFaceInvoker : EndDragRCubeFaceInvoker {
-    private readonly EndRCubeDragEvent endRCubeDragEvent = new EndRCubeDragEvent();
-    public EndRCubeDragEvent GetInputEvent() => endRCubeDragEvent;
+  private sealed class RCubeFaceDragRotationEndEventInvoker : RCubeFaceDragEndEventInvoker {
+    private readonly RCubeFaceDragEndEvent rCubeDragEndEvent = new RCubeFaceDragEndEvent();
+    public RCubeFaceDragEndEvent GetEvent() => rCubeDragEndEvent;
   }
 
   #endregion
