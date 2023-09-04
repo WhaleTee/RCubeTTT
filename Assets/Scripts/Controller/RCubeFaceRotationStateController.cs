@@ -4,13 +4,13 @@
 public class RCubeFaceRotationStateController : MonoBehaviour {
   #region fields
 
-  private readonly RCubeFaceRotationStartEventInvoker rCubeFaceRotationStartEventInvoker =
-  new RCubeFaceRotationStateStartEventInvoker();
-
-  private readonly RCubeFaceRotationEventInvoker cubeFaceInvoker = new RCubeFaceRotationStateEventInvoker();
+  private readonly RCubeFaceRotationStartEventInvoker rCubeFaceRotationStartEventInvoker = new RCubeFaceRotationStateStartEventInvoker();
+  private readonly RCubeFaceRotationEventInvoker rCubeFaceRotationEventInvoker = new RCubeFaceRotationStateEventInvoker();
   private readonly RCubeFaceRotationEndEventInvoker rCubeFaceRotationEndEventInvoker = new RCubeFaceRotationStateEndEventInvoker();
 
   private bool isRotating;
+  private bool isDragging;
+  private Quaternion previousLocalRotation;
 
   private GlobalIdentifier globalIdentifier;
 
@@ -18,40 +18,57 @@ public class RCubeFaceRotationStateController : MonoBehaviour {
 
   #region properties
 
-  public Quaternion previousLocalRotation { get; private set; }
-  public Quaternion currentLocalRotation => transform.rotation;
+  private Quaternion currentLocalRotation => transform.localRotation;
 
   #endregion
 
   #region unity methods
 
   private void Awake() {
-    // EventManager.AddStartRCubeFaceRotationInvoker(startRCubeFaceRotationInvoker);
-    // EventManager.AddRCubeFaceRotationInvoker(cubeFaceRotationInvoker);
-    // EventManager.AddEndRCubeFaceRotationInvoker(endRCubeFaceRotationInvoker);
+    EventManager.AddRCubeFaceRotationStartInvoker(rCubeFaceRotationStartEventInvoker);
+    EventManager.AddRCubeFaceRotationInvoker(rCubeFaceRotationEventInvoker);
+    EventManager.AddRCubeFaceRotationEndInvoker(rCubeFaceRotationEndEventInvoker);
+
+    EventManager.AddRCubeFaceDragStartListener(
+      faceGlobalId => {
+        if (IsThisFaceId(faceGlobalId)) {
+          isDragging = true;
+        }
+      }
+    );
+
+    EventManager.AddRCubeFaceDragEndListener(
+      faceGlobalId => {
+        if (IsThisFaceId(faceGlobalId)) {
+          isDragging = false;
+        }
+      }
+    );
 
     globalIdentifier = GetComponent<GlobalIdentifier>();
 
-    previousLocalRotation = transform.rotation;
+    previousLocalRotation = transform.localRotation;
   }
 
   private void LateUpdate() {
     if (!previousLocalRotation.Equals(currentLocalRotation)) {
       if (isRotating) {
-        cubeFaceInvoker.Invoke(globalIdentifier.id);
+        rCubeFaceRotationEventInvoker.Invoke(globalIdentifier.id);
       } else {
         isRotating = true;
         rCubeFaceRotationStartEventInvoker.Invoke(globalIdentifier.id);
       }
-    } else {
+    } else if (!isDragging) {
       if (isRotating) {
         isRotating = false;
         rCubeFaceRotationEndEventInvoker.Invoke(globalIdentifier.id);
       }
     }
 
-    previousLocalRotation = transform.rotation;
+    previousLocalRotation = transform.localRotation;
   }
+
+  private bool IsThisFaceId(string faceGlobalId) => faceGlobalId.Equals(globalIdentifier.id);
 
   #endregion
 

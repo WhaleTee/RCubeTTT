@@ -12,14 +12,12 @@ public class RCubeDragRotationController : DragRotationController {
 
   #region fields
 
-  private readonly Invoker startDragRCubeInvoker = new RCubeDragRotationStartEventInvoker();
-  private readonly Invoker dragRCubeInvoker = new RCubeDragRotationEventInvoker();
-  private readonly Invoker endDragRCubeInvoker = new RCubeDragRotationEndEventInvoker();
+  private readonly RCubeDragStartEventInvoker rCubeDragStartEventInvoker = new RCubeDragRotationStartEventInvoker();
+  private readonly RCubeDragEventInvoker rCubeDragEventInvoker = new RCubeDragRotationEventInvoker();
+  private readonly RCubeDragEndEventInvoker rCubeDragEndEventInvoker = new RCubeDragRotationEndEventInvoker();
 
   private bool isDragging;
   private int cubeLayer;
-
-  private GlobalIdentifier globalIdentifier;
 
   #endregion
 
@@ -28,10 +26,8 @@ public class RCubeDragRotationController : DragRotationController {
   private void Awake() {
     PlayerInputManager.mouse.RightClick.started += MouseRightDownHandler;
     PlayerInputManager.mouse.RightClick.canceled += MouseRightUpHandler;
-    EventManager.AddRCubeDragEndInvoker(endDragRCubeInvoker as RCubeDragEndEventInvoker);
-    EventManager.AddRCubeDragStartInvoker(startDragRCubeInvoker as RCubeDragStartEventInvoker);
-
-    globalIdentifier = GetComponent<GlobalIdentifier>();
+    EventManager.AddRCubeDragStartInvoker(rCubeDragStartEventInvoker);
+    EventManager.AddRCubeDragEndInvoker(rCubeDragEndEventInvoker);
 
     currentPointer = Pointer.current;
     cubeLayer = LayerMask.GetMask("Cube");
@@ -56,18 +52,16 @@ public class RCubeDragRotationController : DragRotationController {
           Mathf.Infinity,
           cubeLayer
         )) {
-      if (hit.collider.gameObject.GetComponent<GlobalIdentifier>().id == globalIdentifier.id) {
-        PlayerInputManager.mouse.Drag.performed += ReadDragContext;
-        startDragRCubeInvoker.Invoke();
-        isDragging = true;
-      }
+      PlayerInputManager.mouse.Drag.performed += ReadDragContext;
+      rCubeDragStartEventInvoker.Invoke();
+      isDragging = true;
     }
   }
 
   private void MouseRightUpHandler(InputAction.CallbackContext context) {
     if (isDragging) {
       PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
-      endDragRCubeInvoker.Invoke();
+      rCubeDragEndEventInvoker.Invoke();
       isDragging = false;
     }
   }

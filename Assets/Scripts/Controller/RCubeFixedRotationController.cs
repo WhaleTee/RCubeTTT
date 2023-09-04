@@ -1,11 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class RCubeFixedRotationController : FixedRotationController {
   #region fields
 
-  private bool isDragging;
   private Quaternion targetRotation;
-  private float rotationElapsedTime;
 
   #endregion
 
@@ -18,25 +17,24 @@ public class RCubeFixedRotationController : FixedRotationController {
     targetRotation = GetCurrentRotation();
   }
 
-  private void Update() {
-    if (!isDragging) {
-      transform.localRotation = Quaternion.Slerp(GetCurrentRotation(), targetRotation, rotationElapsedTime / rotateDuration);
-      rotationElapsedTime += Time.deltaTime;
-    }
-  }
-
   #endregion
 
   #region methods
 
+  private IEnumerator Rotate() {
+    while (!GetCurrentRotation().Equals(targetRotation)) {
+      transform.localRotation = Quaternion.RotateTowards(GetCurrentRotation(), targetRotation, speed);
+      yield return null;
+    }
+  }
+
   private void StartDragRCubeHandler() {
-    rotationElapsedTime = 0;
-    isDragging = true;
+    StopCoroutine(Rotate());
     targetRotation = GetCurrentRotation();
   }
 
   private void EndDragRCubeHandler() {
-    isDragging = false;
+    StartCoroutine(Rotate());
     targetRotation = GetNearestRotation();
   }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(GlobalIdentifier))]
@@ -15,11 +16,12 @@ public class RCubeFaceDragRotationController : DragRotationController {
   private readonly RCubeFaceDragStartEventInvoker rCubeFaceDragStartEventInvoker = new RCubeFaceDragRotationStartEventInvoker();
   private readonly RCubeFaceDragEventInvoker rCubeFaceDragEventInvoker = new RCubeFaceDragRotationEventInvoker();
   private readonly RCubeFaceDragEndEventInvoker rCubeFaceDragEndEventInvoker = new RCubeFaceDragRotationEndEventInvoker();
+  private readonly HashSet<string> cubeFacesInRotationState = new HashSet<string>();
 
   private int cubeSideLayer;
   private bool isDragging;
   private Vector2 pointerPosition = Vector2.negativeInfinity;
-  
+
   private GlobalIdentifier globalIdentifier;
 
   #endregion
@@ -29,8 +31,12 @@ public class RCubeFaceDragRotationController : DragRotationController {
   private void Awake() {
     PlayerInputManager.mouse.LeftClick.started += MouseLeftDownHandler;
     PlayerInputManager.mouse.LeftClick.canceled += MouseLeftUpHandler;
+
     EventManager.AddRCubeFaceDragStartInvoker(rCubeFaceDragStartEventInvoker);
     EventManager.AddRCubeFaceDragEndInvoker(rCubeFaceDragEndEventInvoker);
+
+    EventManager.AddRCubeFaceRotationStartListener(faceGlobalId => cubeFacesInRotationState.Add(faceGlobalId));
+    EventManager.AddRCubeFaceRotationEndListener(faceGlobalId => cubeFacesInRotationState.Remove(faceGlobalId));
 
     globalIdentifier = GetComponent<GlobalIdentifier>();
 
@@ -51,14 +57,17 @@ public class RCubeFaceDragRotationController : DragRotationController {
   #region methods
 
   private void MouseLeftDownHandler(InputAction.CallbackContext context) {
-
     if (Physics.Raycast(
           mainCamera.ScreenPointToRay(currentPointer.position.ReadValue()),
           out var hit,
           float.PositiveInfinity,
           cubeSideLayer
         )) {
-      if (hit.collider.gameObject.GetComponent<GlobalIdentifier>().id == globalIdentifier.id) {
+      if (
+        hit.collider.gameObject.GetComponent<GlobalIdentifier>().id == globalIdentifier.id
+        && cubeFacesInRotationState.Count == 0
+        || cubeFacesInRotationState.Contains(globalIdentifier.id)
+      ) {
         rCubeFaceDragStartEventInvoker.Invoke(globalIdentifier.id);
         PlayerInputManager.mouse.Drag.performed += ReadDragContext;
         isDragging = true;
