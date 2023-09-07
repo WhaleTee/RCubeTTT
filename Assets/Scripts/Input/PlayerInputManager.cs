@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public static class PlayerInputManager {
+﻿public static class PlayerInputManager {
   #region fields
 
   private static readonly PlayerInput playerInput = new PlayerInput();

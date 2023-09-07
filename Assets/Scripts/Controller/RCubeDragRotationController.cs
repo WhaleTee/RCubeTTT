@@ -38,7 +38,7 @@ public class RCubeDragRotationController : DragRotationController {
       Rotate();
     }
 
-    StopDragging();
+    ResetInputDelta();
   }
 
   #endregion
@@ -52,7 +52,7 @@ public class RCubeDragRotationController : DragRotationController {
           Mathf.Infinity,
           cubeLayer
         )) {
-      PlayerInputManager.mouse.Drag.performed += ReadDragContext;
+      PlayerInputManager.mouse.Drag.performed += ReadInputContext;
       rCubeDragStartEventInvoker.Invoke();
       isDragging = true;
     }
@@ -60,7 +60,7 @@ public class RCubeDragRotationController : DragRotationController {
 
   private void MouseRightUpHandler(InputAction.CallbackContext context) {
     if (isDragging) {
-      PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
+      PlayerInputManager.mouse.Drag.performed -= ReadInputContext;
       rCubeDragEndEventInvoker.Invoke();
       isDragging = false;
     }

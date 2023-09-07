@@ -2,14 +2,26 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Provides the function to rotate objects by dragging.
+/// </summary>
 public abstract class DragRotationController : MonoBehaviour {
+  #region fields
+
+  private const float MAX_ROTATION_SPEED = 100;
+
+  protected Pointer currentPointer;
+  protected Vector2 inputDelta;
+
+  #endregion
+
   #region serializable fields
 
   [SerializeField]
   protected GameObject rotationRelativeObject;
 
   [SerializeField]
-  [Range(10, 100)]
+  [Range(0, MAX_ROTATION_SPEED)]
   protected float rotationSpeed;
 
   [SerializeField]
@@ -18,21 +30,14 @@ public abstract class DragRotationController : MonoBehaviour {
 
   #endregion
 
-  #region fields
-  
-  protected Pointer currentPointer;
-  protected Vector2 dragDeltaInput;
-
-  #endregion
-
   #region methods
 
-  protected void ReadDragContext(InputAction.CallbackContext context) => dragDeltaInput = context.ReadValue<Vector2>();
-  protected void StopDragging() => dragDeltaInput = Vector2.zero;
+  protected void ReadInputContext(InputAction.CallbackContext context) => inputDelta = context.ReadValue<Vector2>();
+  protected void ResetInputDelta() => inputDelta = Vector2.zero;
 
   protected virtual void Rotate() {
     if (accessRotation.y > 0) {
-      var deltaRotation = Vector3.Dot(dragDeltaInput, rotationRelativeObject ? rotationRelativeObject.transform.right : Vector3.right)
+      var deltaRotation = Vector3.Dot(inputDelta, rotationRelativeObject ? rotationRelativeObject.transform.right : Vector3.right)
                           * rotationSpeed
                           * Time.deltaTime;
 
@@ -40,7 +45,7 @@ public abstract class DragRotationController : MonoBehaviour {
     }
 
     if (accessRotation.x > 0) {
-      var deltaRotation = Vector3.Dot(dragDeltaInput, rotationRelativeObject ? rotationRelativeObject.transform.up : Vector3.up)
+      var deltaRotation = Vector3.Dot(inputDelta, rotationRelativeObject ? rotationRelativeObject.transform.up : Vector3.up)
                           * rotationSpeed
                           * Time.deltaTime;
 

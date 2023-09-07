@@ -4,7 +4,7 @@ using UnityEngine.Events;
 public static class EventManager {
   #region fields
 
-  #region drag RCube support
+  #region RCube drag support
 
   // start drag RCube support
   private static readonly List<RCubeDragStartEventInvoker> rCubeDragStartInvokers = new List<RCubeDragStartEventInvoker>();
@@ -20,7 +20,7 @@ public static class EventManager {
 
   #endregion
 
-  #region drag RCube face support
+  #region RCube Face drag support
 
   // start drag RCube face support
   private static readonly List<RCubeFaceDragStartEventInvoker> rCubeFaceDragStartInvokers = new List<RCubeFaceDragStartEventInvoker>();
@@ -36,7 +36,7 @@ public static class EventManager {
 
   #endregion
 
-  #region cube face rotation support
+  #region RCube Face rotation support
 
   // start cube face rotation support
   private static readonly List<RCubeFaceRotationStartEventInvoker> rCubeFaceRotationStartInvokers = new List<RCubeFaceRotationStartEventInvoker>();

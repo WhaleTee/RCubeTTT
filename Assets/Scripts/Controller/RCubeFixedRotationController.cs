@@ -1,44 +1,50 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+/// <summary>
+/// Controls the fixed rotation behavior of the Rubik's Cube.
+/// </summary>
 public class RCubeFixedRotationController : FixedRotationController {
-  #region fields
-
-  private Quaternion targetRotation;
-
-  #endregion
-
   #region unity methods
 
   private void Awake() {
-    EventManager.AddRCubeDragStartListener(StartDragRCubeHandler);
-    EventManager.AddRCubeDragEndListener(EndDragRCubeHandler);
+    EventManager.AddRCubeDragStartListener(OnCubeDragStart);
+    EventManager.AddRCubeDragEndListener(OnRCubeDragEnd);
 
-    targetRotation = GetCurrentRotation();
+    rotationContext = RotationContext.Local;
+    targetRotation = currentRotation;
   }
 
   #endregion
 
   #region methods
 
-  private IEnumerator Rotate() {
-    while (!GetCurrentRotation().Equals(targetRotation)) {
-      transform.localRotation = Quaternion.RotateTowards(GetCurrentRotation(), targetRotation, speed);
+  /// <summary>
+  /// Rotates the Rubik's Cube to the nearest rotation.
+  /// </summary>
+  /// <returns>An IEnumerator used for coroutine execution.</returns>
+  private IEnumerator RotateRCube() {
+    while (Quaternion.Angle(currentRotation, targetRotation) > 0) {
+      Rotate();
       yield return null;
     }
   }
 
-  private void StartDragRCubeHandler() {
-    StopCoroutine(Rotate());
-    targetRotation = GetCurrentRotation();
+  /// <summary>
+  /// Called when the Rubik's Cube is dragged.
+  /// </summary>
+  private void OnCubeDragStart() {
+    targetRotation = currentRotation;
+    StopCoroutine(RotateRCube());
   }
 
-  private void EndDragRCubeHandler() {
-    StartCoroutine(Rotate());
+  /// <summary>
+  /// Called when the Rubik's Cube is released.
+  /// </summary>
+  private void OnRCubeDragEnd() {
     targetRotation = GetNearestRotation();
+    StartCoroutine(RotateRCube());
   }
-
-  protected override Quaternion GetCurrentRotation() => transform.localRotation;
 
   #endregion
 }

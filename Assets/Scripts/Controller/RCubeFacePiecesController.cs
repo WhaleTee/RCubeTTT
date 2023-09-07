@@ -1,46 +1,45 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Controls the behavior of the face pieces on a Rubik's Cube face.
+/// </summary>
 [RequireComponent(typeof(GlobalIdentifier))]
 public class RCubeFacePiecesController : MonoBehaviour {
   #region fields
 
-  private readonly HashSet<string> cubeFacesInRotationState = new HashSet<string>();
-  private RCubeFacePiecesAssigner rCubeFacePiecesAssigner;
-
-  private ObjectScanner objectScanner;
+  private BoxCastScanner boxCastScanner;
   private GlobalIdentifier globalIdentifier;
   private int cubePieceLayer;
+
+  private RCubeFacePiecesAssigner rCubeFacePiecesAssigner;
 
   #endregion
 
   #region unity methods
 
   private void Awake() {
-    EventManager.AddRCubeFaceRotationStartListener(OnFaceRotationStarted);
-    EventManager.AddRCubeFaceRotationEndListener(OnFaceRotationEnded);
+    EventManager.AddRCubeFaceRotationStartListener(OnRCubeFaceRotationStart);
 
-    objectScanner = GetComponent<ObjectScanner>();
+    boxCastScanner = GetComponent<BoxCastScanner>();
     globalIdentifier = GetComponent<GlobalIdentifier>();
-
     cubePieceLayer = LayerMask.GetMask("CubePiece");
-    rCubeFacePiecesAssigner = new RCubeFacePiecesAssigner(objectScanner, cubePieceLayer);
+
+    rCubeFacePiecesAssigner = new RCubeFacePiecesAssigner(boxCastScanner, cubePieceLayer);
   }
 
   #endregion
 
   #region methods
 
-  private void OnFaceRotationStarted(string faceGlobalId) {
-    cubeFacesInRotationState.Add(faceGlobalId);
-    if (IsThisFaceId(faceGlobalId)) {
+  /// <summary>
+  /// Called when a face rotation starts.
+  /// </summary>
+  /// <param name="faceGlobalId">The context of the <see cref="RCubeFaceRotationStartEvent"/> that represents Rubik's Cube's face global UUID.</param>
+  private void OnRCubeFaceRotationStart(string faceGlobalId) {
+    if (faceGlobalId.Equals(globalIdentifier.id)) {
       rCubeFacePiecesAssigner.FindAndAssignPiecesToFace(gameObject);
     }
   }
-
-  private void OnFaceRotationEnded(string faceGlobalId) => cubeFacesInRotationState.Remove(faceGlobalId);
-
-  private bool IsThisFaceId(string faceGlobalId) => faceGlobalId.Equals(globalIdentifier.id);
 
   #endregion
 }

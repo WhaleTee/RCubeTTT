@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Represents a class that controls the input behavior of the player.
+/// </summary>
 public class PlayerInputController : MonoBehaviour {
   #region seiralizable fields
 
@@ -11,7 +14,7 @@ public class PlayerInputController : MonoBehaviour {
 
   #endregion
 
-  #region unity fields
+  #region unity methods
 
   private void OnEnable() {
     if (enableMouseInput) {

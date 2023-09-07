@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Controls the drag rotation behavior of an Rubik's Cube face.
+/// </summary>
 [RequireComponent(typeof(GlobalIdentifier))]
 public class RCubeFaceDragRotationController : DragRotationController {
   #region serializable fields
@@ -13,15 +15,17 @@ public class RCubeFaceDragRotationController : DragRotationController {
 
   #region fields
 
-  private readonly RCubeFaceDragStartEventInvoker rCubeFaceDragStartEventInvoker = new RCubeFaceDragRotationStartEventInvoker();
-  private readonly RCubeFaceDragEventInvoker rCubeFaceDragEventInvoker = new RCubeFaceDragRotationEventInvoker();
-  private readonly RCubeFaceDragEndEventInvoker rCubeFaceDragEndEventInvoker = new RCubeFaceDragRotationEndEventInvoker();
-  private readonly HashSet<string> cubeFacesInRotationState = new HashSet<string>();
+  private readonly RCubeFaceDragStartEventInvoker rCubeFaceDragStartEventInvoker = new DragRotationStartEventInvoker();
+  private readonly RCubeFaceDragEventInvoker rCubeFaceDragEventInvoker = new DragRotationEventInvoker();
+  private readonly RCubeFaceDragEndEventInvoker rCubeFaceDragEndEventInvoker = new DragRotationEndEventInvoker();
+  private readonly RCubeFaceRotationStartEventInvoker rCubeFaceRotationStartEventInvoker = new RotationStartEventInvoker();
+  private readonly RCubeFaceRotationEventInvoker rCubeFaceRotationEventInvoker = new RotationEventInvoker();
+
+  private bool isDragging;
+  private bool canBeDragged = true;
+  private Vector2 pointerPosition;
 
   private int cubeSideLayer;
-  private bool isDragging;
-  private Vector2 pointerPosition = Vector2.negativeInfinity;
-
   private GlobalIdentifier globalIdentifier;
 
   #endregion
@@ -29,60 +33,83 @@ public class RCubeFaceDragRotationController : DragRotationController {
   #region unity methods
 
   private void Awake() {
-    PlayerInputManager.mouse.LeftClick.started += MouseLeftDownHandler;
-    PlayerInputManager.mouse.LeftClick.canceled += MouseLeftUpHandler;
+    PlayerInputManager.mouse.LeftClick.started += OnMouseLeftButtonDown;
+    PlayerInputManager.mouse.LeftClick.canceled += OnMouseLeftButtonUp;
 
     EventManager.AddRCubeFaceDragStartInvoker(rCubeFaceDragStartEventInvoker);
+    EventManager.AddRCubeFaceDragInvoker(rCubeFaceDragEventInvoker);
     EventManager.AddRCubeFaceDragEndInvoker(rCubeFaceDragEndEventInvoker);
 
-    EventManager.AddRCubeFaceRotationStartListener(faceGlobalId => cubeFacesInRotationState.Add(faceGlobalId));
-    EventManager.AddRCubeFaceRotationEndListener(faceGlobalId => cubeFacesInRotationState.Remove(faceGlobalId));
+    EventManager.AddRCubeFaceRotationStartInvoker(rCubeFaceRotationStartEventInvoker);
+    EventManager.AddRCubeFaceRotationInvoker(rCubeFaceRotationEventInvoker);
+
+    EventManager.AddRCubeFaceRotationStartListener(faceGlobalId => canBeDragged = faceGlobalId.Equals(globalIdentifier.id));
+    EventManager.AddRCubeFaceRotationEndListener(_ => canBeDragged = true);
 
     globalIdentifier = GetComponent<GlobalIdentifier>();
+    cubeSideLayer = LayerMask.GetMask("CubeSide");
 
     currentPointer = Pointer.current;
-    cubeSideLayer = LayerMask.GetMask("CubeSide");
+    pointerPosition = currentPointer.position.ReadValue();
   }
 
-  private void Update() {
+  private void FixedUpdate() {
     if (isDragging) {
       Rotate();
+      rCubeFaceDragEventInvoker.Invoke(globalIdentifier.id);
+      rCubeFaceRotationEventInvoker.Invoke(globalIdentifier.id);
     }
 
-    StopDragging();
+    ResetInputDelta();
   }
 
   #endregion
 
   #region methods
 
-  private void MouseLeftDownHandler(InputAction.CallbackContext context) {
+  /// <summary>
+  /// Called when the left mouse button is pressed.
+  /// Performs a raycast from the current mouse position to check if it hits any objects in the scene.
+  /// If a hit occurs on an object with a <see cref="GlobalIdentifier"/> component and meets the conditions for dragging,
+  /// it invokes relevant events and sets up callback functions for further input handling.
+  /// </summary>
+  /// <param name="context">The input action callback context.</param>
+  private void OnMouseLeftButtonDown(InputAction.CallbackContext context) {
     if (Physics.Raycast(
           mainCamera.ScreenPointToRay(currentPointer.position.ReadValue()),
           out var hit,
           float.PositiveInfinity,
           cubeSideLayer
         )) {
-      if (
-        hit.collider.gameObject.GetComponent<GlobalIdentifier>().id == globalIdentifier.id
-        && cubeFacesInRotationState.Count == 0
-        || cubeFacesInRotationState.Contains(globalIdentifier.id)
-      ) {
+      if (hit.collider.gameObject.GetComponent<GlobalIdentifier>().id == globalIdentifier.id && canBeDragged) {
         rCubeFaceDragStartEventInvoker.Invoke(globalIdentifier.id);
-        PlayerInputManager.mouse.Drag.performed += ReadDragContext;
-        isDragging = true;
+        rCubeFaceRotationStartEventInvoker.Invoke(globalIdentifier.id);
+        PlayerInputManager.mouse.Drag.performed += ReadInputContext;
         pointerPosition = hit.point;
+        isDragging = true;
       }
     }
   }
 
-  private void MouseLeftUpHandler(InputAction.CallbackContext context) {
-    PlayerInputManager.mouse.Drag.performed -= ReadDragContext;
-    rCubeFaceDragEndEventInvoker.Invoke(globalIdentifier.id);
-    isDragging = false;
-    pointerPosition = Vector2.negativeInfinity;
-  }
+  /// <summary>
+  /// Called when the left mouse button is released.
+  /// If dragging is in progress, it invokes the event for cube face drag end.
+  /// It then resets the dragging state, removes the callback function for mouse drag input, and resets the pointer position.
+  /// </summary>
+  /// <param name="context">The input action callback context.</param>
+  private void OnMouseLeftButtonUp(InputAction.CallbackContext context) {
+    if (isDragging) {
+      rCubeFaceDragEndEventInvoker.Invoke(globalIdentifier.id);
+    }
 
+    isDragging = false;
+    PlayerInputManager.mouse.Drag.performed -= ReadInputContext;
+    pointerPosition = currentPointer.position.ReadValue();
+  }
+  
+  /// <summary>
+  /// Rotates the Rubik's Cube face based on the input delta.
+  /// </summary>
   protected override void Rotate() {
     var deltaRotation = GetAngle() * rotationSpeed * Time.deltaTime;
 
@@ -98,7 +125,11 @@ public class RCubeFaceDragRotationController : DragRotationController {
       transform.Rotate(rotationRelativeObject ? rotationRelativeObject.transform.forward : Vector3.forward, deltaRotation, Space.World);
     }
   }
-
+  
+  /// <summary>
+  /// Calculates the angle based on the current pointer position and face rotation.
+  /// </summary>
+  /// <returns>The calculated angle.</returns>
   private float GetAngle() {
     var currentPointerPosition = Vector2Int.RoundToInt(pointerPosition);
     var facePosition = Vector3Int.RoundToInt(transform.position);
@@ -106,31 +137,31 @@ public class RCubeFaceDragRotationController : DragRotationController {
     var result = 0f;
 
     if (relativeUp == Vector3Int.up) {
-      result = Vector3.Dot(dragDeltaInput, Vector3.left);
+      result = Vector3.Dot(inputDelta, Vector3.left);
     }
 
     if (relativeUp == Vector3Int.down) {
-      result = Vector3.Dot(dragDeltaInput, Vector3.right);
+      result = Vector3.Dot(inputDelta, Vector3.right);
     }
 
     if (relativeUp == Vector3Int.left) {
-      result = Vector3.Dot(dragDeltaInput, Vector3.down);
+      result = Vector3.Dot(inputDelta, Vector3.down);
     }
 
     if (relativeUp == Vector3Int.right) {
-      result = Vector3.Dot(dragDeltaInput, Vector3.up);
+      result = Vector3.Dot(inputDelta, Vector3.up);
     }
 
     if (relativeUp == Vector3Int.forward) {
       result = currentPointerPosition.y > facePosition.y
-               ? Vector3.Dot(dragDeltaInput, Vector3.left)
-               : Vector3.Dot(dragDeltaInput, Vector3.up);
+               ? Vector3.Dot(inputDelta, Vector3.left)
+               : Vector3.Dot(inputDelta, Vector3.up);
     }
 
     if (relativeUp == Vector3Int.back) {
       result = currentPointerPosition.y > facePosition.y
-               ? Vector3.Dot(dragDeltaInput, Vector3.right)
-               : Vector3.Dot(dragDeltaInput, Vector3.down);
+               ? Vector3.Dot(inputDelta, Vector3.right)
+               : Vector3.Dot(inputDelta, Vector3.down);
     }
 
     return result;
@@ -140,19 +171,29 @@ public class RCubeFaceDragRotationController : DragRotationController {
 
   #region event invoker classes
 
-  private sealed class RCubeFaceDragRotationStartEventInvoker : RCubeFaceDragStartEventInvoker {
+  private sealed class DragRotationStartEventInvoker : RCubeFaceDragStartEventInvoker {
     private readonly RCubeFaceDragStartEvent rCubeDragStartEvent = new RCubeFaceDragStartEvent();
     public RCubeFaceDragStartEvent GetEvent() => rCubeDragStartEvent;
   }
 
-  private sealed class RCubeFaceDragRotationEventInvoker : RCubeFaceDragEventInvoker {
+  private sealed class DragRotationEventInvoker : RCubeFaceDragEventInvoker {
     private readonly RCubeFaceDragEvent rCubeDragEvent = new RCubeFaceDragEvent();
     public RCubeFaceDragEvent GetEvent() => rCubeDragEvent;
   }
 
-  private sealed class RCubeFaceDragRotationEndEventInvoker : RCubeFaceDragEndEventInvoker {
+  private sealed class DragRotationEndEventInvoker : RCubeFaceDragEndEventInvoker {
     private readonly RCubeFaceDragEndEvent rCubeDragEndEvent = new RCubeFaceDragEndEvent();
     public RCubeFaceDragEndEvent GetEvent() => rCubeDragEndEvent;
+  }
+
+  private sealed class RotationStartEventInvoker : RCubeFaceRotationStartEventInvoker {
+    private readonly RCubeFaceRotationStartEvent rCubeRotationStartEvent = new RCubeFaceRotationStartEvent();
+    public RCubeFaceRotationStartEvent GetEvent() => rCubeRotationStartEvent;
+  }
+
+  private sealed class RotationEventInvoker : RCubeFaceRotationEventInvoker {
+    private readonly RCubeFaceRotationEvent rCubeRotationEvent = new RCubeFaceRotationEvent();
+    public RCubeFaceRotationEvent GetEvent() => rCubeRotationEvent;
   }
 
   #endregion
