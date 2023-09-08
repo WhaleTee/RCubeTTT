@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// This class provides the functionality to calculate the nearest multiple of rotation to <see cref="rotationRoundTo"/>.
+/// Provides functionality to calculate the nearest multiple of rotation to <see cref="rotationRoundTo"/>.
 /// Its children subclasses should use the <see cref="GetNearestRotation"/> method to get the nearest rotation to <see cref="rotationRoundTo"/> and provide functionality to fixing objects rotation.
 /// </summary>
 public abstract class FixedRotationController : MonoBehaviour {
@@ -30,17 +30,17 @@ public abstract class FixedRotationController : MonoBehaviour {
   #region properties
 
   /// <summary>
-  /// This property defines the target rotation.
+  /// Defines the target rotation.
   /// </summary>
   protected Quaternion targetRotation { get; set; }
 
   /// <summary>
-  /// This property defines the rotation context. It should be set in the Awake method of the child class.
+  /// Defines the rotation context. It should be set in the Awake method of the child class.
   /// </summary>
   protected RotationContext rotationContext { get; set; }
 
   /// <summary>
-  /// This property defines the current rotation. It depends on the <see cref="rotationContext"/> value.
+  /// Defines the current rotation. It depends on the <see cref="rotationContext"/> value.
   /// </summary>
   protected Quaternion currentRotation => rotationContext == RotationContext.Local ? transform.localRotation : transform.rotation;
 
@@ -49,7 +49,7 @@ public abstract class FixedRotationController : MonoBehaviour {
   #region methods
 
   /// <summary>
-  /// This method calculates the nearest multiple of rotation based on the values of <see cref="rotationRoundTo"/>.
+  /// Calculates the nearest multiple of rotation based on the values of <see cref="rotationRoundTo"/>.
   /// </summary> 
   /// <returns>The nearest rotation as a Quaternion.</returns>
   protected Quaternion GetNearestRotation() {
@@ -63,7 +63,7 @@ public abstract class FixedRotationController : MonoBehaviour {
   }
 
   /// <summary>
-  /// This method rotates the object to the <see cref="targetRotation"/> by an angular step of <see cref="rotationSpeed"/> * <see cref="Time.deltaTime"/> (but note that the rotation will not overshoot).
+  /// Rotates the object to the <see cref="targetRotation"/> by an angular step of <see cref="rotationSpeed"/> * <see cref="Time.deltaTime"/> (but note that the rotation will not overshoot).
   /// </summary>
   protected void Rotate() {
     transform.localRotation = Quaternion.RotateTowards(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);

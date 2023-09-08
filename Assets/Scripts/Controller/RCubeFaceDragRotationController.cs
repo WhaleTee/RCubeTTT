@@ -15,11 +15,11 @@ public class RCubeFaceDragRotationController : DragRotationController {
 
   #region fields
 
-  private readonly RCubeFaceDragStartEventInvoker rCubeFaceDragStartEventInvoker = new DragRotationStartEventInvoker();
-  private readonly RCubeFaceDragEventInvoker rCubeFaceDragEventInvoker = new DragRotationEventInvoker();
-  private readonly RCubeFaceDragEndEventInvoker rCubeFaceDragEndEventInvoker = new DragRotationEndEventInvoker();
-  private readonly RCubeFaceRotationStartEventInvoker rCubeFaceRotationStartEventInvoker = new RotationStartEventInvoker();
-  private readonly RCubeFaceRotationEventInvoker rCubeFaceRotationEventInvoker = new RotationEventInvoker();
+  private readonly RCubeFaceDragStartEventInvoker rCubeFaceDragStartEventInvoker = new RCuDragStartEventInvokerImpl();
+  private readonly RCubeFaceDragEventInvoker rCubeFaceDragEventInvoker = new RCubeDragEventInvokerImpl();
+  private readonly RCubeFaceDragEndEventInvoker rCubeFaceDragEndEventInvoker = new RCubeDragEndEventInvokerImpl();
+  private readonly RCubeFaceRotationStartEventInvoker rCubeFaceRotationStartEventInvoker = new RCubeRotationStartEventInvokerImpl();
+  private readonly RCubeFaceRotationEventInvoker rCubeFaceRotationEventInvoker = new RCubeFaceRotationEventInvokerImpl();
 
   private bool isDragging;
   private bool canBeDragged = true;
@@ -68,10 +68,8 @@ public class RCubeFaceDragRotationController : DragRotationController {
   #region methods
 
   /// <summary>
-  /// Called when the left mouse button is pressed.
-  /// Performs a raycast from the current mouse position to check if it hits any objects in the scene.
-  /// If a hit occurs on an object with a <see cref="GlobalIdentifier"/> component and meets the conditions for dragging,
-  /// it invokes relevant events and sets up callback functions for further input handling.
+  /// Handles the left mouse button down event and checks if a specific cube face can be dragged.
+  /// If it can be dragged, invokes Rubik's Cube face drag and rotation start events and starts reading input context to initiate dragging. 
   /// </summary>
   /// <param name="context">The input action callback context.</param>
   private void OnMouseLeftButtonDown(InputAction.CallbackContext context) {
@@ -92,9 +90,8 @@ public class RCubeFaceDragRotationController : DragRotationController {
   }
 
   /// <summary>
-  /// Called when the left mouse button is released.
-  /// If dragging is in progress, it invokes the event for cube face drag end.
-  /// It then resets the dragging state, removes the callback function for mouse drag input, and resets the pointer position.
+  /// Handles the left mouse button up event.
+  /// If the cube face is currently being dragged, invokes Rubik's Cube face dragging end event and stops reading input context to stop dragging. 
   /// </summary>
   /// <param name="context">The input action callback context.</param>
   private void OnMouseLeftButtonUp(InputAction.CallbackContext context) {
@@ -102,9 +99,9 @@ public class RCubeFaceDragRotationController : DragRotationController {
       rCubeFaceDragEndEventInvoker.Invoke(globalIdentifier.id);
     }
 
-    isDragging = false;
     PlayerInputManager.mouse.Drag.performed -= ReadInputContext;
     pointerPosition = currentPointer.position.ReadValue();
+    isDragging = false;
   }
   
   /// <summary>
@@ -127,7 +124,7 @@ public class RCubeFaceDragRotationController : DragRotationController {
   }
   
   /// <summary>
-  /// Calculates the angle based on the current pointer position and face rotation.
+  /// Calculates the angle between the input delta vector and a reference vector based on the relative orientation of the rotationRelativeObject.
   /// </summary>
   /// <returns>The calculated angle.</returns>
   private float GetAngle() {
@@ -171,27 +168,27 @@ public class RCubeFaceDragRotationController : DragRotationController {
 
   #region event invoker classes
 
-  private sealed class DragRotationStartEventInvoker : RCubeFaceDragStartEventInvoker {
+  private sealed class RCuDragStartEventInvokerImpl : RCubeFaceDragStartEventInvoker {
     private readonly RCubeFaceDragStartEvent rCubeDragStartEvent = new RCubeFaceDragStartEvent();
     public RCubeFaceDragStartEvent GetEvent() => rCubeDragStartEvent;
   }
 
-  private sealed class DragRotationEventInvoker : RCubeFaceDragEventInvoker {
+  private sealed class RCubeDragEventInvokerImpl : RCubeFaceDragEventInvoker {
     private readonly RCubeFaceDragEvent rCubeDragEvent = new RCubeFaceDragEvent();
     public RCubeFaceDragEvent GetEvent() => rCubeDragEvent;
   }
 
-  private sealed class DragRotationEndEventInvoker : RCubeFaceDragEndEventInvoker {
+  private sealed class RCubeDragEndEventInvokerImpl : RCubeFaceDragEndEventInvoker {
     private readonly RCubeFaceDragEndEvent rCubeDragEndEvent = new RCubeFaceDragEndEvent();
     public RCubeFaceDragEndEvent GetEvent() => rCubeDragEndEvent;
   }
 
-  private sealed class RotationStartEventInvoker : RCubeFaceRotationStartEventInvoker {
+  private sealed class RCubeRotationStartEventInvokerImpl : RCubeFaceRotationStartEventInvoker {
     private readonly RCubeFaceRotationStartEvent rCubeRotationStartEvent = new RCubeFaceRotationStartEvent();
     public RCubeFaceRotationStartEvent GetEvent() => rCubeRotationStartEvent;
   }
 
-  private sealed class RotationEventInvoker : RCubeFaceRotationEventInvoker {
+  private sealed class RCubeFaceRotationEventInvokerImpl : RCubeFaceRotationEventInvoker {
     private readonly RCubeFaceRotationEvent rCubeRotationEvent = new RCubeFaceRotationEvent();
     public RCubeFaceRotationEvent GetEvent() => rCubeRotationEvent;
   }

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// Controls the drag rotation behavior of the Rubik's Cube.
+/// </summary>
 [RequireComponent(typeof(GlobalIdentifier))]
 public class RCubeDragRotationController : DragRotationController {
   #region serializable fields
@@ -12,9 +15,9 @@ public class RCubeDragRotationController : DragRotationController {
 
   #region fields
 
-  private readonly RCubeDragStartEventInvoker rCubeDragStartEventInvoker = new RCubeDragRotationStartEventInvoker();
-  private readonly RCubeDragEventInvoker rCubeDragEventInvoker = new RCubeDragRotationEventInvoker();
-  private readonly RCubeDragEndEventInvoker rCubeDragEndEventInvoker = new RCubeDragRotationEndEventInvoker();
+  private readonly RCubeDragStartEventInvoker rCubeDragStartEventInvoker = new RCubeDragStartEventInvokerImpl();
+  private readonly RCubeDragEventInvoker rCubeDragEventInvoker = new RCubeDragEventInvokerImpl();
+  private readonly RCubeDragEndEventInvoker rCubeDragEndEventInvoker = new RCubeDragEndEventInvokerImpl();
 
   private bool isDragging;
   private int cubeLayer;
@@ -24,8 +27,8 @@ public class RCubeDragRotationController : DragRotationController {
   #region unity methods
 
   private void Awake() {
-    PlayerInputManager.mouse.RightClick.started += MouseRightDownHandler;
-    PlayerInputManager.mouse.RightClick.canceled += MouseRightUpHandler;
+    PlayerInputManager.mouse.RightClick.started += OnMouseRightButtonDown;
+    PlayerInputManager.mouse.RightClick.canceled += OnMouseRightButtonUp;
     EventManager.AddRCubeDragStartInvoker(rCubeDragStartEventInvoker);
     EventManager.AddRCubeDragEndInvoker(rCubeDragEndEventInvoker);
 
@@ -45,7 +48,12 @@ public class RCubeDragRotationController : DragRotationController {
 
   #region methods
 
-  private void MouseRightDownHandler(InputAction.CallbackContext context) {
+  /// <summary>
+  /// Handles the right mouse button down event.
+  /// Invokes Rubik's Cube drag start event and starts reading input context to initiate dragging. 
+  /// </summary>
+  /// <param name="context">The input action callback context.</param>
+  private void OnMouseRightButtonDown(InputAction.CallbackContext context) {
     if (Physics.Raycast(
           mainCamera.ScreenPointToRay(currentPointer.position.ReadValue()),
           out var hit,
@@ -58,7 +66,12 @@ public class RCubeDragRotationController : DragRotationController {
     }
   }
 
-  private void MouseRightUpHandler(InputAction.CallbackContext context) {
+  /// <summary>
+  /// Handles the right mouse button up event.
+  /// If the Rubik's Cube is currently being dragged, invokes Rubik's Cube drag end event and stops reading input context to stop dragging. 
+  /// </summary>
+  /// <param name="context">The input action callback context.</param>
+  private void OnMouseRightButtonUp(InputAction.CallbackContext context) {
     if (isDragging) {
       PlayerInputManager.mouse.Drag.performed -= ReadInputContext;
       rCubeDragEndEventInvoker.Invoke();
@@ -70,17 +83,17 @@ public class RCubeDragRotationController : DragRotationController {
 
   #region event invoker classes
 
-  private sealed class RCubeDragRotationStartEventInvoker : RCubeDragStartEventInvoker {
+  private sealed class RCubeDragStartEventInvokerImpl : RCubeDragStartEventInvoker {
     private readonly RCubeDragStartEvent rCubeDragStartEvent = new RCubeDragStartEvent();
     public RCubeDragStartEvent GetEvent() => rCubeDragStartEvent;
   }
 
-  private sealed class RCubeDragRotationEventInvoker : RCubeDragEventInvoker {
+  private sealed class RCubeDragEventInvokerImpl : RCubeDragEventInvoker {
     private readonly RCubeDragEvent rCubeDragEvent = new RCubeDragEvent();
     public RCubeDragEvent GetEvent() => rCubeDragEvent;
   }
 
-  private sealed class RCubeDragRotationEndEventInvoker : RCubeDragEndEventInvoker {
+  private sealed class RCubeDragEndEventInvokerImpl : RCubeDragEndEventInvoker {
     private readonly RCubeDragEndEvent rCubeDragEndEvent = new RCubeDragEndEvent();
     public RCubeDragEndEvent GetEvent() => rCubeDragEndEvent;
   }

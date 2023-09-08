@@ -22,7 +22,7 @@ public class RCubeFixedRotationController : FixedRotationController {
   /// <summary>
   /// Rotates the Rubik's Cube to the nearest rotation.
   /// </summary>
-  /// <returns>An IEnumerator used for coroutine execution.</returns>
+  /// <returns>An <see cref="IEnumerator"/> used for coroutine execution.</returns>
   private IEnumerator RotateRCube() {
     while (Quaternion.Angle(currentRotation, targetRotation) > 0) {
       Rotate();
@@ -31,7 +31,8 @@ public class RCubeFixedRotationController : FixedRotationController {
   }
 
   /// <summary>
-  /// Called when the Rubik's Cube is dragged.
+  /// Handles the start of dragging for the Rubik's Cube.
+  /// It sets the target rotation to the current rotation and stops the rotation coroutine.
   /// </summary>
   private void OnCubeDragStart() {
     targetRotation = currentRotation;
@@ -39,7 +40,8 @@ public class RCubeFixedRotationController : FixedRotationController {
   }
 
   /// <summary>
-  /// Called when the Rubik's Cube is released.
+  /// Handles the end of dragging for the Rubik's Cube.
+  /// It sets the target rotation to the nearest rotation and starts the rotation coroutine to rotate the entire Rubik's Cube. 
   /// </summary>
   private void OnRCubeDragEnd() {
     targetRotation = GetNearestRotation();

@@ -34,9 +34,9 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
   #region methods
   
   /// <summary>
-  /// Rotates the Rubik's Cube face to the nearest rotation.
+  /// Rotates the Rubik's Cube face to the target rotation.
   /// </summary>
-  /// <returns>An IEnumerator used for coroutine execution.</returns>
+  /// <returns>An <see cref="IEnumerator"/> used for coroutine execution.</returns>
   private IEnumerator RotateRCubeFace() {
     while (Quaternion.Angle(currentRotation, targetRotation) > 0) {
       Rotate();
@@ -48,7 +48,9 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
   }
 
   /// <summary>
-  /// Called when the RCube face drag ends.
+  /// Handles the start of dragging for a specific Rubik's Cube face.
+  /// If the face's global identifier matches the current global identifier,
+  /// it stops the rotation coroutine and sets the target rotation to the current rotation.
   /// </summary>
   /// <param name="faceGlobalId">The context of the <see cref="RCubeFaceDragEndEvent"/> that represents the Rubik's Cube face's global UUID.</param>
   private void OnRCubeFaceDragStart(string faceGlobalId) {
@@ -59,7 +61,9 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
   }
 
   /// <summary>
-  /// Called when the RCube face drag ends.
+  /// Handles the end of dragging for a specific Rubik's Cube face.
+  /// If the face's global identifier matches the current global identifier,
+  /// it sets the target rotation to the nearest rotation and starts the rotation coroutine
   /// </summary>
   /// <param name="faceGlobalId">The context of the <see cref="RCubeFaceDragEndEvent"/> that represents the Rubik's Cube face's global UUID.</param>
   private void OnRCubeFaceDragEnd(string faceGlobalId) {

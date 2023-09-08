@@ -32,9 +32,20 @@ public abstract class DragRotationController : MonoBehaviour {
 
   #region methods
 
+  /// <summary>
+  /// Reads the input context and updates the input delta vector based on the input value.
+  /// </summary>
+  /// <param name="context">The input action callback context.</param>
   protected void ReadInputContext(InputAction.CallbackContext context) => inputDelta = context.ReadValue<Vector2>();
+  
+  /// <summary>
+  /// Resets the input delta vector to zero.
+  /// </summary>
   protected void ResetInputDelta() => inputDelta = Vector2.zero;
 
+  /// <summary>
+  /// Rotates the object based on the input delta and rotation settings.
+  /// </summary>
   protected virtual void Rotate() {
     if (accessRotation.y > 0) {
       var deltaRotation = Vector3.Dot(inputDelta, rotationRelativeObject ? rotationRelativeObject.transform.right : Vector3.right)
