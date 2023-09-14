@@ -24,7 +24,7 @@ public static class EventManager {
 
   // start drag RCube face support
   private static readonly List<RCubeFaceDragStartEventInvoker> rCubeFaceDragStartInvokers = new List<RCubeFaceDragStartEventInvoker>();
-  private static readonly List<UnityAction<string>> rCubeFaceDragStartListeners = new List<UnityAction<string>>();
+  private static readonly List<UnityAction<RCubeFaceRaycastHitEventContext>> rCubeFaceDragStartListeners = new List<UnityAction<RCubeFaceRaycastHitEventContext>>();
 
   // drag RCube face support
   private static readonly List<RCubeFaceDragEventInvoker> rCubeFaceDragInvokers = new List<RCubeFaceDragEventInvoker>();
@@ -49,6 +49,14 @@ public static class EventManager {
   // end cube face rotation support
   private static readonly List<RCubeFaceRotationEndEventInvoker> rCubeFaceRotationEndInvokers = new List<RCubeFaceRotationEndEventInvoker>();
   private static readonly List<UnityAction<string>> rCubeFaceRotationEndListeners = new List<UnityAction<string>>();
+
+  #endregion
+  
+  #region user turn-based input support
+
+  // start cube face rotation support
+  private static readonly List<UserTurnStartEventInvoker> userTurnStartEventInvokers = new List<UserTurnStartEventInvoker>();
+  private static readonly List<UnityAction> userTurnStartListeners = new List<UnityAction>();
 
   #endregion
 
@@ -142,7 +150,7 @@ public static class EventManager {
     rCubeFaceDragStartInvokers.Remove(invoker);
   }
 
-  public static void AddRCubeFaceDragStartListener(UnityAction<string> listener) {
+  public static void AddRCubeFaceDragStartListener(UnityAction<RCubeFaceRaycastHitEventContext> listener) {
     rCubeFaceDragStartListeners.Add(listener);
 
     foreach (var invoker in rCubeFaceDragStartInvokers) {
@@ -266,6 +274,30 @@ public static class EventManager {
     rCubeFaceRotationEndListeners.Add(listener);
 
     foreach (var invoker in rCubeFaceRotationEndInvokers) {
+      invoker.AddListener(listener);
+    }
+  }
+
+  #endregion
+  
+  #region user turn-based input start support
+
+  public static void AddUserTurnStartInvoker(UserTurnStartEventInvoker invoker) {
+    userTurnStartEventInvokers.Add(invoker);
+
+    foreach (var listener in userTurnStartListeners) {
+      invoker.AddListener(listener);
+    }
+  }
+
+  public static void RemoveUserTurnStartInvoker(UserTurnStartEventInvoker invoker) {
+    userTurnStartEventInvokers.Remove(invoker);
+  }
+
+  public static void AddUserTurnStartListener(UnityAction listener) {
+    userTurnStartListeners.Add(listener);
+
+    foreach (var invoker in userTurnStartEventInvokers) {
       invoker.AddListener(listener);
     }
   }

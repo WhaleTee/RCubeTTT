@@ -2,11 +2,12 @@
 using UnityEngine;
 
 /// <summary>
-/// Provides a globally unique identifier for a MonoBehaviour in Unity.
+/// Provides a globally unique identifier for an objects.
 /// </summary>
-public sealed class GlobalIdentifier : MonoBehaviour {
+[CreateAssetMenu(fileName = "GlobalIdentifier", menuName = "ScriptableObjects/GlobalIdentifier")]
+public sealed class GlobalIdentifier : ScriptableObject {
   /// <summary>
-  /// Gets the globally unique identifier for the MonoBehaviour.
+  /// Gets the globally unique identifier for the object.
   /// </summary>
   public string id { get; } = Guid.NewGuid().ToString();
 }

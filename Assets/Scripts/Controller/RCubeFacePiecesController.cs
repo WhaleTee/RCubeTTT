@@ -3,12 +3,18 @@
 /// <summary>
 /// Controls the behavior of the face pieces on a Rubik's Cube face.
 /// </summary>
-[RequireComponent(typeof(GlobalIdentifier))]
+[RequireComponent(typeof(BoxCastScanner))]
 public class RCubeFacePiecesController : MonoBehaviour {
+  #region serializable fields
+
+  [SerializeField]
+  private GlobalIdentifier faceIdentifier;
+
+  #endregion
+
   #region fields
 
   private BoxCastScanner boxCastScanner;
-  private GlobalIdentifier globalIdentifier;
   private int cubePieceLayer;
 
   private RCubeFacePiecesAssigner rCubeFacePiecesAssigner;
@@ -21,7 +27,6 @@ public class RCubeFacePiecesController : MonoBehaviour {
     EventManager.AddRCubeFaceRotationStartListener(OnRCubeFaceRotationStart);
 
     boxCastScanner = GetComponent<BoxCastScanner>();
-    globalIdentifier = GetComponent<GlobalIdentifier>();
     cubePieceLayer = LayerMask.GetMask("CubePiece");
 
     rCubeFacePiecesAssigner = new RCubeFacePiecesAssigner(boxCastScanner, cubePieceLayer);
@@ -38,7 +43,7 @@ public class RCubeFacePiecesController : MonoBehaviour {
   /// </summary>
   /// <param name="faceGlobalId">The context of the <see cref="RCubeFaceRotationStartEvent"/> that represents Rubik's Cube's face global UUID.</param>
   private void OnRCubeFaceRotationStart(string faceGlobalId) {
-    if (faceGlobalId.Equals(globalIdentifier.id)) {
+    if (faceGlobalId.Equals(faceIdentifier.id)) {
       rCubeFacePiecesAssigner.FindAndAssignPiecesToFace(gameObject);
     }
   }

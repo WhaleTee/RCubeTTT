@@ -10,7 +10,6 @@ public abstract class DragRotationController : MonoBehaviour {
 
   private const float MAX_ROTATION_SPEED = 100;
 
-  protected Pointer currentPointer;
   protected Vector2 inputDelta;
 
   #endregion
@@ -37,7 +36,7 @@ public abstract class DragRotationController : MonoBehaviour {
   /// </summary>
   /// <param name="context">The input action callback context.</param>
   protected void ReadInputContext(InputAction.CallbackContext context) => inputDelta = context.ReadValue<Vector2>();
-  
+
   /// <summary>
   /// Resets the input delta vector to zero.
   /// </summary>

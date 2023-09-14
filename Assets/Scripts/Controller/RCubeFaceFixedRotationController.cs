@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
+
 /// <summary>
 /// Controls the fixed rotation behavior of the Rubik's Cube face.
 /// </summary>
-[RequireComponent(typeof(GlobalIdentifier))]
 public class RCubeFaceFixedRotationController : FixedRotationController {
+  #region serializable fields
+
+  [SerializeField]
+  private GlobalIdentifier faceIdentifier;
+
+  #endregion
   #region fields
 
   private readonly RCubeFaceRotationEventInvoker rCubeFaceRotationEventInvoker = new RCubeFaceRotationEventInvokerImpl();
   private readonly RCubeFaceRotationEndEventInvoker rCubeFaceRotationEndEventInvoker = new RCubeFaceRotationEndEventInvokerImpl();
-
-  private GlobalIdentifier globalIdentifier;
 
   #endregion
 
@@ -25,8 +29,6 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
 
     rotationContext = RotationContext.Local;
     targetRotation = currentRotation;
-
-    globalIdentifier = GetComponent<GlobalIdentifier>();
   }
 
   #endregion
@@ -40,11 +42,11 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
   private IEnumerator RotateRCubeFace() {
     while (Quaternion.Angle(currentRotation, targetRotation) > 0) {
       Rotate();
-      rCubeFaceRotationEventInvoker.Invoke(globalIdentifier.id);
+      rCubeFaceRotationEventInvoker.Invoke(faceIdentifier.id);
       yield return null;
     }
 
-    rCubeFaceRotationEndEventInvoker.Invoke(globalIdentifier.id);
+    rCubeFaceRotationEndEventInvoker.Invoke(faceIdentifier.id);
   }
 
   /// <summary>
@@ -52,9 +54,9 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
   /// If the face's global identifier matches the current global identifier,
   /// it stops the rotation coroutine and sets the target rotation to the current rotation.
   /// </summary>
-  /// <param name="faceGlobalId">The context of the <see cref="RCubeFaceDragEndEvent"/> that represents the Rubik's Cube face's global UUID.</param>
-  private void OnRCubeFaceDragStart(string faceGlobalId) {
-    if (faceGlobalId.Equals(globalIdentifier.id)) {
+  /// <param name="context">The <see cref="RCubeFaceRaycastHitEventContext"/>.</param>
+  private void OnRCubeFaceDragStart(RCubeFaceRaycastHitEventContext context) {
+    if (context.faceGlobalId.Equals(faceIdentifier.id)) {
       targetRotation = currentRotation;
       StopCoroutine(RotateRCubeFace());
     }
@@ -67,7 +69,7 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
   /// </summary>
   /// <param name="faceGlobalId">The context of the <see cref="RCubeFaceDragEndEvent"/> that represents the Rubik's Cube face's global UUID.</param>
   private void OnRCubeFaceDragEnd(string faceGlobalId) {
-    if (faceGlobalId.Equals(globalIdentifier.id)) {
+    if (faceGlobalId.Equals(faceIdentifier.id)) {
       targetRotation = GetNearestRotation();
       StartCoroutine(RotateRCubeFace());
     }
