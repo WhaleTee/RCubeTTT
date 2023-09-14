@@ -28,8 +28,9 @@ public sealed class RCubeFaceDragRotationMouse {
   }
 
   /// <summary>
-  /// Handles the left mouse button down event and checks if a specific cube face can be dragged.
-  /// Invokes Rubik's Cube face drag and rotation start events. 
+  /// Handles the left mouse button down event.
+  /// Performs a raycast from the <see cref="raycastCamera"/>'s position to the <see cref="pointerPosition"/>,
+  /// and if it hits a Rubik's Cube face invokes Rubik's Cube face drag start event.
   /// </summary>
   /// <param name="context">The input action callback context.</param>
   private void OnMouseLeftButtonDown(InputAction.CallbackContext context) {

@@ -25,7 +25,8 @@ public sealed class RCubeDragRotationMouse {
 
   /// <summary>
   /// Handles the right mouse button down event.
-  /// Invokes Rubik's Cube drag start event. 
+  /// Performs a raycast from the <see cref="raycastCamera"/>'s position to the <see cref="pointerPosition"/>,
+  /// and if it hits a Rubik's Cube invokes Rubik's Cube drag start event. 
   /// </summary>
   /// <param name="context">The input action callback context.</param>
   private void OnMouseRightButtonDown(InputAction.CallbackContext context) {
