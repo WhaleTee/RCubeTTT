@@ -33,7 +33,7 @@ public class PlayerInputController : MonoBehaviour {
   #region unity methods
 
   private void Awake() {
-    _ = new PlayerTurnHandler(playerXData, playerOData);
+    _ = new PlayerTurnManager(playerXData, playerOData);
 
     if (enableMouseInput) {
       PlayerInputManager.mouse.Position.performed += OnMousePositionPerformed;
