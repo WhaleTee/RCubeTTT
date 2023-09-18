@@ -2,7 +2,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public sealed class RCubeDragRotationMouse {
+/// <summary>
+/// Handles mouse input for dragging a Rubik's Cube.
+/// </summary>
+public sealed class RCubeDragRotationMouseHandler {
   private readonly RCubeDragStartEventInvoker rCubeDragStartEventInvoker = new RCubeDragStartEventInvokerImpl();
   private readonly RCubeDragEndEventInvoker rCubeDragEndEventInvoker = new RCubeDragEndEventInvokerImpl();
 
@@ -10,7 +13,7 @@ public sealed class RCubeDragRotationMouse {
   private readonly Func<Vector2> pointerPosition;
   private readonly LayerMask cubeLayerMask;
 
-  public RCubeDragRotationMouse(Camera raycastCamera, Func<Vector2> pointerPosition) {
+  public RCubeDragRotationMouseHandler(Camera raycastCamera, Func<Vector2> pointerPosition) {
     this.raycastCamera = raycastCamera;
     this.pointerPosition = pointerPosition;
 

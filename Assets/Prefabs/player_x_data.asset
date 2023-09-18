@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28553f43d744cbf98a2a1249e3aedc9, type: 3}
+  m_Name: player_x_data
+  m_EditorClassIdentifier: 
+  <playerType>k__BackingField: 0
+  <sign>k__BackingField: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  <isMyTurn>k__BackingField: 1
+  <canDragCube>k__BackingField: 1
+  <canDragCubeFace>k__BackingField: 1
+  <canSetSign>k__BackingField: 1

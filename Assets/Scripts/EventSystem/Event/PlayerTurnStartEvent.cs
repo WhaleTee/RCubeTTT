@@ -3,4 +3,4 @@
 /// <summary>
 /// Event invoked when a player turn starts.
 /// </summary>
-public sealed class UserTurnStartEvent : UnityEvent { }
+public sealed class PlayerTurnStartEvent : UnityEvent<PlayerPlayData> { }

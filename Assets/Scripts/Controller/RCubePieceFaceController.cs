@@ -10,13 +10,13 @@ public class RCubePieceFaceController : MonoBehaviour {
   [SerializeField]
   private Camera raycastCamera;
 
-  [SerializeField]
-  private GameObject sign;
-
   #endregion
 
   #region fields
 
+  private readonly SignSetEventInvoker signSetEventInvoker = new SignSetEventInvokerImpl();
+
+  private PlayerPlayData activePlayer;
   private Vector2 pointerPosition;
   private GameObject previousPieceFaceClicked;
 
@@ -26,13 +26,26 @@ public class RCubePieceFaceController : MonoBehaviour {
 
   private void Awake() {
     PlayerInputManager.mouse.Position.performed += OnMousePositionPerformed;
-
     PlayerInputManager.mouse.LeftDoubleClick.started += OnMouseLeftButtonDoubleClickStarted;
     PlayerInputManager.mouse.LeftDoubleClick.performed += OnMouseLeftButtonDoubleClickPerformed;
+
+    EventManager.AddPlayerTurnStartListener(OnPlayerTurnStarted);
+    // EventManager.AddPlayerTurnListener(OnPlayerTurn);
+
+    EventManager.AddSignSetInvoker(signSetEventInvoker);
   }
+
   #endregion
 
   #region methods
+
+  private void OnPlayerTurnStarted(PlayerPlayData context) {
+    activePlayer = context;
+  }
+
+  // private void OnPlayerTurn(PlayerPlayData context) {
+  //   activePlayer = context;
+  // }
 
   /// <summary>
   /// Handles the callback for a double-click performed with the left mouse button. 
@@ -41,16 +54,18 @@ public class RCubePieceFaceController : MonoBehaviour {
   /// </summary>
   /// <param name="context">The input action callback context.</param>
   private void OnMouseLeftButtonDoubleClickPerformed(InputAction.CallbackContext context) {
-    if (Physics.Raycast(
-          raycastCamera.ScreenPointToRay(pointerPosition),
-          out var hit,
-          float.PositiveInfinity,
-          LayerMaskUtils.GetMask(gameObject.layer)
-        )) {
-      var hitPieceFace = hit.collider.gameObject;
+    if (activePlayer.isMyTurn && activePlayer.canSetSign) {
+      if (Physics.Raycast(
+            raycastCamera.ScreenPointToRay(pointerPosition),
+            out var hit,
+            float.PositiveInfinity,
+            LayerMaskUtils.GetMask(gameObject.layer)
+          )) {
+        var hitPieceFace = hit.collider.gameObject;
 
-      if (previousPieceFaceClicked == hitPieceFace && hitPieceFace == gameObject) {
-        SetSign(gameObject);
+        if (previousPieceFaceClicked == hitPieceFace && hitPieceFace == gameObject) {
+          SetSign();
+        }
       }
     }
   }
@@ -62,14 +77,16 @@ public class RCubePieceFaceController : MonoBehaviour {
   /// </summary>
   /// <param name="context">The input action callback context.</param>
   private void OnMouseLeftButtonDoubleClickStarted(InputAction.CallbackContext context) {
-    if (Physics.Raycast(
-          raycastCamera.ScreenPointToRay(pointerPosition),
-          out var hit,
-          float.PositiveInfinity,
-          LayerMaskUtils.GetMask(gameObject.layer)
-        )) {
-      if (hit.collider.gameObject == gameObject) {
-        previousPieceFaceClicked = gameObject;
+    if (activePlayer.isMyTurn && activePlayer.canSetSign) {
+      if (Physics.Raycast(
+            raycastCamera.ScreenPointToRay(pointerPosition),
+            out var hit,
+            float.PositiveInfinity,
+            LayerMaskUtils.GetMask(gameObject.layer)
+          )) {
+        if (hit.collider.gameObject == gameObject) {
+          previousPieceFaceClicked = gameObject;
+        }
       }
     }
   }
@@ -81,8 +98,9 @@ public class RCubePieceFaceController : MonoBehaviour {
   /// <param name="context">The input action callback context.</param>
   private void OnMousePositionPerformed(InputAction.CallbackContext context) => pointerPosition = context.ReadValue<Vector2>();
 
-  private void SetSign(GameObject cubePiece) {
-    Instantiate(sign, cubePiece.transform);
+  private void SetSign() {
+    Instantiate(activePlayer.sign, transform);
+    signSetEventInvoker.Invoke();
   }
 
   #endregion

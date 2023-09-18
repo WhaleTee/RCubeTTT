@@ -2,69 +2,12 @@
 using UnityEngine.Events;
 
 public static class EventManager {
-  #region fields
-
   #region RCube drag support
 
-  // start drag RCube support
+  #region start drag RCube support
+
   private static readonly List<RCubeDragStartEventInvoker> rCubeDragStartInvokers = new List<RCubeDragStartEventInvoker>();
   private static readonly List<UnityAction> rCubeDragStartListeners = new List<UnityAction>();
-
-  // drag RCube support
-  private static readonly List<RCubeDragEventInvoker> rCubeDragInvokers = new List<RCubeDragEventInvoker>();
-  private static readonly List<UnityAction> rCubeDragListeners = new List<UnityAction>();
-
-  // end drag RCube support
-  private static readonly List<RCubeDragEndEventInvoker> rCubeDragEndInvokers = new List<RCubeDragEndEventInvoker>();
-  private static readonly List<UnityAction> rCubeDragEndListeners = new List<UnityAction>();
-
-  #endregion
-
-  #region RCube Face drag support
-
-  // start drag RCube face support
-  private static readonly List<RCubeFaceDragStartEventInvoker> rCubeFaceDragStartInvokers = new List<RCubeFaceDragStartEventInvoker>();
-  private static readonly List<UnityAction<RCubeFaceRaycastHitEventContext>> rCubeFaceDragStartListeners = new List<UnityAction<RCubeFaceRaycastHitEventContext>>();
-
-  // drag RCube face support
-  private static readonly List<RCubeFaceDragEventInvoker> rCubeFaceDragInvokers = new List<RCubeFaceDragEventInvoker>();
-  private static readonly List<UnityAction<string>> rCubeFaceDragListeners = new List<UnityAction<string>>();
-
-  // end drag RCube face support
-  private static readonly List<RCubeFaceDragEndEventInvoker> rCubeFaceDragEndInvokers = new List<RCubeFaceDragEndEventInvoker>();
-  private static readonly List<UnityAction<string>> rCubeFaceDragEndListeners = new List<UnityAction<string>>();
-
-  #endregion
-
-  #region RCube Face rotation support
-
-  // start cube face rotation support
-  private static readonly List<RCubeFaceRotationStartEventInvoker> rCubeFaceRotationStartInvokers = new List<RCubeFaceRotationStartEventInvoker>();
-  private static readonly List<UnityAction<string>> rCubeFaceRotationStartListeners = new List<UnityAction<string>>();
-
-  // cube face rotation support
-  private static readonly List<RCubeFaceRotationEventInvoker> rCubeFaceRotationInvokers = new List<RCubeFaceRotationEventInvoker>();
-  private static readonly List<UnityAction<string>> rCubeFaceRotationListeners = new List<UnityAction<string>>();
-
-  // end cube face rotation support
-  private static readonly List<RCubeFaceRotationEndEventInvoker> rCubeFaceRotationEndInvokers = new List<RCubeFaceRotationEndEventInvoker>();
-  private static readonly List<UnityAction<string>> rCubeFaceRotationEndListeners = new List<UnityAction<string>>();
-
-  #endregion
-  
-  #region user turn-based input support
-
-  // start cube face rotation support
-  private static readonly List<UserTurnStartEventInvoker> userTurnStartEventInvokers = new List<UserTurnStartEventInvoker>();
-  private static readonly List<UnityAction> userTurnStartListeners = new List<UnityAction>();
-
-  #endregion
-
-  #endregion
-
-  #region methods
-
-  #region start drag RCube support
 
   public static void AddRCubeDragStartInvoker(RCubeDragStartEventInvoker invoker) {
     rCubeDragStartInvokers.Add(invoker);
@@ -90,6 +33,9 @@ public static class EventManager {
 
   #region drag RCube support
 
+  private static readonly List<RCubeDragEventInvoker> rCubeDragInvokers = new List<RCubeDragEventInvoker>();
+  private static readonly List<UnityAction> rCubeDragListeners = new List<UnityAction>();
+
   public static void AddRCubeDragInvoker(RCubeDragEventInvoker invoker) {
     rCubeDragInvokers.Add(invoker);
 
@@ -114,6 +60,9 @@ public static class EventManager {
 
   #region end drag RCube support
 
+  private static readonly List<RCubeDragEndEventInvoker> rCubeDragEndInvokers = new List<RCubeDragEndEventInvoker>();
+  private static readonly List<UnityAction> rCubeDragEndListeners = new List<UnityAction>();
+
   public static void AddRCubeDragEndInvoker(RCubeDragEndEventInvoker invoker) {
     rCubeDragEndInvokers.Add(invoker);
 
@@ -136,7 +85,16 @@ public static class EventManager {
 
   #endregion
 
+  #endregion
+
+  #region RCube Face drag support
+
   #region start drag RCube face support
+
+  private static readonly List<RCubeFaceDragStartEventInvoker> rCubeFaceDragStartInvokers = new List<RCubeFaceDragStartEventInvoker>();
+
+  private static readonly List<UnityAction<RCubeFaceRaycastHitEventContext>> rCubeFaceDragStartListeners =
+  new List<UnityAction<RCubeFaceRaycastHitEventContext>>();
 
   public static void AddRCubeFaceDragStartInvoker(RCubeFaceDragStartEventInvoker invoker) {
     rCubeFaceDragStartInvokers.Add(invoker);
@@ -162,6 +120,9 @@ public static class EventManager {
 
   #region drag RCube face support
 
+  private static readonly List<RCubeFaceDragEventInvoker> rCubeFaceDragInvokers = new List<RCubeFaceDragEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceDragListeners = new List<UnityAction<string>>();
+
   public static void AddRCubeFaceDragInvoker(RCubeFaceDragEventInvoker invoker) {
     rCubeFaceDragInvokers.Add(invoker);
 
@@ -186,6 +147,9 @@ public static class EventManager {
 
   #region end drag RCube face support
 
+  private static readonly List<RCubeFaceDragEndEventInvoker> rCubeFaceDragEndInvokers = new List<RCubeFaceDragEndEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceDragEndListeners = new List<UnityAction<string>>();
+
   public static void AddRCubeFaceDragEndInvoker(RCubeFaceDragEndEventInvoker invoker) {
     rCubeFaceDragEndInvokers.Add(invoker);
 
@@ -208,7 +172,14 @@ public static class EventManager {
 
   #endregion
 
+  #endregion
+
+  #region RCube Face rotation support
+
   #region start cube face rotation support
+
+  private static readonly List<RCubeFaceRotationStartEventInvoker> rCubeFaceRotationStartInvokers = new List<RCubeFaceRotationStartEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceRotationStartListeners = new List<UnityAction<string>>();
 
   public static void AddRCubeFaceRotationStartInvoker(RCubeFaceRotationStartEventInvoker invoker) {
     rCubeFaceRotationStartInvokers.Add(invoker);
@@ -234,6 +205,9 @@ public static class EventManager {
 
   #region cube face rotation support
 
+  private static readonly List<RCubeFaceRotationEventInvoker> rCubeFaceRotationInvokers = new List<RCubeFaceRotationEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceRotationListeners = new List<UnityAction<string>>();
+
   public static void AddRCubeFaceRotationInvoker(RCubeFaceRotationEventInvoker invoker) {
     rCubeFaceRotationInvokers.Add(invoker);
 
@@ -258,6 +232,9 @@ public static class EventManager {
 
   #region end cube face rotation support
 
+  private static readonly List<RCubeFaceRotationEndEventInvoker> rCubeFaceRotationEndInvokers = new List<RCubeFaceRotationEndEventInvoker>();
+  private static readonly List<UnityAction<string>> rCubeFaceRotationEndListeners = new List<UnityAction<string>>();
+
   public static void AddRCubeFaceRotationEndInvoker(RCubeFaceRotationEndEventInvoker eventInvoker) {
     rCubeFaceRotationEndInvokers.Add(eventInvoker);
 
@@ -279,36 +256,90 @@ public static class EventManager {
   }
 
   #endregion
-  
-  #region user turn-based input start support
 
-  public static void AddUserTurnStartInvoker(UserTurnStartEventInvoker invoker) {
-    userTurnStartEventInvokers.Add(invoker);
+  #endregion
 
-    foreach (var listener in userTurnStartListeners) {
+  #region player turn support
+
+  // start cube face rotation support
+  private static readonly List<PlayerTurnStartEventInvoker> playerTurnStartEventInvokers = new List<PlayerTurnStartEventInvoker>();
+  private static readonly List<UnityAction<PlayerPlayData>> playerTurnStartListeners = new List<UnityAction<PlayerPlayData>>();
+
+  public static void AddPlayerTurnStartInvoker(PlayerTurnStartEventInvoker invoker) {
+    playerTurnStartEventInvokers.Add(invoker);
+
+    foreach (var listener in playerTurnStartListeners) {
       invoker.AddListener(listener);
     }
   }
 
-  public static void RemoveUserTurnStartInvoker(UserTurnStartEventInvoker invoker) {
-    userTurnStartEventInvokers.Remove(invoker);
+  public static void RemovePlayerTurnStartInvoker(PlayerTurnStartEventInvoker invoker) {
+    playerTurnStartEventInvokers.Remove(invoker);
   }
 
-  public static void AddUserTurnStartListener(UnityAction listener) {
-    userTurnStartListeners.Add(listener);
+  public static void AddPlayerTurnStartListener(UnityAction<PlayerPlayData> listener) {
+    playerTurnStartListeners.Add(listener);
 
-    foreach (var invoker in userTurnStartEventInvokers) {
+    foreach (var invoker in playerTurnStartEventInvokers) {
       invoker.AddListener(listener);
     }
   }
 
   #endregion
 
+  #region Player Action support
+
+  private static readonly List<PlayerTurnEventInvoker> playerTurnEventInvokers = new List<PlayerTurnEventInvoker>();
+  private static readonly List<UnityAction<PlayerPlayData>> playerTurnListeners = new List<UnityAction<PlayerPlayData>>();
+
+  public static void AddPlayerTurnInvoker(PlayerTurnEventInvoker invoker) {
+    playerTurnEventInvokers.Add(invoker);
+
+    foreach (var listener in playerTurnListeners) {
+      invoker.AddListener(listener);
+    }
+  }
+
+  public static void RemovePlayerTurnInvoker(PlayerTurnEventInvoker invoker) {
+    playerTurnEventInvokers.Remove(invoker);
+  }
+
+  public static void AddPlayerTurnListener(UnityAction<PlayerPlayData> listener) {
+    playerTurnListeners.Add(listener);
+
+    foreach (var invoker in playerTurnEventInvokers) {
+      invoker.AddListener(listener);
+    }
+  }
+
   #endregion
 
-  #region initializer
+  #region set sign support
+
+  private static readonly List<SignSetEventInvoker> signSetEventInvokers = new List<SignSetEventInvoker>();
+  private static readonly List<UnityAction> signSetListeners = new List<UnityAction>();
+
+  public static void AddSignSetInvoker(SignSetEventInvoker invoker) {
+    signSetEventInvokers.Add(invoker);
+
+    foreach (var listener in signSetListeners) {
+      invoker.AddListener(listener);
+    }
+  }
+
+  public static void RemoveSignSetInvoker(SignSetEventInvoker invoker) {
+    signSetEventInvokers.Remove(invoker);
+  }
+
+  public static void AddSignSetListener(UnityAction listener) {
+    signSetListeners.Add(listener);
+
+    foreach (var invoker in signSetEventInvokers) {
+      invoker.AddListener(listener);
+    }
+  }
+
+  #endregion
 
   static EventManager() { }
-
-  #endregion
 }
