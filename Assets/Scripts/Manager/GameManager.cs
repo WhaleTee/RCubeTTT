@@ -19,10 +19,16 @@ public class GameManager : MonoBehaviour {
   }
 
   private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) {
-    if (playerXData.isMyTurn) {
-      playerTurnStartEventInvoker.Invoke(playerXData);
-    } else if (playerOData.isMyTurn) {
-      playerTurnStartEventInvoker.Invoke(playerOData);
-    }
+    playerXData.isMyTurn = true;
+    playerXData.canSetSign = true;
+    playerXData.canDragCubeFace = true;
+    playerXData.canDragCube = true;
+
+    playerOData.isMyTurn = false;
+    playerOData.canSetSign = false;
+    playerOData.canDragCubeFace = false;
+    playerOData.canDragCube = true;
+    
+    playerTurnStartEventInvoker.Invoke(playerXData);
   }
 }
