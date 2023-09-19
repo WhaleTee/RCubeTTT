@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Controls the fixed rotation behavior of the Rubik's Cube face.
@@ -9,8 +10,13 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
 
   [SerializeField]
   private GlobalIdentifier faceIdentifier;
+  
+  [FormerlySerializedAs("facePosition")]
+  [SerializeField]
+  private RCubeFacePositionType facePositionType;
 
   #endregion
+
   #region fields
 
   private readonly RCubeFaceRotationEventInvoker rCubeFaceRotationEventInvoker = new RCubeFaceRotationEventInvokerImpl();
@@ -34,19 +40,21 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
   #endregion
 
   #region methods
-  
+
   /// <summary>
   /// Rotates the Rubik's Cube face to the target rotation.
   /// </summary>
   /// <returns>An <see cref="IEnumerator"/> used for coroutine execution.</returns>
   private IEnumerator RotateRCubeFace() {
-    while (Quaternion.Angle(currentRotation, targetRotation) > 0) {
+    while (Quaternion.Angle(currentRotation, targetRotation) > 0.5) {
       Rotate();
-      rCubeFaceRotationEventInvoker.Invoke(faceIdentifier.id);
+      rCubeFaceRotationEventInvoker.Invoke(new RCubeFaceRotationEventContext(faceIdentifier.id, facePositionType));
       yield return null;
     }
 
-    rCubeFaceRotationEndEventInvoker.Invoke(faceIdentifier.id);
+    transform.localRotation = targetRotation;
+
+    rCubeFaceRotationEndEventInvoker.Invoke(new RCubeFaceRotationEndEventContext(faceIdentifier.id, facePositionType, targetRotation));
   }
 
   /// <summary>
@@ -54,8 +62,8 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
   /// If the face's global identifier matches the current global identifier,
   /// it stops the rotation coroutine and sets the target rotation to the current rotation.
   /// </summary>
-  /// <param name="context">The <see cref="RCubeFaceRaycastHitEventContext"/>.</param>
-  private void OnRCubeFaceDragStart(RCubeFaceRaycastHitEventContext context) {
+  /// <param name="context">The <see cref="RCubeFaceDragStartEventContext"/>.</param>
+  private void OnRCubeFaceDragStart(RCubeFaceDragStartEventContext context) {
     if (context.faceGlobalId.Equals(faceIdentifier.id)) {
       targetRotation = currentRotation;
       StopCoroutine(RotateRCubeFace());

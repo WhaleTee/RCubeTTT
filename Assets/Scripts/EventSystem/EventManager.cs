@@ -93,8 +93,8 @@ public static class EventManager {
 
   private static readonly List<RCubeFaceDragStartEventInvoker> rCubeFaceDragStartInvokers = new List<RCubeFaceDragStartEventInvoker>();
 
-  private static readonly List<UnityAction<RCubeFaceRaycastHitEventContext>> rCubeFaceDragStartListeners =
-  new List<UnityAction<RCubeFaceRaycastHitEventContext>>();
+  private static readonly List<UnityAction<RCubeFaceDragStartEventContext>> rCubeFaceDragStartListeners =
+  new List<UnityAction<RCubeFaceDragStartEventContext>>();
 
   public static void AddRCubeFaceDragStartInvoker(RCubeFaceDragStartEventInvoker invoker) {
     rCubeFaceDragStartInvokers.Add(invoker);
@@ -108,7 +108,7 @@ public static class EventManager {
     rCubeFaceDragStartInvokers.Remove(invoker);
   }
 
-  public static void AddRCubeFaceDragStartListener(UnityAction<RCubeFaceRaycastHitEventContext> listener) {
+  public static void AddRCubeFaceDragStartListener(UnityAction<RCubeFaceDragStartEventContext> listener) {
     rCubeFaceDragStartListeners.Add(listener);
 
     foreach (var invoker in rCubeFaceDragStartInvokers) {
@@ -179,7 +179,7 @@ public static class EventManager {
   #region start cube face rotation support
 
   private static readonly List<RCubeFaceRotationStartEventInvoker> rCubeFaceRotationStartInvokers = new List<RCubeFaceRotationStartEventInvoker>();
-  private static readonly List<UnityAction<string>> rCubeFaceRotationStartListeners = new List<UnityAction<string>>();
+  private static readonly List<UnityAction<RCubeFaceRotationStartEventContext>> rCubeFaceRotationStartListeners = new List<UnityAction<RCubeFaceRotationStartEventContext>>();
 
   public static void AddRCubeFaceRotationStartInvoker(RCubeFaceRotationStartEventInvoker invoker) {
     rCubeFaceRotationStartInvokers.Add(invoker);
@@ -193,7 +193,7 @@ public static class EventManager {
     rCubeFaceRotationStartInvokers.Remove(invoker);
   }
 
-  public static void AddRCubeFaceRotationStartListener(UnityAction<string> listener) {
+  public static void AddRCubeFaceRotationStartListener(UnityAction<RCubeFaceRotationStartEventContext> listener) {
     rCubeFaceRotationStartListeners.Add(listener);
 
     foreach (var invoker in rCubeFaceRotationStartInvokers) {
@@ -206,7 +206,7 @@ public static class EventManager {
   #region cube face rotation support
 
   private static readonly List<RCubeFaceRotationEventInvoker> rCubeFaceRotationInvokers = new List<RCubeFaceRotationEventInvoker>();
-  private static readonly List<UnityAction<string>> rCubeFaceRotationListeners = new List<UnityAction<string>>();
+  private static readonly List<UnityAction<RCubeFaceRotationEventContext>> rCubeFaceRotationListeners = new List<UnityAction<RCubeFaceRotationEventContext>>();
 
   public static void AddRCubeFaceRotationInvoker(RCubeFaceRotationEventInvoker invoker) {
     rCubeFaceRotationInvokers.Add(invoker);
@@ -220,7 +220,7 @@ public static class EventManager {
     rCubeFaceRotationInvokers.Remove(invoker);
   }
 
-  public static void AddRCubeFaceRotationListener(UnityAction<string> listener) {
+  public static void AddRCubeFaceRotationListener(UnityAction<RCubeFaceRotationEventContext> listener) {
     rCubeFaceRotationListeners.Add(listener);
 
     foreach (var invoker in rCubeFaceRotationInvokers) {
@@ -233,7 +233,7 @@ public static class EventManager {
   #region end cube face rotation support
 
   private static readonly List<RCubeFaceRotationEndEventInvoker> rCubeFaceRotationEndInvokers = new List<RCubeFaceRotationEndEventInvoker>();
-  private static readonly List<UnityAction<string>> rCubeFaceRotationEndListeners = new List<UnityAction<string>>();
+  private static readonly List<UnityAction<RCubeFaceRotationEndEventContext>> rCubeFaceRotationEndListeners = new List<UnityAction<RCubeFaceRotationEndEventContext>>();
 
   public static void AddRCubeFaceRotationEndInvoker(RCubeFaceRotationEndEventInvoker eventInvoker) {
     rCubeFaceRotationEndInvokers.Add(eventInvoker);
@@ -247,7 +247,7 @@ public static class EventManager {
     rCubeFaceRotationEndInvokers.Remove(eventInvoker);
   }
 
-  public static void AddRCubeFaceRotationEndListener(UnityAction<string> listener) {
+  public static void AddRCubeFaceRotationEndListener(UnityAction<RCubeFaceRotationEndEventContext> listener) {
     rCubeFaceRotationEndListeners.Add(listener);
 
     foreach (var invoker in rCubeFaceRotationEndInvokers) {
@@ -314,27 +314,54 @@ public static class EventManager {
 
   #endregion
 
-  #region set sign support
+  #region set mark support
 
-  private static readonly List<SignSetEventInvoker> signSetEventInvokers = new List<SignSetEventInvoker>();
-  private static readonly List<UnityAction> signSetListeners = new List<UnityAction>();
+  private static readonly List<RCubePieceFaceMarkSetEventInvoker> rCubePieceFaceSignSetEventInvokers = new List<RCubePieceFaceMarkSetEventInvoker>();
+  private static readonly List<UnityAction<RCubePieceFaceMarkSetEventContext>> rCubePieceFaceSignSetListeners = new List<UnityAction<RCubePieceFaceMarkSetEventContext>>();
 
-  public static void AddSignSetInvoker(SignSetEventInvoker invoker) {
-    signSetEventInvokers.Add(invoker);
+  public static void AddRCubePieceFaceMarkSetInvoker(RCubePieceFaceMarkSetEventInvoker invoker) {
+    rCubePieceFaceSignSetEventInvokers.Add(invoker);
 
-    foreach (var listener in signSetListeners) {
+    foreach (var listener in rCubePieceFaceSignSetListeners) {
       invoker.AddListener(listener);
     }
   }
 
-  public static void RemoveSignSetInvoker(SignSetEventInvoker invoker) {
-    signSetEventInvokers.Remove(invoker);
+  public static void RemoveRCubePieceFaceMarkSetInvoker(RCubePieceFaceMarkSetEventInvoker invoker) {
+    rCubePieceFaceSignSetEventInvokers.Remove(invoker);
   }
 
-  public static void AddSignSetListener(UnityAction listener) {
-    signSetListeners.Add(listener);
+  public static void AddRCubePieceFaceMarkSetListener(UnityAction<RCubePieceFaceMarkSetEventContext> listener) {
+    rCubePieceFaceSignSetListeners.Add(listener);
 
-    foreach (var invoker in signSetEventInvokers) {
+    foreach (var invoker in rCubePieceFaceSignSetEventInvokers) {
+      invoker.AddListener(listener);
+    }
+  }
+
+  #endregion
+
+  #region scan for face pieces faces support
+
+  private static readonly List<RCubeFacePiecesFacesRaycastHitEventInvoker> rCubeFacePiecesFacesRaycastHitInvokers = new List<RCubeFacePiecesFacesRaycastHitEventInvoker>();
+  private static readonly List<UnityAction<RCubeFacePiecesFacesRaycastHitEventContext>> rCubeFacePiecesFacesRaycastHitListeners = new List<UnityAction<RCubeFacePiecesFacesRaycastHitEventContext>>();
+
+  public static void AddRCubeFacePiecesFacesRaycastHitInvoker(RCubeFacePiecesFacesRaycastHitEventInvoker invoker) {
+    rCubeFacePiecesFacesRaycastHitInvokers.Add(invoker);
+
+    foreach (var listener in rCubeFacePiecesFacesRaycastHitListeners) {
+      invoker.AddListener(listener);
+    }
+  }
+
+  public static void RemoveRCubeFacePiecesFacesRaycastHitInvoker(RCubeFacePiecesFacesRaycastHitEventInvoker invoker) {
+    rCubeFacePiecesFacesRaycastHitInvokers.Remove(invoker);
+  }
+
+  public static void AddRCubeFacePiecesFacesRaycastHitListener(UnityAction<RCubeFacePiecesFacesRaycastHitEventContext> listener) {
+    rCubeFacePiecesFacesRaycastHitListeners.Add(listener);
+
+    foreach (var invoker in rCubeFacePiecesFacesRaycastHitInvokers) {
       invoker.AddListener(listener);
     }
   }

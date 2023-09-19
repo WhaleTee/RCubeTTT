@@ -10,15 +10,19 @@ public class RCubePieceFaceController : MonoBehaviour {
   [SerializeField]
   private Camera raycastCamera;
 
+  [SerializeField]
+  private RCubeFacePositionType facePositionType;
+
   #endregion
 
   #region fields
 
-  private readonly SignSetEventInvoker signSetEventInvoker = new SignSetEventInvokerImpl();
+  private readonly RCubePieceFaceMarkSetEventInvoker rCubePieceFaceMarkSetEventInvoker = new RCubePieceFaceMarkSetEventInvokerImpl();
 
   private PlayerPlayData activePlayer;
   private Vector2 pointerPosition;
   private GameObject previousPieceFaceClicked;
+  private bool isAlreadyMarked;
 
   #endregion
 
@@ -30,9 +34,8 @@ public class RCubePieceFaceController : MonoBehaviour {
     PlayerInputManager.mouse.LeftDoubleClick.performed += OnMouseLeftButtonDoubleClickPerformed;
 
     EventManager.AddPlayerTurnStartListener(OnPlayerTurnStarted);
-    // EventManager.AddPlayerTurnListener(OnPlayerTurn);
 
-    EventManager.AddSignSetInvoker(signSetEventInvoker);
+    EventManager.AddRCubePieceFaceMarkSetInvoker(rCubePieceFaceMarkSetEventInvoker);
   }
 
   #endregion
@@ -43,10 +46,6 @@ public class RCubePieceFaceController : MonoBehaviour {
     activePlayer = context;
   }
 
-  // private void OnPlayerTurn(PlayerPlayData context) {
-  //   activePlayer = context;
-  // }
-
   /// <summary>
   /// Handles the callback for a double-click performed with the left mouse button. 
   /// Performs a raycast from the <see cref="raycastCamera"/>'s position to the <see cref="pointerPosition"/>, 
@@ -54,7 +53,7 @@ public class RCubePieceFaceController : MonoBehaviour {
   /// </summary>
   /// <param name="context">The input action callback context.</param>
   private void OnMouseLeftButtonDoubleClickPerformed(InputAction.CallbackContext context) {
-    if (activePlayer.isMyTurn && activePlayer.canSetSign) {
+    if (!isAlreadyMarked && activePlayer.isMyTurn && activePlayer.canSetSign) {
       if (Physics.Raycast(
             raycastCamera.ScreenPointToRay(pointerPosition),
             out var hit,
@@ -77,7 +76,7 @@ public class RCubePieceFaceController : MonoBehaviour {
   /// </summary>
   /// <param name="context">The input action callback context.</param>
   private void OnMouseLeftButtonDoubleClickStarted(InputAction.CallbackContext context) {
-    if (activePlayer.isMyTurn && activePlayer.canSetSign) {
+    if (!isAlreadyMarked && activePlayer.isMyTurn && activePlayer.canSetSign) {
       if (Physics.Raycast(
             raycastCamera.ScreenPointToRay(pointerPosition),
             out var hit,
@@ -100,7 +99,8 @@ public class RCubePieceFaceController : MonoBehaviour {
 
   private void SetSign() {
     Instantiate(activePlayer.sign, transform);
-    signSetEventInvoker.Invoke();
+    isAlreadyMarked = true;
+    rCubePieceFaceMarkSetEventInvoker.Invoke(new RCubePieceFaceMarkSetEventContext(facePositionType));
   }
 
   #endregion

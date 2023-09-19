@@ -41,9 +41,9 @@ public class RCubeFacePiecesController : MonoBehaviour {
   /// If the face's global identifier matches the current global identifier,
   /// it finds and assigns the pieces pieces to the current face.
   /// </summary>
-  /// <param name="faceGlobalId">The context of the <see cref="RCubeFaceRotationStartEvent"/> that represents Rubik's Cube's face global UUID.</param>
-  private void OnRCubeFaceRotationStart(string faceGlobalId) {
-    if (faceGlobalId.Equals(faceIdentifier.id)) {
+  /// <param name="context">The context of the <see cref="RCubeFaceRotationStartEvent"/>.</param>
+  private void OnRCubeFaceRotationStart(RCubeFaceRotationStartEventContext context) {
+    if (context.faceGlobalId.Equals(faceIdentifier.id)) {
       rCubeFacePiecesAssigner.FindAndAssignPiecesToFace(gameObject);
     }
   }

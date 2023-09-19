@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "PlayerPlayData", menuName = "ScriptableObjects/PlayerPlayData")]
 public sealed class PlayerPlayData : ScriptableObject {
   [field: SerializeField]
-  public PlayerType playerType { get; private set; }
+  public MarkType markType { get; private set; }
 
   [field: SerializeField]
   public GameObject sign { get; private set; }

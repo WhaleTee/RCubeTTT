@@ -3,16 +3,16 @@
 /// <summary>
 /// Interface for invoking <see cref="RCubeFaceDragEndEvent"/>.
 /// </summary>
-public interface RCubeFaceRotationEndEventInvoker : Invoker<string>, EventProvider<RCubeFaceRotationEndEvent> {
+public interface RCubeFaceRotationEndEventInvoker : Invoker<RCubeFaceRotationEndEventContext>, EventProvider<RCubeFaceRotationEndEvent> {
   /// <summary>
   /// Adds a listener to the <see cref="RCubeFaceRotationEndEvent"/>.
   /// </summary>
   /// <param name="listener">The listener to add.</param>
-  void Invoker<string>.AddListener(UnityAction<string> listener) => GetEvent().AddListener(listener);
+  void Invoker<RCubeFaceRotationEndEventContext>.AddListener(UnityAction<RCubeFaceRotationEndEventContext> listener) => GetEvent().AddListener(listener);
 
   /// <summary>
   /// Invokes the <see cref="RCubeFaceRotationEndEvent"/>.
   /// </summary>
-  /// <param name="faceGlobalId">The context of the <see cref="RCubeFaceRotationEndEvent"/> that represents Rubik's Cube's face global UUID.</param>
-  void Invoker<string>.Invoke(string faceGlobalId) => GetEvent().Invoke(faceGlobalId);
+  /// <param name="context">The context of the <see cref="RCubeFaceRotationEndEvent"/>.</param>
+  void Invoker<RCubeFaceRotationEndEventContext>.Invoke(RCubeFaceRotationEndEventContext context) => GetEvent().Invoke(context);
 }

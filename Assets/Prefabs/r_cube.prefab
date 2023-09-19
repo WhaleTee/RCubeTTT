@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &69674082775940111
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &108807316332053093
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &121892277454113600
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 5259981756654414302}
   - component: {fileID: 4659563179679134261}
   m_Layer: 13
-  m_Name: forward_face
+  m_Name: front_face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,7 +271,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
+--- !u!1 &413250499830753002
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8796300950238102144}
+  - component: {fileID: 6939561150830850444}
+  m_Layer: 0
+  m_Name: back_face_signs_scanner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8796300950238102144
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413250499830753002}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5303670796767964837}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6939561150830850444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413250499830753002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c1411de6aa458f8115f9c3fc647f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  center: {x: -1, y: 1, z: 0}
+  direction: {x: 0, y: 0, z: 1}
+  raysCount: 3
+  rowsCount: 3
+  step: {x: 1, y: -1, z: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 16384
+  facePositionType: 5
+  debug: 1
 --- !u!1 &470821497793181697
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +338,7 @@ GameObject:
   - component: {fileID: 5712958845003742293}
   - component: {fileID: 6521583326313808388}
   m_Layer: 13
-  m_Name: forward_face
+  m_Name: front_face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -339,7 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &521866513610740094
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,7 +461,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &540690638625342243
 GameObject:
   m_ObjectHideFlags: 0
@@ -475,7 +529,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &604154972192914539
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &639020517291639850
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,7 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &1246014834259742254
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,7 +678,7 @@ GameObject:
   - component: {fileID: 2576416509158880578}
   - component: {fileID: 4841771905106227866}
   m_Layer: 13
-  m_Name: forward_face
+  m_Name: front_face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -679,7 +733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &1941413499960790761
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,7 +801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &1951245054200361014
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +814,7 @@ GameObject:
   - component: {fileID: 8669068931991760764}
   - component: {fileID: 1049633926589140013}
   m_Layer: 13
-  m_Name: forward_face
+  m_Name: front_face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -815,7 +869,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &2113262069912143078
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,7 +937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &2301167433428619040
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,7 +1005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &2645466083794243774
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,7 +1073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &2689237007986539265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1087,7 +1141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &2782521660127589685
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,7 +1209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &2828340199623363704
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,7 +1277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &2946797013129869127
 GameObject:
   m_ObjectHideFlags: 0
@@ -1291,7 +1345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &2992412979261057667
 GameObject:
   m_ObjectHideFlags: 0
@@ -1304,7 +1358,7 @@ GameObject:
   - component: {fileID: 1580400629871955571}
   - component: {fileID: 5356087311754761940}
   m_Layer: 13
-  m_Name: forward_face
+  m_Name: front_face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1359,7 +1413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &3009104719743794619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1527,6 +1581,7 @@ MonoBehaviour:
   rotationSpeed: 40
   accessRotation: {x: 0, y: 1, z: 0}
   faceIdentifier: {fileID: 11400000, guid: 651400d4ef4c9c14e9c57c3e9875e7c6, type: 2}
+  <facePositionType>k__BackingField: 0
 --- !u!114 &5456752140813425481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1542,6 +1597,7 @@ MonoBehaviour:
   rotationRoundTo: {x: 90, y: 0, z: 0}
   rotationSpeed: 150
   faceIdentifier: {fileID: 11400000, guid: 651400d4ef4c9c14e9c57c3e9875e7c6, type: 2}
+  facePositionType: 0
 --- !u!114 &3462053832382336357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,7 +1694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &3429326546100752034
 GameObject:
   m_ObjectHideFlags: 0
@@ -1706,7 +1762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &3511196103802698139
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,7 +1830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &3704566029246108001
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,7 +1850,7 @@ GameObject:
   - component: {fileID: 1273923199750262403}
   - component: {fileID: 4387006429136174408}
   m_Layer: 11
-  m_Name: forward_face
+  m_Name: front_face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1942,6 +1998,7 @@ MonoBehaviour:
   rotationSpeed: 40
   accessRotation: {x: 0, y: 1, z: 0}
   faceIdentifier: {fileID: 11400000, guid: 0c2106070188a334a8478b46d38311e8, type: 2}
+  <facePositionType>k__BackingField: 0
 --- !u!114 &305911430908179522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1957,6 +2014,7 @@ MonoBehaviour:
   rotationRoundTo: {x: 90, y: 0, z: 0}
   rotationSpeed: 150
   faceIdentifier: {fileID: 11400000, guid: 0c2106070188a334a8478b46d38311e8, type: 2}
+  facePositionType: 0
 --- !u!114 &1273923199750262403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2115,7 +2173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &4375408341987589200
 GameObject:
   m_ObjectHideFlags: 0
@@ -2183,7 +2241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &4379574105950587642
 GameObject:
   m_ObjectHideFlags: 0
@@ -2351,6 +2409,7 @@ MonoBehaviour:
   rotationSpeed: 40
   accessRotation: {x: 0, y: 1, z: 0}
   faceIdentifier: {fileID: 11400000, guid: e45af0b087e90c848be1c28d707577ea, type: 2}
+  <facePositionType>k__BackingField: 0
 --- !u!114 &618965677166524887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2366,6 +2425,7 @@ MonoBehaviour:
   rotationRoundTo: {x: 90, y: 0, z: 0}
   rotationSpeed: 150
   faceIdentifier: {fileID: 11400000, guid: e45af0b087e90c848be1c28d707577ea, type: 2}
+  facePositionType: 0
 --- !u!114 &2640159817627716860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2462,7 +2522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &4581511868080443469
 GameObject:
   m_ObjectHideFlags: 0
@@ -2530,7 +2590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &4665106134681495592
 GameObject:
   m_ObjectHideFlags: 0
@@ -2598,7 +2658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &4744041149692088614
 GameObject:
   m_ObjectHideFlags: 0
@@ -2666,7 +2726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &4785533949906344442
 GameObject:
   m_ObjectHideFlags: 0
@@ -2734,7 +2794,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &4813774478573905152
 GameObject:
   m_ObjectHideFlags: 0
@@ -2802,7 +2862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &4898147623699863007
 GameObject:
   m_ObjectHideFlags: 0
@@ -2970,6 +3030,7 @@ MonoBehaviour:
   rotationSpeed: 40
   accessRotation: {x: 0, y: 1, z: 0}
   faceIdentifier: {fileID: 11400000, guid: 097b475bd8181cf44b16648c122bf7e9, type: 2}
+  <facePositionType>k__BackingField: 0
 --- !u!114 &250132274410886425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2985,6 +3046,7 @@ MonoBehaviour:
   rotationRoundTo: {x: 0, y: 90, z: 0}
   rotationSpeed: 150
   faceIdentifier: {fileID: 11400000, guid: 097b475bd8181cf44b16648c122bf7e9, type: 2}
+  facePositionType: 0
 --- !u!114 &8121289533467485707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3081,7 +3143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &4931904611446231243
 GameObject:
   m_ObjectHideFlags: 0
@@ -3149,7 +3211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &4968808310510488556
 GameObject:
   m_ObjectHideFlags: 0
@@ -3217,7 +3279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &5178552227457401508
 GameObject:
   m_ObjectHideFlags: 0
@@ -3285,7 +3347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &5547141149915638347
 GameObject:
   m_ObjectHideFlags: 0
@@ -3353,7 +3415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &5881983256314204408
 GameObject:
   m_ObjectHideFlags: 0
@@ -3421,7 +3483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &6140501544072257835
 GameObject:
   m_ObjectHideFlags: 0
@@ -3489,7 +3551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &6152055856894500202
 GameObject:
   m_ObjectHideFlags: 0
@@ -3557,7 +3619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &6339429882097637773
 GameObject:
   m_ObjectHideFlags: 0
@@ -3625,7 +3687,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &6876150087444214385
 GameObject:
   m_ObjectHideFlags: 0
@@ -3693,7 +3755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &6940629893888037507
 GameObject:
   m_ObjectHideFlags: 0
@@ -3761,7 +3823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &7087309037020072860
 GameObject:
   m_ObjectHideFlags: 0
@@ -3774,7 +3836,7 @@ GameObject:
   - component: {fileID: 8583720239548237504}
   - component: {fileID: 332715391262495891}
   m_Layer: 13
-  m_Name: forward_face
+  m_Name: front_face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3829,7 +3891,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &7161798238116478701
 GameObject:
   m_ObjectHideFlags: 0
@@ -3897,7 +3959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &7499536324604736669
 GameObject:
   m_ObjectHideFlags: 0
@@ -3910,7 +3972,7 @@ GameObject:
   - component: {fileID: 267127312881044183}
   - component: {fileID: 531851371152062412}
   m_Layer: 13
-  m_Name: forward_face
+  m_Name: front_face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3965,7 +4027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &7928645954912217167
 GameObject:
   m_ObjectHideFlags: 0
@@ -4033,7 +4095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &8023050393536037014
 GameObject:
   m_ObjectHideFlags: 0
@@ -4101,7 +4163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &8042583954037572317
 GameObject:
   m_ObjectHideFlags: 0
@@ -4169,7 +4231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &8060738067420189106
 GameObject:
   m_ObjectHideFlags: 0
@@ -4237,7 +4299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &8357664251348558920
 GameObject:
   m_ObjectHideFlags: 0
@@ -4405,6 +4467,7 @@ MonoBehaviour:
   rotationSpeed: 40
   accessRotation: {x: 0, y: 1, z: 0}
   faceIdentifier: {fileID: 11400000, guid: e2b5d57d1e7cc3643bbe189923591340, type: 2}
+  <facePositionType>k__BackingField: 0
 --- !u!114 &4979279026753678109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4420,6 +4483,7 @@ MonoBehaviour:
   rotationRoundTo: {x: 90, y: 0, z: 0}
   rotationSpeed: 150
   faceIdentifier: {fileID: 11400000, guid: e2b5d57d1e7cc3643bbe189923591340, type: 2}
+  facePositionType: 0
 --- !u!114 &9053488991627942001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4516,7 +4580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &8477301532182590544
 GameObject:
   m_ObjectHideFlags: 0
@@ -4584,7 +4648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &8481726820186341472
 GameObject:
   m_ObjectHideFlags: 0
@@ -4628,7 +4692,7 @@ GameObject:
   - component: {fileID: 6308615231038480773}
   - component: {fileID: 1212656352101338728}
   m_Layer: 13
-  m_Name: forward_face
+  m_Name: front_face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4683,7 +4747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &8636960574421427671
 GameObject:
   m_ObjectHideFlags: 0
@@ -4696,7 +4760,7 @@ GameObject:
   - component: {fileID: 2317131514342378714}
   - component: {fileID: 4945693572645005561}
   m_Layer: 13
-  m_Name: forward_face
+  m_Name: front_face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4751,7 +4815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &8673290210592344495
 GameObject:
   m_ObjectHideFlags: 0
@@ -4819,7 +4883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raycastCamera: {fileID: 0}
-  sign: {fileID: 3853772098340140315, guid: 1f410c3f2adefa647abfbbea7c0d7710, type: 3}
+  facePositionType: 0
 --- !u!1 &8718929643906514072
 GameObject:
   m_ObjectHideFlags: 0
@@ -4987,6 +5051,7 @@ MonoBehaviour:
   rotationSpeed: 40
   accessRotation: {x: 0, y: 1, z: 0}
   faceIdentifier: {fileID: 11400000, guid: 7cdfacb621e8dfa4eb87bd0fd06c941e, type: 2}
+  <facePositionType>k__BackingField: 0
 --- !u!114 &8675630443678542158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5002,6 +5067,7 @@ MonoBehaviour:
   rotationRoundTo: {x: 0, y: 90, z: 0}
   rotationSpeed: 150
   faceIdentifier: {fileID: 11400000, guid: 7cdfacb621e8dfa4eb87bd0fd06c941e, type: 2}
+  facePositionType: 0
 --- !u!114 &5879958438698355312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5053,7 +5119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8f0905c7741616649a34213b8e4ba850, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8f0905c7741616649a34213b8e4ba850, type: 3}
       propertyPath: m_LocalScale.x
@@ -5893,6 +5959,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8f0905c7741616649a34213b8e4ba850, type: 3}
       insertIndex: 8
       addedObject: {fileID: 6582854267448474305}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8f0905c7741616649a34213b8e4ba850, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8796300950238102144}
     - targetCorrespondingSourceObject: {fileID: 4083501151425157549, guid: 8f0905c7741616649a34213b8e4ba850, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4022839136105524718}

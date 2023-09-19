@@ -4,12 +4,13 @@
 /// Controls the behavior of an Rubik's Cube face.
 /// </summary>
 public class RCubeFaceDragRotationController : DragRotationController {
-  #region serializable fields
-
   [SerializeField]
   public GlobalIdentifier faceIdentifier;
 
-  #endregion
+  public string faceGlobalId => faceIdentifier.id;
+
+  [field: SerializeField]
+  public RCubeFacePositionType facePositionType { get; private set; }
 
   #region fields
 
@@ -19,12 +20,6 @@ public class RCubeFaceDragRotationController : DragRotationController {
   private bool canBeDragged = true;
   private bool isDragging;
   private Vector2 faceHitPosition;
-
-  #endregion
-
-  #region properties
-
-  public string faceGlobalId => faceIdentifier.id;
 
   #endregion
 
@@ -44,7 +39,7 @@ public class RCubeFaceDragRotationController : DragRotationController {
     if (isDragging) {
       Rotate();
       rCubeFaceDragEventInvoker.Invoke(faceIdentifier.id);
-      rCubeFaceRotationEventInvoker.Invoke(faceIdentifier.id);
+      rCubeFaceRotationEventInvoker.Invoke(new RCubeFaceRotationEventContext(faceIdentifier.id, facePositionType));
     }
 
     ResetInputDelta();
@@ -59,8 +54,8 @@ public class RCubeFaceDragRotationController : DragRotationController {
   /// It checks if the face can be dragged based on the provided context, and if so, it adds a drag input listener,
   /// saves the hit position of the face, and sets the isDragging flag to true. 
   /// </summary> 
-  /// <param name="context">The <see cref="RCubeFaceRaycastHitEventContext"/> containing information about the Rubik's Cube face hit and global ID.</param>
-  private void OnRCubeFaceDragStart(RCubeFaceRaycastHitEventContext context) {
+  /// <param name="context">The <see cref="RCubeFaceDragStartEventContext"/> containing information about the Rubik's Cube face hit and global ID.</param>
+  private void OnRCubeFaceDragStart(RCubeFaceDragStartEventContext context) {
     canBeDragged = context.faceGlobalId.Equals(faceGlobalId);
 
     if (canBeDragged) {

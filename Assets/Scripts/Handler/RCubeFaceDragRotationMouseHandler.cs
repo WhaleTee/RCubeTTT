@@ -22,7 +22,6 @@ public sealed class RCubeFaceDragRotationMouseHandler {
     PlayerInputManager.mouse.LeftClick.canceled += OnMouseLeftButtonUp;
 
     EventManager.AddPlayerTurnStartListener(OnPlayerTurnStarted);
-    // EventManager.AddPlayerTurnListener(OnPlayerTurn);
 
     EventManager.AddRCubeFaceDragStartInvoker(rCubeFaceDragStartEventInvoker);
     EventManager.AddRCubeFaceDragEndInvoker(rCubeFaceDragEndEventInvoker);
@@ -35,10 +34,6 @@ public sealed class RCubeFaceDragRotationMouseHandler {
     activePlayer = context;
   }
 
-  // private void OnPlayerTurn(PlayerPlayData context) {
-  //   activePlayer = context;
-  // }
-
   /// <summary>
   /// Handles the left mouse button down event.
   /// Performs a raycast from the <see cref="raycastCamera"/>'s position to the <see cref="pointerPosition"/>,
@@ -49,9 +44,12 @@ public sealed class RCubeFaceDragRotationMouseHandler {
     if (activePlayer.canDragCubeFace) {
       if (Physics.Raycast(raycastCamera.ScreenPointToRay(pointerPosition.Invoke()), out var hit, float.PositiveInfinity)) {
         if (LayerMaskUtils.EqualsMaskToLayer(cubeFaceLayerMask, hit.collider.gameObject.layer)) {
-          draggedFaceId = hit.collider.gameObject.GetComponent<RCubeFaceDragRotationController>().faceGlobalId;
-          rCubeFaceDragStartEventInvoker.Invoke(new RCubeFaceRaycastHitEventContext(draggedFaceId, hit.point));
-          rCubeFaceRotationStartEventInvoker.Invoke(draggedFaceId);
+          var dragRotationController = hit.collider.gameObject.GetComponent<RCubeFaceDragRotationController>();
+          var draggedFacePositionType = dragRotationController.facePositionType;
+          var draggedFaceLocalRotation = dragRotationController.transform.localRotation;
+          draggedFaceId = dragRotationController.faceGlobalId;
+          rCubeFaceDragStartEventInvoker.Invoke(new RCubeFaceDragStartEventContext(draggedFaceId, draggedFacePositionType, hit.point));
+          rCubeFaceRotationStartEventInvoker.Invoke(new RCubeFaceRotationStartEventContext(draggedFaceId, draggedFacePositionType, draggedFaceLocalRotation));
         }
       }
     }

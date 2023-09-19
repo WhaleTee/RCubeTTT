@@ -13,7 +13,7 @@ public class TransformPresetApplier : MonoBehaviour {
   [SerializeField]
   private bool applyScale;
 
-  private void Awake() {
+  private void Start() {
     if (applyPosition) {
       transform.position = transformPreset.position;
     }

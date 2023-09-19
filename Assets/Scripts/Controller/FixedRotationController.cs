@@ -66,7 +66,7 @@ public abstract class FixedRotationController : MonoBehaviour {
   /// Rotates the object to the <see cref="targetRotation"/> by an angular step of <see cref="rotationSpeed"/> * <see cref="Time.deltaTime"/> (but note that the rotation will not overshoot).
   /// </summary>
   protected void Rotate() {
-    transform.localRotation = Quaternion.RotateTowards(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
+    transform.localRotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
   }
 
   #endregion

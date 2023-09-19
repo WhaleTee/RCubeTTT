@@ -158,4 +158,8 @@ public static class DebugExtensions {
     var direction = point - pivot;
     return pivot + rotation * direction;
   }
+  
+  public static void DrawRayCast(Vector3 origin, Vector3 direction, Color color) {
+    Debug.DrawRay(origin, direction, color);
+  }
 }
