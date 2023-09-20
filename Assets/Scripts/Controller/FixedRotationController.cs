@@ -9,7 +9,7 @@ public abstract class FixedRotationController : MonoBehaviour {
   #region fields
 
   private const float MAX_EULER_ROTATION_DEGREES = 360;
-  private const float MAX_ROTATION_SPEED = 1000;
+  private const float MAX_ROTATION_SPEED = 10;
 
   #endregion
 
@@ -21,9 +21,9 @@ public abstract class FixedRotationController : MonoBehaviour {
   private Vector3 rotationRoundTo = Vector3.zero;
 
   [SerializeField]
-  [Tooltip("Rotation speed in degrees. Usually, it multiplies by Time.deltaTime.")]
+  [Tooltip("Duration of rotation speed.")]
   [Range(0, MAX_ROTATION_SPEED)]
-  protected float rotationSpeed;
+  protected float duration;
 
   #endregion
 
@@ -44,6 +44,8 @@ public abstract class FixedRotationController : MonoBehaviour {
   /// </summary>
   protected Quaternion currentRotation => rotationContext == RotationContext.Local ? transform.localRotation : transform.rotation;
 
+  protected float rotationElapsedTime { get; set; }
+  
   #endregion
 
   #region methods
@@ -63,10 +65,10 @@ public abstract class FixedRotationController : MonoBehaviour {
   }
 
   /// <summary>
-  /// Rotates the object to the <see cref="targetRotation"/> by an angular step of <see cref="rotationSpeed"/> * <see cref="Time.deltaTime"/> (but note that the rotation will not overshoot).
+  /// Rotates the object to the <see cref="targetRotation"/> by an angular step of <see cref="duration"/> * <see cref="Time.deltaTime"/> (but note that the rotation will not overshoot).
   /// </summary>
   protected void Rotate() {
-    transform.localRotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
+    transform.localRotation = Quaternion.Slerp(currentRotation, targetRotation, rotationElapsedTime / duration);
   }
 
   #endregion

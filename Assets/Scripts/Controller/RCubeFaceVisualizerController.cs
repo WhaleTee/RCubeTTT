@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class RCubeFaceVisualizerController : MonoBehaviour {
   #region serializable fields
@@ -37,7 +38,6 @@ public class RCubeFaceVisualizerController : MonoBehaviour {
   #region fields
 
   private GameObject[] facePiecesFacesVisuals;
-  private MarkType[] scannedSigns;
 
   #endregion
 
@@ -55,27 +55,31 @@ public class RCubeFaceVisualizerController : MonoBehaviour {
 
   private void OnRCubeFacePiecesFacesRaycastHit(RCubeFacePiecesFacesRaycastHitEventContext context) {
     if (facePositionType == context.facePositionType) {
-      scannedSigns = context.scannedSigns;
+      UpdateFaceVisualization(context.scannedSigns);
     }
-
-    UpdateFaceVisualization();
   }
 
-  private void UpdateFaceVisualization() {
-    for (var i = 0; i < scannedSigns.Length; i++) {
-      switch (scannedSigns[i]) {
-        case MarkType.X:
-          Destroy(facePiecesFacesVisuals[i]);
-          facePiecesFacesVisuals[i] = Instantiate(signX, transform);
-          break;
-        case MarkType.O:
-          Destroy(facePiecesFacesVisuals[i]);
-          facePiecesFacesVisuals[i] = Instantiate(signO, transform);
-          break;
-        case MarkType.None:
-          Destroy(facePiecesFacesVisuals[i]);
-          facePiecesFacesVisuals[i] = Instantiate(emptyFace, transform);
-          break;
+  private void UpdateFaceVisualization(IReadOnlyList<MarkType> scannedSigns) {
+    if (scannedSigns != null) {
+      for (var i = 0; i < scannedSigns.Count; i++) {
+        switch (scannedSigns[i]) {
+          case MarkType.X:
+            Destroy(facePiecesFacesVisuals[i]);
+            facePiecesFacesVisuals[i] = Instantiate(signX, transform);
+            break;
+          case MarkType.O:
+            Destroy(facePiecesFacesVisuals[i]);
+            facePiecesFacesVisuals[i] = Instantiate(signO, transform);
+            break;
+          case MarkType.None:
+            Destroy(facePiecesFacesVisuals[i]);
+            facePiecesFacesVisuals[i] = Instantiate(emptyFace, transform);
+            break;
+        }
+      }
+    } else {
+      for (var i = 0; i < facePiecesFacesVisuals.Length; i++) {
+        facePiecesFacesVisuals[i] = Instantiate(emptyFace, transform);
       }
     }
 

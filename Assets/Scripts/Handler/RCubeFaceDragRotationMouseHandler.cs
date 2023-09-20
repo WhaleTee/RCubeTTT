@@ -13,6 +13,7 @@ public sealed class RCubeFaceDragRotationMouseHandler {
 
   private PlayerPlayData activePlayer;
   private string draggedFaceId;
+  private bool isFaceRotating;
 
   public RCubeFaceDragRotationMouseHandler(Camera raycastCamera, Func<Vector2> pointerPosition) {
     this.raycastCamera = raycastCamera;
@@ -49,7 +50,10 @@ public sealed class RCubeFaceDragRotationMouseHandler {
           var draggedFaceLocalRotation = dragRotationController.transform.localRotation;
           draggedFaceId = dragRotationController.faceGlobalId;
           rCubeFaceDragStartEventInvoker.Invoke(new RCubeFaceDragStartEventContext(draggedFaceId, draggedFacePositionType, hit.point));
-          rCubeFaceRotationStartEventInvoker.Invoke(new RCubeFaceRotationStartEventContext(draggedFaceId, draggedFacePositionType, draggedFaceLocalRotation));
+
+          if (!isFaceRotating) {
+            rCubeFaceRotationStartEventInvoker.Invoke(new RCubeFaceRotationStartEventContext(draggedFaceId, draggedFacePositionType, draggedFaceLocalRotation)); 
+          }
         }
       }
     }

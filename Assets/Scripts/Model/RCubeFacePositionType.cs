@@ -1,5 +1,5 @@
 ﻿public enum RCubeFacePositionType {
-  Top,
+  Up,
   Down,
   Left,
   Right,

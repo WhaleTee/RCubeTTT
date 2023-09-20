@@ -1,17 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class RCubeFaceSignsScannerController : CastScanner {
   #region serializable fields
 
   [SerializeField]
-  private int raysCount;
-
-  [SerializeField]
-  private int rowsCount;
-
-  [SerializeField]
-  private Vector2 step;
+  private GameObject[] rays;
 
   [SerializeField]
   private RCubeFacePositionType facePositionType;
@@ -37,28 +32,26 @@ public class RCubeFaceSignsScannerController : CastScanner {
   #region unity methods
 
   private void Awake() {
-    EventManager.AddRCubeFacePiecesFacesRaycastHitInvoker(rCubeFacePiecesFacesRaycastHitEventInvoker);
-
     EventManager.AddRCubeFaceRotationStartListener(OnRCubeFaceRotationStart);
     EventManager.AddRCubeFaceRotationEndListener(OnRCubeFaceRotationEnd);
     EventManager.AddRCubePieceFaceMarkSetListener(OnRCubePieceFaceSignSet);
+    
+    EventManager.AddRCubeFacePiecesFacesRaycastHitInvoker(rCubeFacePiecesFacesRaycastHitEventInvoker);
 
     pieceFaceLayerMask = LayerMask.GetMask("CubePieceFace");
 
-    scannedSigns = new MarkType[raysCount * rowsCount];
+    scannedSigns = new MarkType[rays.Length];
+  }
 
+  private void Start() {
     ScanForFaces();
   }
 
   private void OnDrawGizmosSelected() {
     if (debug) {
-      for (var i = 0; i < rowsCount; i++) {
-        for (var j = 0; j < raysCount; j++) {
-          var transformPosition = transform.localPosition;
-          var position = new Vector3(transformPosition.x + center.x + j * step.x, transformPosition.y + center.y + i * step.y, transformPosition.z);
-
-          Debug.DrawRay(position, direction, Color.red);
-        }
+      for (var i = 0; i < rays.Length; i++) {
+        var rayTransform = rays[i].transform;
+        Debug.DrawRay(rayTransform.position, rayTransform.forward, Color.red);
       }
     }
   }
@@ -80,7 +73,7 @@ public class RCubeFaceSignsScannerController : CastScanner {
   }
 
   private void ScanForFaces() {
-    scannedSigns = ScanForLayer(raysCount * rowsCount, pieceFaceLayerMask)
+    scannedSigns = ScanForLayer(rays.Length, pieceFaceLayerMask)
                    .Select(
                      go => {
                        var signController = go.GetComponentInChildren<RCubePieceFaceMarkController>();
@@ -93,21 +86,18 @@ public class RCubeFaceSignsScannerController : CastScanner {
   }
 
   protected override void CastNonAlloc(RaycastHit[] hits, LayerMask layer) {
-    for (var i = 0; i < rowsCount; i++) {
-      for (var j = 0; j < raysCount; j++) {
-        var transformPosition = transform.localPosition;
-        var position = new Vector3(transformPosition.x + center.x + j * step.x, transformPosition.y + center.y + i * step.y, transformPosition.z);
+    for (var i = 0; i < rays.Length; i++) {
+      var rayTransform = rays[i].transform;
 
-        Physics.Raycast(
-          position,
-          direction,
-          out var hit,
-          float.PositiveInfinity,
-          pieceFaceLayerMask
-        );
+      Physics.Raycast(
+        rayTransform.position,
+        rayTransform.forward,
+        out var hit,
+        float.PositiveInfinity,
+        pieceFaceLayerMask
+      );
 
-        hits[i * rowsCount + j] = hit;
-      }
+      hits[i] = hit;
     }
   }
 }

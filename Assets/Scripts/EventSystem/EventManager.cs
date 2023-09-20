@@ -261,7 +261,8 @@ public static class EventManager {
 
   #region player turn support
 
-  // start cube face rotation support
+  #region player turn start support
+
   private static readonly List<PlayerTurnStartEventInvoker> playerTurnStartEventInvokers = new List<PlayerTurnStartEventInvoker>();
   private static readonly List<UnityAction<PlayerPlayData>> playerTurnStartListeners = new List<UnityAction<PlayerPlayData>>();
 
@@ -287,7 +288,7 @@ public static class EventManager {
 
   #endregion
 
-  #region Player Action support
+  #region player turn support
 
   private static readonly List<PlayerTurnEventInvoker> playerTurnEventInvokers = new List<PlayerTurnEventInvoker>();
   private static readonly List<UnityAction<PlayerPlayData>> playerTurnListeners = new List<UnityAction<PlayerPlayData>>();
@@ -312,6 +313,8 @@ public static class EventManager {
     }
   }
 
+  #endregion
+  
   #endregion
 
   #region set mark support

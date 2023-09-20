@@ -10,7 +10,7 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
 
   [SerializeField]
   private GlobalIdentifier faceIdentifier;
-  
+
   [FormerlySerializedAs("facePosition")]
   [SerializeField]
   private RCubeFacePositionType facePositionType;
@@ -48,12 +48,13 @@ public class RCubeFaceFixedRotationController : FixedRotationController {
   private IEnumerator RotateRCubeFace() {
     while (Quaternion.Angle(currentRotation, targetRotation) > 0.5) {
       Rotate();
+      rotationElapsedTime += Time.deltaTime;
       rCubeFaceRotationEventInvoker.Invoke(new RCubeFaceRotationEventContext(faceIdentifier.id, facePositionType));
       yield return null;
     }
 
     transform.localRotation = targetRotation;
-
+    rotationElapsedTime = 0;
     rCubeFaceRotationEndEventInvoker.Invoke(new RCubeFaceRotationEndEventContext(faceIdentifier.id, facePositionType, targetRotation));
   }
 

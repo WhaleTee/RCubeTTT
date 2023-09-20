@@ -24,10 +24,13 @@ public class RCubeFixedRotationController : FixedRotationController {
   /// </summary>
   /// <returns>An <see cref="IEnumerator"/> used for coroutine execution.</returns>
   private IEnumerator RotateRCube() {
-    while (Quaternion.Angle(currentRotation, targetRotation) > 0) {
+    while (Quaternion.Angle(currentRotation, targetRotation) > 0.5) {
       Rotate();
+      rotationElapsedTime += Time.deltaTime;
       yield return null;
     }
+    transform.localRotation = targetRotation;
+    rotationElapsedTime = 0;
   }
 
   /// <summary>
