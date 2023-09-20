@@ -24,7 +24,7 @@ public class RCubeFaceSignsScannerController : CastScanner {
 
   private LayerMask pieceFaceLayerMask;
 
-  private MarkType[] scannedSigns;
+  private MarkType[] scannedMarks;
   private Quaternion initialLocalRotation;
 
   #endregion
@@ -40,7 +40,7 @@ public class RCubeFaceSignsScannerController : CastScanner {
 
     pieceFaceLayerMask = LayerMask.GetMask("CubePieceFace");
 
-    scannedSigns = new MarkType[rays.Length];
+    scannedMarks = new MarkType[rays.Length];
   }
 
   private void Start() {
@@ -73,16 +73,16 @@ public class RCubeFaceSignsScannerController : CastScanner {
   }
 
   private void ScanForFaces() {
-    scannedSigns = ScanForLayer(rays.Length, pieceFaceLayerMask)
+    scannedMarks = ScanForLayer(rays.Length, pieceFaceLayerMask)
                    .Select(
                      go => {
-                       var signController = go.GetComponentInChildren<RCubePieceFaceMarkController>();
-                       return signController != null ? signController.markType : MarkType.None;
+                       var markController = go.GetComponentInChildren<RCubePieceFaceMarkController>();
+                       return markController != null ? markController.markType : MarkType.None;
                      }
                    )
                    .ToArray();
 
-    rCubeFacePiecesFacesRaycastHitEventInvoker.Invoke(new RCubeFacePiecesFacesRaycastHitEventContext(scannedSigns, facePositionType));
+    rCubeFacePiecesFacesRaycastHitEventInvoker.Invoke(new RCubeFacePiecesFacesRaycastHitEventContext(scannedMarks, facePositionType));
   }
 
   protected override void CastNonAlloc(RaycastHit[] hits, LayerMask layer) {

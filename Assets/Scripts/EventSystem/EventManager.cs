@@ -371,5 +371,32 @@ public static class EventManager {
 
   #endregion
 
+  #region player win condition support
+
+  private static readonly List<PlayerWinConditionReachedEventInvoker> playerWinConditionReachedEventInvokers = new List<PlayerWinConditionReachedEventInvoker>();
+  private static readonly List<UnityAction<PlayerWinConditionReachedEventContext>> playerWinConditionReachedListeners = new List<UnityAction<PlayerWinConditionReachedEventContext>>();
+  
+  public static void AddPlayerWinConditionReachedInvoker(PlayerWinConditionReachedEventInvoker invoker) {
+    playerWinConditionReachedEventInvokers.Add(invoker);
+    
+    foreach (var listener in playerWinConditionReachedListeners) {
+      invoker.AddListener(listener);
+    }
+  }
+  
+  public static void RemovePlayerWinConditionReachedInvoker(PlayerWinConditionReachedEventInvoker invoker) {
+    playerWinConditionReachedEventInvokers.Remove(invoker);
+  }
+  
+  public static void AddPlayerWinConditionReachedListener(UnityAction<PlayerWinConditionReachedEventContext> listener) {
+    playerWinConditionReachedListeners.Add(listener);
+    
+    foreach (var invoker in playerWinConditionReachedEventInvokers) {
+      invoker.AddListener(listener);
+    }
+  }
+
+  #endregion
+
   static EventManager() { }
 }

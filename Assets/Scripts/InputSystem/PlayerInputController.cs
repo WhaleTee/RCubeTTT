@@ -34,6 +34,7 @@ public class PlayerInputController : MonoBehaviour {
 
   private void Awake() {
     _ = new PlayerTurnManager(playerXData, playerOData);
+    _ = new PlayerWinConditionHandler();
 
     if (enableMouseInput) {
       PlayerInputManager.mouse.Position.performed += OnMousePositionPerformed;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e28553f43d744cbf98a2a1249e3aedc9, type: 3}
   m_Name: player_o_data
   m_EditorClassIdentifier: 
-  <playerType>k__BackingField: 1
+  <markType>k__BackingField: 1
   <sign>k__BackingField: {fileID: 5993896139377867475, guid: 1dac6f47ab4775d40bf9ad519ae3688d, type: 3}
   <isMyTurn>k__BackingField: 0
   <canDragCube>k__BackingField: 1

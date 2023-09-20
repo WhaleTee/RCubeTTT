@@ -20,10 +20,16 @@ public sealed class PlayerTurnManager {
     EventManager.AddRCubeFaceRotationEndListener(OnRCubeFaceRotationEnd);
     EventManager.AddRCubePieceFaceMarkSetListener(OnRCubePieceFaceSetSign);
 
+    EventManager.AddPlayerWinConditionReachedListener(
+      _ => {
+        DisableTurn(playerXData);
+        DisableTurn(playerOData);
+      }
+    );
+
     EventManager.AddPlayerTurnStartInvoker(playerTurnStartEventInvoker);
     EventManager.AddPlayerTurnInvoker(playerTurnEventInvoker);
   }
-
 
   /// <summary>
   /// Handles the rotation end event of a cube face and updates the player's ability to drag the cube face based on their turn.
@@ -40,7 +46,7 @@ public sealed class PlayerTurnManager {
       }
     }
   }
-  
+
   /// <summary>
   /// Handles the rotation start event of a cube face and updates the active face initial rotation.
   /// </summary>
