@@ -1,17 +1,24 @@
 ﻿public class PlayerWinConditionHandler {
   private readonly PlayerWinConditionReachedEventInvoker winConditionReachedEventInvoker = new PlayerWinConditionReachedEventInvokerImpl();
-  private PlayerPlayData activePlayer;
+  private readonly PlayerPlayData playerXData;
+  private readonly PlayerPlayData playerOData;
 
-  public PlayerWinConditionHandler() {
-    EventManager.AddPlayerTurnStartListener(ctx => activePlayer = ctx);
+  public PlayerWinConditionHandler(PlayerPlayData playerXData, PlayerPlayData playerOData) {
+    this.playerXData = playerXData;
+    this.playerOData = playerOData;
+
     EventManager.AddRCubeFacePiecesFacesRaycastHitListener(OnRCubeFacePiecesFacesRaycastHit);
 
     EventManager.AddPlayerWinConditionReachedInvoker(winConditionReachedEventInvoker);
   }
 
   private void OnRCubeFacePiecesFacesRaycastHit(RCubeFacePiecesFacesRaycastHitEventContext context) {
-    if (TicTacToe.CheckWinCondition(context.scannedSigns, activePlayer.markType)) {
-      winConditionReachedEventInvoker.Invoke(new PlayerWinConditionReachedEventContext(activePlayer, context.facePositionType));
+    if (TicTacToe.CheckWinCondition(context.scannedMarks, playerXData.markType)) {
+      winConditionReachedEventInvoker.Invoke(new PlayerWinConditionReachedEventContext(playerXData, context.facePositionType));
+    }
+
+    if (TicTacToe.CheckWinCondition(context.scannedMarks, playerOData.markType)) {
+      winConditionReachedEventInvoker.Invoke(new PlayerWinConditionReachedEventContext(playerOData, context.facePositionType));
     }
   }
 }

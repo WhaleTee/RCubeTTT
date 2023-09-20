@@ -55,7 +55,7 @@ public class RCubeFaceVisualizerController : MonoBehaviour {
 
   private void OnRCubeFacePiecesFacesRaycastHit(RCubeFacePiecesFacesRaycastHitEventContext context) {
     if (facePositionType == context.facePositionType) {
-      UpdateFaceVisualization(context.scannedSigns);
+      UpdateFaceVisualization(context.scannedMarks);
     }
   }
 

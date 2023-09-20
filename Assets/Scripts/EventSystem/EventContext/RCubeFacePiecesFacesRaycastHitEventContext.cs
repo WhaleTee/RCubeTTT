@@ -1,9 +1,9 @@
 ﻿public sealed class RCubeFacePiecesFacesRaycastHitEventContext {
-  public MarkType[] scannedSigns { get; private set; }
+  public MarkType[] scannedMarks { get; private set; }
   public RCubeFacePositionType facePositionType { get; private set; }
 
-  public RCubeFacePiecesFacesRaycastHitEventContext(MarkType[] scannedSigns, RCubeFacePositionType facePositionType) {
-    this.scannedSigns = scannedSigns;
+  public RCubeFacePiecesFacesRaycastHitEventContext(MarkType[] scannedMarks, RCubeFacePositionType facePositionType) {
+    this.scannedMarks = scannedMarks;
     this.facePositionType = facePositionType;
   }
 }

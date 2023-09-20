@@ -34,7 +34,7 @@ public class RCubeFaceSignsScannerController : CastScanner {
   private void Awake() {
     EventManager.AddRCubeFaceRotationStartListener(OnRCubeFaceRotationStart);
     EventManager.AddRCubeFaceRotationEndListener(OnRCubeFaceRotationEnd);
-    EventManager.AddRCubePieceFaceMarkSetListener(OnRCubePieceFaceSignSet);
+    EventManager.AddRCubePieceFaceMarkSetListener(OnRCubePieceFaceMarkSet);
     
     EventManager.AddRCubeFacePiecesFacesRaycastHitInvoker(rCubeFacePiecesFacesRaycastHitEventInvoker);
 
@@ -68,7 +68,7 @@ public class RCubeFaceSignsScannerController : CastScanner {
     }
   }
 
-  private void OnRCubePieceFaceSignSet(RCubePieceFaceMarkSetEventContext context) {
+  private void OnRCubePieceFaceMarkSet(RCubePieceFaceMarkSetEventContext context) {
     ScanForFaces();
   }
 
