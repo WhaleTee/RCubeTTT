@@ -28,7 +28,7 @@ public class RCubeFaceDragRotationController : DragRotationController {
   private void Awake() {
     EventManager.AddRCubeFaceDragStartListener(OnRCubeFaceDragStart);
     EventManager.AddRCubeFaceDragEndListener(OnRCubeFaceDragEnd);
-    EventManager.AddRCubeFaceRotationStartListener(faceGlobalId => canBeDragged = faceGlobalId.Equals(faceIdentifier.id));
+    EventManager.AddRCubeFaceRotationStartListener(context => canBeDragged = context.faceGlobalId.Equals(faceIdentifier.id));
     EventManager.AddRCubeFaceRotationEndListener(_ => canBeDragged = true);
 
     EventManager.AddRCubeFaceDragInvoker(rCubeFaceDragEventInvoker);
