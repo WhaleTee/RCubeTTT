@@ -1,4 +1,5 @@
-﻿using Common.InputSystem;
+﻿using Common.EventSystem.Bus;
+using Common.InputSystem;
 using UnityEngine;
 
 namespace Common.DragSystem.Rotation {
@@ -27,9 +28,16 @@ namespace Common.DragSystem.Rotation {
 
     private void Awake() {
       mainCamera = Camera.main;
-      PlayerInputEventManager.AddPointerDeltaListener(ctx => pointerDelta = ctx.delta);
 
-      DragEventManager.AddDragListener(ctx => { if (ctx.gameObject == gameObject) Rotate(pointerDelta); });
+      EventBus<PointerPositionDeltaEvent>.Register(new EventBinding<PointerPositionDeltaEvent>(ctx => pointerDelta = ctx.delta));
+
+      EventBus<ObjectDragEvent>.Register(
+        new EventBinding<ObjectDragEvent>(
+          ctx => {
+            if (ctx.instanceId == gameObject.GetInstanceID()) Rotate(pointerDelta);
+          }
+        )
+      );
     }
 
     protected virtual void Rotate(Vector2 pointerDelta) {

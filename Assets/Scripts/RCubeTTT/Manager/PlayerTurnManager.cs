@@ -53,6 +53,7 @@ namespace RCubeTTT.Manager
         }
       }
     }
+    
 
     /// <summary>
     /// Handles the rotation start event of a cube face and updates the active face initial rotation.

@@ -1,5 +1,4 @@
-﻿using Common.InputSystem;
-using JetBrains.Annotations;
+﻿using Common.EventSystem.Bus;
 using UnityEngine;
 
 namespace Common.DragSystem.Movement {
@@ -24,15 +23,24 @@ namespace Common.DragSystem.Movement {
     private void Awake() {
       mainCamera = Camera.main;
 
-      PlayerInputEventManager.AddPointerPositionListener(ctx => pointerPosition = ctx.screenPosition);
+      EventBus<PointerPositionEvent>.Register(new EventBinding<PointerPositionEvent>(ctx => pointerPosition = ctx.screenPosition));
 
-      DragEventManager.AddDragStartListener(
-        ctx => {
-          if (ctx.hit.collider.gameObject == gameObject) pointerOffset = pointerPosition - (Vector2)mainCamera.WorldToScreenPoint(transform.position);
-        }
+      EventBus<ObjectDragBeginEvent>.Register(
+        new EventBinding<ObjectDragBeginEvent>(
+          ctx => {
+            if (ctx.instanceId == gameObject.GetInstanceID())
+              pointerOffset = pointerPosition - (Vector2)mainCamera.WorldToScreenPoint(transform.position);
+          }
+        )
       );
 
-      DragEventManager.AddDragListener(ctx => { if (ctx.gameObject == gameObject) Move(pointerPosition - pointerOffset); });
+      EventBus<ObjectDragEvent>.Register(
+        new EventBinding<ObjectDragEvent>(
+          ctx => {
+            if (ctx.instanceId == gameObject.GetInstanceID()) Move(pointerPosition - pointerOffset);
+          }
+        )
+      );
     }
 
     protected virtual void Move(Vector2 targetPosition) {

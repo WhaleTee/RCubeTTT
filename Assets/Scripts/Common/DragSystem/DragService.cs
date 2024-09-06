@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Common.EventSystem.Context;
-using Common.EventSystem.Invoker;
-using Common.InputSystem;
+using Common.EventSystem.Bus;
 using UnityEngine;
 
 namespace Common.DragSystem {
@@ -12,10 +10,6 @@ namespace Common.DragSystem {
     [SerializeField]
     private LayerMask draggableLayer;
 
-    private readonly IEventInvoker<RaycastHitContext> dragStartInvoker = new RaycastHitContextInvoker();
-    private readonly IEventInvoker<GameObjectContext> dragInvoker = new GameObjectContextInvoker();
-    private readonly IEventInvoker<GameObjectContext> dragEndInvoker = new GameObjectContextInvoker();
-
     private Camera mainCamera;
     private Vector3 pointerScreenPosition;
     private readonly Dictionary<DragComponent, RaycastHit> rayHits = new Dictionary<DragComponent, RaycastHit>();
@@ -24,13 +18,9 @@ namespace Common.DragSystem {
     private void Awake() {
       mainCamera = Camera.main;
 
-      DragEventManager.AddDragStartInvoker(dragStartInvoker);
-      DragEventManager.AddDragInvoker(dragInvoker);
-      DragEventManager.AddDragEndInvoker(dragEndInvoker);
-
-      PlayerInputEventManager.AddPointerPositionListener(OnPointerPosition);
-      PlayerInputEventManager.AddPointerClickListener(RaycastDraggables);
-      PlayerInputEventManager.AddPointerClickUpListener(InvokeDragEnd);
+      EventBus<PointerPositionEvent>.Register(new EventBinding<PointerPositionEvent>(OnPointerPosition));
+      EventBus<PointerDownEvent>.Register(new EventBinding<PointerDownEvent>(RaycastDraggables));
+      EventBus<PointerUpEvent>.Register(new EventBinding<PointerUpEvent>(InvokeDragEnd));
     }
 
     private void RaycastDraggables() {
@@ -48,7 +38,7 @@ namespace Common.DragSystem {
       foreach (var (component, hit) in rayHits) {
         if (component.IsDragAllowed()) {
           currentDragComponent = component;
-          dragStartInvoker.Invoke(new RaycastHitContext(hit));
+          EventBus<ObjectDragBeginEvent>.Raise(new ObjectDragBeginEvent { instanceId = hit.collider.gameObject.GetInstanceID() });
           break;
         }
       }
@@ -57,18 +47,20 @@ namespace Common.DragSystem {
     }
 
     private void InvokeDrag() {
-      if (currentDragComponent) dragInvoker.Invoke(new GameObjectContext(currentDragComponent.gameObject));
+      if (currentDragComponent) EventBus<ObjectDragEvent>.Raise(new ObjectDragEvent { instanceId = currentDragComponent.gameObject.GetInstanceID() });
     }
 
     private void InvokeDragEnd() {
-      if (currentDragComponent) dragEndInvoker.Invoke(new GameObjectContext(currentDragComponent.gameObject));
+      if (currentDragComponent)
+        EventBus<ObjectDragEndEvent>.Raise(new ObjectDragEndEvent { instanceId = currentDragComponent.gameObject.GetInstanceID() });
+
       currentDragComponent = null;
       FlushRayHits();
     }
 
     private void FlushRayHits() => rayHits.Clear();
 
-    private void OnPointerPosition(PositionContext ctx) {
+    private void OnPointerPosition(PointerPositionEvent ctx) {
       pointerScreenPosition = ctx.screenPosition;
       InvokeDragStart();
       InvokeDrag();
