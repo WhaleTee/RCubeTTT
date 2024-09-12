@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Common.EventSystem.Bus {
   public interface IEvent { }
@@ -19,9 +20,9 @@ namespace Common.EventSystem.Bus {
 
   public struct PointerDoubleClickEvent : IEvent { }
 
-  public struct MouseRightClickEvent : IEvent { }
+  public struct MouseRightDownEvent : IEvent { }
 
-  public struct MouseMiddleClickEvent : IEvent { }
+  public struct MouseMiddleDownEvent : IEvent { }
 
   public struct MouseWheelScrollEvent : IEvent {
     public Vector2 delta;
@@ -30,16 +31,23 @@ namespace Common.EventSystem.Bus {
   #endregion
 
   #region Drag Events
+  
+  public struct RaycastBeforeDragBeginEvent : IEvent {
+    [NotNull]public int[] hitObjects; // sorted by distance
+  }
 
-  public struct ObjectDragBeginEvent : IEvent {
+  public struct DragBeginEvent : IEvent {
+    public int instanceId;
+    public Vector2 pointerScreenPosition;
+    public Vector3 hitPoint;
+    public Vector3 hitNormal;
+  }
+
+  public struct DragEvent : IEvent {
     public int instanceId;
   }
 
-  public struct ObjectDragEvent : IEvent {
-    public int instanceId;
-  }
-
-  public struct ObjectDragEndEvent : IEvent {
+  public struct DragEndEvent : IEvent {
     public int instanceId;
   }
 

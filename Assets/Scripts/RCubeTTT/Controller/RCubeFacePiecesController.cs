@@ -1,6 +1,5 @@
 ﻿using RCubeTTT.Commons;
 using RCubeTTT.EventSystem;
-using RCubeTTT.EventSystem.Event.RCubeEvent;
 using RCubeTTT.EventSystem.EventContext;
 using UnityEngine;
 
@@ -14,7 +13,7 @@ namespace RCubeTTT.Controller
     #region fields
 
     private BoxCastScanner boxCastScanner;
-    private RCubeFaceDragRotationController faceDragRotationController;
+    private RCubeSideDragRotation sideDragRotation;
     private int cubePieceLayer;
 
     private RCubeFacePiecesAssigner rCubeFacePiecesAssigner;
@@ -27,7 +26,7 @@ namespace RCubeTTT.Controller
       RCubeFaceEventManager.AddRotationStartListener(OnRCubeFaceRotationStart);
 
       boxCastScanner = GetComponent<BoxCastScanner>();
-      faceDragRotationController = GetComponent<RCubeFaceDragRotationController>();
+      sideDragRotation = GetComponent<RCubeSideDragRotation>();
       cubePieceLayer = LayerMask.GetMask("CubePiece");
 
       rCubeFacePiecesAssigner = new RCubeFacePiecesAssigner(boxCastScanner, cubePieceLayer);
@@ -43,7 +42,7 @@ namespace RCubeTTT.Controller
     /// it finds and assigns the pieces to the current face.
     /// </summary>
     private void OnRCubeFaceRotationStart(RotationEventContext context) {
-      if (context.instanceId == faceDragRotationController.GetInstanceID()) {
+      if (context.instanceId == sideDragRotation.GetInstanceID()) {
         rCubeFacePiecesAssigner.FindAndAssignPiecesToFace(gameObject);
       }
     }

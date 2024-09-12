@@ -5,56 +5,62 @@ using UnityEngine;
 
 namespace Common.DragSystem {
   public class DragService : MonoBehaviour {
-    private const int MAX_HITS = 8;
-
     [SerializeField]
     private LayerMask draggableLayer;
+
+    [SerializeField]
+    private ushort maxHits = 8;
 
     private Camera mainCamera;
     private Vector3 pointerScreenPosition;
     private readonly Dictionary<DragComponent, RaycastHit> rayHits = new Dictionary<DragComponent, RaycastHit>();
-    private DragComponent currentDragComponent;
+    private DragComponent currentDrag;
 
     private void Awake() {
       mainCamera = Camera.main;
 
-      EventBus<PointerPositionEvent>.Register(new EventBinding<PointerPositionEvent>(OnPointerPosition));
       EventBus<PointerDownEvent>.Register(new EventBinding<PointerDownEvent>(RaycastDraggables));
       EventBus<PointerUpEvent>.Register(new EventBinding<PointerUpEvent>(InvokeDragEnd));
+      EventBus<PointerPositionEvent>.Register(new EventBinding<PointerPositionEvent>(OnPointerPosition));
     }
 
     private void RaycastDraggables() {
-      var hits = new RaycastHit[MAX_HITS];
+      var hits = new RaycastHit[maxHits];
       Physics.RaycastNonAlloc(mainCamera.ScreenPointToRay(pointerScreenPosition), hits, float.MaxValue, draggableLayer);
 
       foreach (var hit in hits.Where(hit => hit.collider).OrderBy(hit => hit.distance)) {
-        if (hit.collider.gameObject.GetComponent(typeof(DragComponent)) as DragComponent is { } component) rayHits.Add(component, hit);
+        if (hit.collider.gameObject.GetComponent(typeof(DragComponent)) as DragComponent is { } component) rayHits.TryAdd(component, hit);
       }
+
+      EventBus<RaycastBeforeDragBeginEvent>.Raise(
+        new RaycastBeforeDragBeginEvent { hitObjects = rayHits.Keys.Select(component => component.instanceId).ToArray() }
+      );
     }
 
     private void InvokeDragStart() {
-      if (rayHits.Count == 0) return;
+      var (component, hit) = rayHits.FirstOrDefault(pair => pair.Key.IsDragAllowed());
 
-      foreach (var (component, hit) in rayHits) {
-        if (component.IsDragAllowed()) {
-          currentDragComponent = component;
-          EventBus<ObjectDragBeginEvent>.Raise(new ObjectDragBeginEvent { instanceId = hit.collider.gameObject.GetInstanceID() });
-          break;
-        }
+      if (component != null) {
+        currentDrag = component;
+
+        EventBus<DragBeginEvent>.Raise(
+          new DragBeginEvent {
+            instanceId = component.instanceId, pointerScreenPosition = pointerScreenPosition, hitPoint = hit.point, hitNormal = hit.normal
+          }
+        );
+
+        FlushRayHits();
       }
-
-      if (currentDragComponent) FlushRayHits();
     }
 
     private void InvokeDrag() {
-      if (currentDragComponent) EventBus<ObjectDragEvent>.Raise(new ObjectDragEvent { instanceId = currentDragComponent.gameObject.GetInstanceID() });
+      if (currentDrag != null) EventBus<DragEvent>.Raise(new DragEvent { instanceId = currentDrag.instanceId });
     }
 
     private void InvokeDragEnd() {
-      if (currentDragComponent)
-        EventBus<ObjectDragEndEvent>.Raise(new ObjectDragEndEvent { instanceId = currentDragComponent.gameObject.GetInstanceID() });
+      if (currentDrag != null) EventBus<DragEndEvent>.Raise(new DragEndEvent { instanceId = currentDrag.instanceId });
 
-      currentDragComponent = null;
+      currentDrag = null;
       FlushRayHits();
     }
 

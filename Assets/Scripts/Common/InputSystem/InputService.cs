@@ -13,8 +13,10 @@ namespace Common.InputSystem {
       playerActions.Click.performed += _ => EventBus<PointerDownEvent>.Raise(new PointerDownEvent());
       playerActions.Click.canceled += _ => EventBus<PointerUpEvent>.Raise(new PointerUpEvent());
       playerActions.DoubleClick.performed += _ => EventBus<PointerDoubleClickEvent>.Raise(new PointerDoubleClickEvent());
-      playerActions.RightClick.performed += _ => EventBus<MouseRightClickEvent>.Raise(new MouseRightClickEvent());
-      playerActions.MiddleClick.performed += _ => EventBus<MouseMiddleClickEvent>.Raise(new MouseMiddleClickEvent());
+      playerActions.RightClick.performed += _ => EventBus<MouseRightDownEvent>.Raise(new MouseRightDownEvent());
+      playerActions.RightClick.canceled += _ => EventBus<PointerUpEvent>.Raise(new PointerUpEvent());
+      playerActions.MiddleClick.performed += _ => EventBus<MouseMiddleDownEvent>.Raise(new MouseMiddleDownEvent());
+      playerActions.MiddleClick.canceled += _ => EventBus<PointerUpEvent>.Raise(new PointerUpEvent());
 
       playerActions.PointerPosition.performed += ctx => EventBus<PointerPositionEvent>.Raise(
                                                    new PointerPositionEvent { screenPosition = ctx.ReadValue<Vector2>() }

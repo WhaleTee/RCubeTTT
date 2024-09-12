@@ -55,7 +55,7 @@ namespace RCubeTTT.Handler
       if (activePlayer.canDragCubeFace) {
         if (Physics.Raycast(rayCastCamera.ScreenPointToRay(pointerPosition.Invoke()), out var hit, float.PositiveInfinity)) {
           if (LayerMaskUtils.EqualsMaskToLayer(cubeFaceLayerMask, hit.collider.gameObject.layer)) {
-            var dragRotationController = hit.collider.gameObject.GetComponent<RCubeFaceDragRotationController>();
+            var dragRotationController = hit.collider.gameObject.GetComponent<RCubeSideDragRotation>();
             var faceTransform = dragRotationController.transform;
             draggedFaceId = dragRotationController.GetInstanceID();
             dragStartEventInvoker.Invoke(new InputHitObjectEventContext(draggedFaceId, hit.point));

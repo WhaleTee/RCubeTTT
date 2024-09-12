@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-
-namespace Common.DragSystem {
-  public abstract class DragComponent : MonoBehaviour {
-    public virtual bool IsDragAllowed() => true;
+﻿namespace Common.DragSystem {
+  public interface DragComponent : InstanceIdProvider {
+    public bool IsDragAllowed();
   }
 }
