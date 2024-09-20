@@ -1,66 +1,39 @@
 ﻿using System.Collections.Generic;
-using RCubeTTT.EventSystem;
-using RCubeTTT.EventSystem.EventContext;
+using Common.EventSystem.Bus;
 using RCubeTTT.Model;
 using UnityEngine;
 
 namespace RCubeTTT.Controller
 {
   public class RCubeFaceVisualizerController : MonoBehaviour {
-    #region serializable fields
-
     [Header("Visuals")]
-    [SerializeField]
-    private GameObject emptyFace;
-
-    [SerializeField]
-    private GameObject signX;
-
-    [SerializeField]
-    private GameObject signO;
-
-    [SerializeField]
-    private int visualsCount;
-
-    [SerializeField]
-    private int rowsCount;
+    [SerializeField] private GameObject emptyFace;
+    [SerializeField] private GameObject signX;
+    [SerializeField] private GameObject signO;
+    [SerializeField] private int visualsCount;
+    [SerializeField] private int rowsCount;
 
     [Space]
     [Header("Position")]
-    [SerializeField]
-    protected Vector2 offset;
-
-    [SerializeField]
-    private Vector2 step;
+    [SerializeField] protected Vector2 offset;
+    [SerializeField] private Vector2 step;
 
     [Space]
     [Header("Face information")]
-    [SerializeField]
-    private RCubeFacePositionType facePositionType;
-
-    #endregion
-
-    #region fields
+    [SerializeField] private FaceType faceType;
 
     private GameObject[] facePiecesFacesVisuals;
-
-    #endregion
-
-    #region unity methods
-
+    
     private void Awake() {
-      EventManager.AddRCubeFacePiecesFacesRaycastHitListener(OnRCubeFacePiecesFacesRaycastHit);
-
       facePiecesFacesVisuals = new GameObject[visualsCount * rowsCount];
+      
+      EventBus<ScanMarksEvent>.Register(new EventBinding<ScanMarksEvent>(OnScanMarks));
     }
 
-    #endregion
 
-    #region methods
-
-    private void OnRCubeFacePiecesFacesRaycastHit(RCubeFacePiecesFacesRaycastHitEventContext context) {
-      if (facePositionType == context.facePositionType) {
-        UpdateFaceVisualization(context.scannedMarks);
+    private void OnScanMarks(ScanMarksEvent @event) {
+      if (faceType == @event.faceType) {
+        UpdateFaceVisualization(@event.marks);
       }
     }
 
@@ -99,7 +72,5 @@ namespace RCubeTTT.Controller
         }
       }
     }
-
-    #endregion
   }
 }

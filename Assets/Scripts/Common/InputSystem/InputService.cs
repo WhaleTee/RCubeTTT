@@ -12,6 +12,7 @@ namespace Common.InputSystem {
 
       playerActions.Click.performed += _ => EventBus<PointerDownEvent>.Raise(new PointerDownEvent());
       playerActions.Click.canceled += _ => EventBus<PointerUpEvent>.Raise(new PointerUpEvent());
+      playerActions.DoubleClick.started += _ => EventBus<PointerDoubleClickBeginEvent>.Raise(new PointerDoubleClickBeginEvent());
       playerActions.DoubleClick.performed += _ => EventBus<PointerDoubleClickEvent>.Raise(new PointerDoubleClickEvent());
       playerActions.RightClick.performed += _ => EventBus<MouseRightDownEvent>.Raise(new MouseRightDownEvent());
       playerActions.RightClick.canceled += _ => EventBus<PointerUpEvent>.Raise(new PointerUpEvent());

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace Common.DragSystem.Rotation {
-  public abstract class DragRotation : MonoBehaviour {
+  public abstract class DragRotation : MonoBehaviour, TargetInstanceIdProvider {
     [Header("Drag Rotation Settings")]
     [SerializeField]
     private Transform target;
@@ -13,7 +13,7 @@ namespace Common.DragSystem.Rotation {
     [SerializeField]
     protected uint speed;
 
-    public int instanceId => targetTransform.gameObject.GetInstanceID();
+    public int targetInstanceId => targetTransform.gameObject.GetInstanceID();
     protected Camera mainCamera { get; private set; }
     protected Vector2 pointerDelta { get; private set; }
     protected Transform targetTransform => target ? target : transform;
@@ -23,7 +23,7 @@ namespace Common.DragSystem.Rotation {
       mainCamera = Camera.main;
 
       EventBus<PointerPositionDeltaEvent>.Register(new EventBinding<PointerPositionDeltaEvent>(ctx => pointerDelta = ctx.delta));
-      EventBus<DragEvent>.Register(new EventBinding<DragEvent>(ctx => { if (ctx.instanceId == instanceId) Rotate(); }));
+      EventBus<DragEvent>.Register(new EventBinding<DragEvent>(ctx => { if (ctx.instanceId == targetInstanceId) Rotate(); }));
     }
 
     protected abstract void Rotate();

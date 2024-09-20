@@ -28,7 +28,7 @@ namespace Common.DragSystem.Movement {
       EventBus<DragBeginEvent>.Register(
         new EventBinding<DragBeginEvent>(
           ctx => {
-            if (ctx.instanceId == instanceId) pointerOffset = pointerPosition - (Vector2)mainCamera.WorldToScreenPoint(transform.position); 
+            if (ctx.instanceId == targetInstanceId) pointerOffset = pointerPosition - (Vector2)mainCamera.WorldToScreenPoint(transform.position); 
           })
       );
 
@@ -50,7 +50,7 @@ namespace Common.DragSystem.Movement {
       if (moveY) transform.Translate(0, velocity.y, 0, cameraTransform);
     }
 
-    public int instanceId => gameObject.GetInstanceID();
+    public int targetInstanceId => gameObject.GetInstanceID();
     public bool IsDragAllowed() => true;
   }
 }

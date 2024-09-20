@@ -1,5 +1,5 @@
 ﻿namespace Common.DragSystem {
-  public interface DragComponent : InstanceIdProvider {
+  public interface DragComponent : TargetInstanceIdProvider {
     public bool IsDragAllowed();
   }
 }

@@ -17,7 +17,7 @@ namespace RCubeTTT.Model
     public bool canDragCube { get; set; }
 
     [field: SerializeField]
-    public bool canDragCubeFace { get; set; }
+    public bool canDragCubeSide { get; set; }
 
     [field: SerializeField]
     public bool canSetSign { get; set; }

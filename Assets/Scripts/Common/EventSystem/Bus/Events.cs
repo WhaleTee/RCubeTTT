@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using RCubeTTT.Model;
 using UnityEngine;
 
 namespace Common.EventSystem.Bus {
@@ -18,6 +19,8 @@ namespace Common.EventSystem.Bus {
 
   public struct PointerUpEvent : IEvent { }
 
+  public struct PointerDoubleClickBeginEvent : IEvent { }
+  
   public struct PointerDoubleClickEvent : IEvent { }
 
   public struct MouseRightDownEvent : IEvent { }
@@ -31,14 +34,30 @@ namespace Common.EventSystem.Bus {
   #endregion
 
   #region Drag Events
-  
+
+  public struct NoObjectDragBeginEvent : IEvent { }
+
   public struct RaycastBeforeDragBeginEvent : IEvent {
-    [NotNull]public int[] hitObjects; // sorted by distance
+    /// <summary>
+    /// sorted by distance
+    /// </summary>
+    [CanBeNull]
+    public int[] hitObjects;
+
+    /// <summary>
+    /// screen position
+    /// </summary>
+    public Vector2 pointerPosition;
   }
 
   public struct DragBeginEvent : IEvent {
     public int instanceId;
-    public Vector2 pointerScreenPosition;
+
+    /// <summary>
+    /// screen position
+    /// </summary>
+    public Vector2 pointerPosition;
+
     public Vector3 hitPoint;
     public Vector3 hitNormal;
   }
@@ -50,21 +69,75 @@ namespace Common.EventSystem.Bus {
   public struct DragEndEvent : IEvent {
     public int instanceId;
   }
+  
+  public struct AxisDragAllowedEvent : IEvent {
+    public int instanceId;
+    /// <summary>
+    /// screen direction
+    /// </summary>
+    public Vector2 directionDragAllowed;
+  }
 
   #endregion
 
-  #region Idle Rotation Events
+  #region Rubik's Cube Events
 
-  public struct ObjectIdleRotationBeginEvent : IEvent {
+  public struct RCubeSideDragBeginEvent : IEvent {
+    public int instanceId;
+    /// <summary>
+    /// normalized screen direction
+    /// </summary>
+    public Vector2 screenDirection;
+    public Quaternion localRotation;
+  }
+
+  #endregion
+
+  #region Crop Rotation Events
+
+  public struct ObjectCropRotationBeginEvent : IEvent {
     public int instanceId;
     public Quaternion currentRotation;
     public Quaternion targetRotation;
   }
 
-  public struct ObjectIdleRotationEndEvent : IEvent {
+  public struct ObjectCropRotationEndEvent : IEvent {
     public int instanceId;
     public Quaternion currentRotation;
     public Quaternion targetRotation;
+  }
+
+  #endregion
+
+  #region Player Turn Events
+
+  public struct PlayerTurnEvent : IEvent {
+    public PlayerPlayData player;
+  }
+  
+  public struct PlayerTurnEndEvent : IEvent {
+    public PlayerPlayData player;
+  }
+  
+  public struct PlayerPutMarkEvent : IEvent {
+    public PlayerPlayData player;
+  }
+
+  #endregion
+
+  #region Win Condition Events
+
+  public struct PlayerWinConditionReachedEvent : IEvent {
+    public PlayerPlayData player;
+  }
+
+  #endregion
+
+  #region Scan Marks Events
+
+  public struct ScanMarksEvent : IEvent {
+    public MarkType[] marks;
+    public FaceType faceType;
   }
 
   #endregion

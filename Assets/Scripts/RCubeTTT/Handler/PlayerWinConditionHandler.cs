@@ -1,14 +1,9 @@
-﻿using RCubeTTT.Commons;
-using RCubeTTT.EventSystem;
-using RCubeTTT.EventSystem.EventContext;
-using RCubeTTT.EventSystem.EventInvoker;
-using RCubeTTT.EventSystem.EventInvoker.Impl;
+﻿using Common.EventSystem.Bus;
+using RCubeTTT.Commons;
 using RCubeTTT.Model;
 
-namespace RCubeTTT.Handler
-{
+namespace RCubeTTT.Handler {
   public class PlayerWinConditionHandler {
-    private readonly PlayerWinConditionReachedEventInvoker winConditionReachedEventInvoker = new PlayerWinConditionReachedEventInvokerImpl();
     private readonly PlayerPlayData playerXData;
     private readonly PlayerPlayData playerOData;
 
@@ -16,18 +11,16 @@ namespace RCubeTTT.Handler
       this.playerXData = playerXData;
       this.playerOData = playerOData;
 
-      EventManager.AddRCubeFacePiecesFacesRaycastHitListener(OnRCubeFacePiecesFacesRayCastHit);
-
-      EventManager.AddPlayerWinConditionReachedInvoker(winConditionReachedEventInvoker);
+      EventBus<ScanMarksEvent>.Register(new EventBinding<ScanMarksEvent>(OnScanMarks));
     }
 
-    private void OnRCubeFacePiecesFacesRayCastHit(RCubeFacePiecesFacesRaycastHitEventContext context) {
-      if (TicTacToe.CheckWinCondition(context.scannedMarks, playerXData.markType)) {
-        winConditionReachedEventInvoker.Invoke(new PlayerWinConditionReachedEventContext(playerXData, context.facePositionType));
+    private void OnScanMarks(ScanMarksEvent @event) {
+      if (TicTacToe.CheckWinCondition(@event.marks, playerXData.markType)) {
+        EventBus<PlayerWinConditionReachedEvent>.Raise(new PlayerWinConditionReachedEvent { player = playerXData });
       }
 
-      if (TicTacToe.CheckWinCondition(context.scannedMarks, playerOData.markType)) {
-        winConditionReachedEventInvoker.Invoke(new PlayerWinConditionReachedEventContext(playerOData, context.facePositionType));
+      if (TicTacToe.CheckWinCondition(@event.marks, playerOData.markType)) {
+        EventBus<PlayerWinConditionReachedEvent>.Raise(new PlayerWinConditionReachedEvent { player = playerOData });
       }
     }
   }

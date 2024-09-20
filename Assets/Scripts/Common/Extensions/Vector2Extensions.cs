@@ -10,5 +10,16 @@ namespace Common.Extensions {
     public static Vector2 Abs(this Vector2 vector) {
       return new Vector2(Mathf.Abs(vector.x), Mathf.Abs(vector.y));
     }
+    
+    /// <summary>
+    /// Converts a world direction vector to a screen direction vector.
+    /// </summary>
+    /// <param name="worldDirection">The direction vector in world space.</param>
+    /// <param name="position">The position in world space from which the direction is calculated.</param>
+    /// <param name="camera">The camera used to convert the world position to screen position.</param>
+    /// <returns>A normalized Vector2 representing the direction in screen space.</returns>
+    public static Vector2 ToScreenDirection(this Vector2 worldDirection, Vector2 position, Camera camera) {
+      return camera.WorldToScreenPoint(position + worldDirection) - camera.WorldToScreenPoint(position);
+    }
   }
 }
