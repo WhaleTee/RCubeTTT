@@ -1,5 +1,4 @@
-﻿using System;
-using Common.DragSystem.Service;
+﻿using Common.DragSystem.Service;
 using Common.EventBus;
 using Common.InputSystem;
 using Common.ServiceLocator;
@@ -16,10 +15,6 @@ namespace RCubeTTT {
     [SerializeField] private LayerMask draggableLayers;
     [SerializeField] [Range(0, 8)] private int maxHits = 1;
     [SerializeField] private Camera raycastCamera;
-    
-    private InputService inputService;
-    private DragService dragService;
-    private GamePlayService gamePlayService;
 
     private void Awake() {
       Install();
@@ -41,9 +36,9 @@ namespace RCubeTTT {
     }
 
     public void Install() {
-      ServiceLocator.global.Register(new InputService()).Get(out inputService);
-      ServiceLocator.global.Register(new DragService(draggableLayers, maxHits, raycastCamera)).Get(out dragService);
-      ServiceLocator.global.Register(new GamePlayService(playerXData, playerOData)).Get(out gamePlayService);
+      ServiceLocator.global.Register(new InputService());
+      ServiceLocator.global.Register(new DragService(draggableLayers, maxHits, raycastCamera));
+      ServiceLocator.global.Register(new GamePlayService(playerXData, playerOData));
     }
 
     private void ActivatePlayers() {
