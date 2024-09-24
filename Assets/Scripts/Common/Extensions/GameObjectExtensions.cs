@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Common.Extensions {
   public static class GameObjectExtensions {
@@ -23,7 +24,7 @@ namespace Common.Extensions {
     /// <param name="gameObject">The GameObject to get the component from or add the component to.</param>
     /// <returns>The existing component of the given type, or a new one if no such component exists.</returns>    
     public static T GetOrAdd<T>(this GameObject gameObject) where T : Component {
-      T component = gameObject.GetComponent<T>();
+      var component = gameObject.GetComponent<T>();
       if (!component) component = gameObject.AddComponent<T>();
 
       return component;
@@ -88,7 +89,7 @@ namespace Common.Extensions {
     /// </summary>
     /// <param name="gameObject">The GameObject to get the path for.</param>
     /// <returns>A string representing the full hierarchical path of this GameObject in the Unity scene.
-    /// This is a '/'-separated string where each part is the name of a parent, starting from the root parent and ending
+    /// This is a /-separated string where each part is the name of a parent, starting from the root parent and ending
     /// with the name of the specified GameObjects parent.</returns>
     public static string Path(this GameObject gameObject) {
       return "/"
@@ -118,5 +119,7 @@ namespace Common.Extensions {
       gameObject.layer = layer;
       gameObject.transform.ForEveryChild(child => child.gameObject.SetLayersRecursively(layer));
     }
+    
+    public static void ReParent(this GameObject gameObject, Transform newParent) => gameObject.transform.SetParent(newParent);
   }
 }

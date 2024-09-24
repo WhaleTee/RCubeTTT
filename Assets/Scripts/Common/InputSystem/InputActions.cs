@@ -153,7 +153,7 @@ namespace Common.InputSystem
                 {
                     ""name"": """",
                     ""id"": ""04349af8-f268-48f9-b563-72f5faa4bcac"",
-                    ""path"": ""<Touchscreen>/touch*/press"",
+                    ""path"": ""<Pointer>/press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch"",

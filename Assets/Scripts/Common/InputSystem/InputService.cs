@@ -1,14 +1,14 @@
-﻿using Common.EventSystem.Bus;
+﻿using System;
+using Common.EventBus;
 using UnityEngine;
 
 namespace Common.InputSystem {
-  public class InputService : MonoBehaviour {
-    private InputActions inputActions;
-    private InputActions.PlayerActions playerActions;
+  public sealed class InputService : IDisposable {
+    private readonly InputActions inputActions;
 
-    private void Awake() {
+    public InputService() {
       inputActions = new InputActions();
-      playerActions = inputActions.Player;
+      var playerActions = inputActions.Player;
 
       playerActions.Click.performed += _ => EventBus<PointerDownEvent>.Raise(new PointerDownEvent());
       playerActions.Click.canceled += _ => EventBus<PointerUpEvent>.Raise(new PointerUpEvent());
@@ -30,14 +30,13 @@ namespace Common.InputSystem {
       playerActions.WheelScroll.performed += ctx => EventBus<MouseWheelScrollEvent>.Raise(
                                                new MouseWheelScrollEvent { delta = ctx.ReadValue<Vector2>() }
                                              );
-    }
 
-    private void OnEnable() {
       inputActions.Enable();
     }
 
-    private void OnDisable() {
+    public void Dispose() {
       inputActions.Disable();
+      inputActions.Dispose();
     }
   }
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a13bec3a-0212-4295-b827-3b140839ccf4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/RCubeTTT.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Service.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Service/DragServiceInstaller.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Service/DragServiceInstaller.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Writerside/c.list" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Writerside/v.list" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Writerside/writerside.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/level_0.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/level_0.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/CropRotation/CropRotation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/CropRotation/CropRotation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/CropRotation/CropRotationService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/CropRotation/CropRotationService.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/DragSystem/AlongAxisDrag.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/DragSystem/AlongAxisDrag.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/DragSystem/DragService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/DragSystem/DragService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/DragSystem/FirstHitTargetDrag.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/DragSystem/FirstHitTargetDrag.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/DragSystem/Movement/DragMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/DragSystem/Movement/DragMovement.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/DragSystem/Rotation/DragRotation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/DragSystem/Rotation/DragRotation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus/EventBinding.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus/EventBinding.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus/EventBinding.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus/EventBinding.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus/EventBus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus/EventBus.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus/EventBus.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus/EventBus.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus/EventBusUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus/EventBusUtil.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus/EventBusUtil.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus/EventBusUtil.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus/Events.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus/Events.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus/Events.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus/Events.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus/PredefinedAssemblyUtil.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus/PredefinedAssemblyUtil.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/EventSystem/Bus/PredefinedAssemblyUtil.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/EventBus/PredefinedAssemblyUtil.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/Extensions/GameObjectExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/Extensions/GameObjectExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/InputSystem/InputService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/InputSystem/InputService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/ServiceLocator/Bootstrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/ServiceLocator/Bootstrapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/ServiceLocator/ServiceLocator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/ServiceLocator/ServiceLocator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/ServiceLocator/ServiceLocatorScene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/ServiceLocator/ServiceLocatorScene.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Common/ServiceLocator/ServiceManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Common/ServiceLocator/ServiceManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/PlayerInfoPopupController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/PlayerInfoPopupController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/RCubeFaceMarkScanner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/RCubeFaceMarkScanner.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/RCubeFacePiecesController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/RCubeFacePiecesController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/RCubeFaceVisualizerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/RCubeFaceVisualizerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/RCubePieceFaceController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/RCubePieceFaceController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/RCubeSideDragRotation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Controller/RCubeSideDragRotation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Handler/PlayerWinConditionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Handler/PlayerWinConditionHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Manager/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/RCubeTTT/Manager/GameManager.cs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2mKeRlxf8E8K5i2gQIqInni6xL1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;release/0.0.1&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/nrobd/.unity/Projects/RCubeTTT&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;stardust.markdown.MarkdownSplitEditorSuppressor:keyList&quot;: []
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+</project>

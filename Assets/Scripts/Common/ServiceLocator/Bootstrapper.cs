@@ -1,20 +1,21 @@
-﻿using UnityEngine;
+﻿using Common.Extensions;
+using UnityEngine;
 
 namespace Common.ServiceLocator {
   [DisallowMultipleComponent]
   [RequireComponent(typeof(ServiceLocator))]
   public abstract class Bootstrapper : MonoBehaviour {
     private ServiceLocator locator;
-    internal ServiceLocator container => locator ? locator : locator = GetComponent<ServiceLocator>();
-
-    private bool hasBeenBootstrapped;
+    private bool bootstrapped;
+    
+    internal ServiceLocator container => locator.OrNull() ?? (locator = GetComponent<ServiceLocator>());
 
     private void Awake() => BootstrapOnDemand();
 
     public void BootstrapOnDemand() {
-      if (hasBeenBootstrapped) return;
+      if (bootstrapped) return;
 
-      hasBeenBootstrapped = true;
+      bootstrapped = true;
       Bootstrap();
     }
 

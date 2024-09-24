@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Common.EventSystem.Bus;
+using Common.EventBus;
 using Common.Extensions;
 using UnityEngine;
 
