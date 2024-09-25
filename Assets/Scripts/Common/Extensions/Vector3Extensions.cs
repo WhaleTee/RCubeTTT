@@ -95,10 +95,6 @@ namespace Common.Extensions {
     /// <summary>
     /// Converts a world direction vector to a screen direction vector.
     /// </summary>
-    /// <param name="worldDirection">The direction vector in world space.</param>
-    /// <param name="position">The position in world space from which the direction is calculated.</param>
-    /// <param name="camera">The camera used to convert the world position to screen position.</param>
-    /// <returns>A normalized Vector2 representing the direction in screen space.</returns>
     public static Vector2 ToScreenDirection(this Vector3 worldDirection, Vector3 position, Camera camera) {
       return (camera.WorldToScreenPoint(position + worldDirection) - camera.WorldToScreenPoint(position)).normalized;
     }
