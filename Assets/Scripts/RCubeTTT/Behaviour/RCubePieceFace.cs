@@ -1,5 +1,6 @@
 ﻿using Common.EventBus;
 using Common.Extensions;
+using Common.ServiceLocator;
 using RCubeTTT.Scriptable;
 using UnityEngine;
 
@@ -9,7 +10,10 @@ namespace RCubeTTT.Behaviour {
     private PlayerGameData activePlayer;
     private Vector2 pointerPosition;
     private GameObject previousPieceFaceClicked;
-    private bool isAlreadyMarked;
+    
+    private bool isAlreadyMarked => markType != MarkType.None;
+
+    public MarkType markType { get; private set; } = MarkType.None;
 
     private void Awake() {
       raycastCamera = Camera.main;
@@ -58,7 +62,7 @@ namespace RCubeTTT.Behaviour {
 
     private void SetSign() {
       Instantiate(activePlayer.sign, transform);
-      isAlreadyMarked = true;
+      markType = activePlayer.markType;
       EventBus<PlayerPutMarkEvent>.Raise(new PlayerPutMarkEvent { player = activePlayer });
     }
   }

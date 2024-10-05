@@ -16,7 +16,7 @@ namespace Common.DragSystem.Component.Rotation {
     }
     
     protected override void Rotate() {
-      target.Rotate(relative.right, Vector3.Dot(pointerDelta * (speed * Time.deltaTime), Vector3.up), Space.World);
+      target.Rotate(relative? relative.right : Vector3.right, Vector3.Dot(pointerDelta * (speed * Time.deltaTime), Vector3.up), Space.World);
     }
   }
 }

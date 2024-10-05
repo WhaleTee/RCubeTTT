@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Common.EventBus;
 using Common.Scanner;
+using Common.ServiceLocator;
 using UnityEngine;
 
 namespace RCubeTTT.Behaviour {
@@ -18,7 +19,7 @@ namespace RCubeTTT.Behaviour {
     private void Awake() {
       scannedMarks = new MarkType[rays.Length];
 
-      EventBus<DragEndEvent>.Register(new EventBinding<DragEndEvent>(ScanForFaces));
+      EventBus<ObjectCropRotationEndEvent>.Register(new EventBinding<ObjectCropRotationEndEvent>(ScanForFaces));
       EventBus<PlayerPutMarkEvent>.Register(new EventBinding<PlayerPutMarkEvent>(ScanForFaces));
     }
 
@@ -37,12 +38,7 @@ namespace RCubeTTT.Behaviour {
 
     private void ScanForFaces() {
       scannedMarks = ScanForLayer(rays.Length, cubePieceFaceLayer)
-      .Select(
-        go => {
-          var markController = go.GetComponentInChildren<RCubePieceFaceMark>();
-          return markController ? markController.markType : MarkType.None;
-        }
-      )
+      .Select(go => go.GetComponent<RCubePieceFace>().markType)
       .ToArray();
 
       EventBus<ScanMarksEvent>.Raise(new ScanMarksEvent { marks = scannedMarks, faceType = faceType });

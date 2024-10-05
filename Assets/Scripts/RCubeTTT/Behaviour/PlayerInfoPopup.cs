@@ -19,7 +19,7 @@ namespace RCubeTTT.Behaviour {
 
     private void OnPlayerWinConditionReached(PlayerWinConditionReachedEvent @event) {
       gameOver = true;
-      text.text = $"Player {@event.player.markType} wins!";
+      text.text = $"Game over!\n\nPlayer {@event.player.markType} won!";
     }
 
     private void OnPlayerTurnStarted(PlayerTurnEvent context) {

@@ -111,7 +111,6 @@ namespace Common.DragSystem.Service {
     /// <summary>
     /// Updates the pointer screen position and invokes drag start and drag events.
     /// </summary>
-    /// <param name="ctx">The pointer position event context.</param>
     private void OnPointerPosition(PointerPositionEvent ctx) {
       pointerScreenPosition = ctx.screenPosition;
       InvokeDragStart();

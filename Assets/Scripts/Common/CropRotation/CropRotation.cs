@@ -33,6 +33,8 @@ namespace Common.CropRotation {
 
     private void StartCropRotation(DragEndEvent ctx) {
       targetRotation = GetNearestRotation();
+      if (Quaternion.Angle(targetRotation, localRotation) < .5f) return;
+
       StartCoroutine(RotateRCubeFace());
 
       EventBus<ObjectCropRotationBeginEvent>.Raise(
@@ -49,6 +51,7 @@ namespace Common.CropRotation {
 
       transform.localRotation = targetRotation;
       rotationElapsedTime = 0;
+
       EventBus<ObjectCropRotationEndEvent>.Raise(
         new ObjectCropRotationEndEvent { instanceId = gameObject.GetInstanceID(), currentRotation = localRotation, targetRotation = targetRotation }
       );
